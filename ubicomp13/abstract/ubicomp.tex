@@ -5,11 +5,13 @@
 \usepackage{multicol}
 \usepackage{color}
 \usepackage{minibox}
-\lstset{
-  basicstyle=\footnotesize,
-  numbers=left,
-  escapechar=`
-}
+\usepackage{fancybox}
+\usepackage{fontspec}
+\newfontfamily{\lstsansserif}[Scale=.625]{Arial}
+\definecolor{Lemon}{HTML}{FFFACD}
+\lstnewenvironment{csource}[1][]
+    {\lstset{basicstyle=\lstsansserif,numberstyle=\numold,numbers=left,frame=lines,framexleftmargin=0.5em,framexrightmargin=0.5em,backgroundcolor=\color{Lemon},showstringspaces=false,escapeinside={(*@}{@*)},#1}}
+    {}
 % Please be sure that you have the dependencies (i.e., additional LaTeX packages) to compile this example.
 
 \copyrightinfo{
@@ -18,8 +20,7 @@
   ACM 978-1-4503-2139-6/13/09...\$15.00.
 }
 
-\title{UbiComp'13 Adjunct Proceedings \\
-		Poster, Demo, and Video Template}
+\title{Bringing Context-Oriented Programming into Embedded Systems}
 
 \numberofauthors{8}
 % Notice how author names are alternately typesetted to appear ordered in 2-column format;
@@ -72,89 +73,76 @@
 \maketitle
 
 \begin{abstract}
-Wireless Sensor Networks (WSNs) are widely applied in different areas, such as health monitoring, wildlife tracking, smart home etc. These days WSNs are used in highly changing environments and the software for WSNs needs to be adaptable but still simple. 
+Programming for embedded systems makes a significant part in the modern software development. Despite the rapid growth of the high-level languages there are still a necessity to use embedded systems. The prime example of this are Wireless Sensor Networks (WSNs). Most of the platforms for them are embedded.
 
-Context-oriented programming (COP) is a programming technique which makes it possible to create an adaptive software. Such a software could adapt to changes in the environment and to evolve according to this changes. The term ``evolve'' means that software can change behavior and this behavior depends on the context in which it is executed. This technique could simplify the complex source-code for WSNs.
+The main task of WSNs is to monitor the environment. Thus, they are widely applied in different areas, such as health monitoring, wildlife tracking, smart home etc. But the environment is changing very fast, so it is necessary to react to these changes. In order to make WSN to be aware of changes we have to use a representation of the state of the environment within the WSN. In other words, we have to use \textit{Context} in programming for WSNs.
 
-In this work we review existing applications of WSN and discuss how COP could be applied to the different scenarios. We also propose methods like context classification, context events and context rules to simplify programming for WSNs.
+\textit{Context} could be defined as an entity, which represents a state of the environment. It can be used as a simplified model of the environment and could be formed according to sensing data. It is possible to develop more autonomous and more flexible system by using \textit{Contexts} in programming for WSNs.
+
+Context-oriented programming (COP) is a programming technique which makes it possible to create an adaptive software by using \textit{Context} as an information about the state. Such a software could adapt to changes in the environment and to evolve according to this changes. The term ``evolve'' means that software can change behaviour and this behaviour depends on the context in which it is executed.
+
+In this work we show how COP could be used for programming for embedded platforms and for WSNs in particular. We overview an example of the possible application of the WSN, then we extract the structure of the context for this application to highlight the specific aspects of the context-oriented approach in embedded systems. In the end we propose a small extension of the existing language for WSNs.
 \end{abstract}
-
-\keywords{\plainkeywords}
-\textcolor{red}{Mandatory section to be included in your final version.}
-
-\category{H.5.m}{Information interfaces and presentation (e.g., HCI)}{Miscellaneous}. 
-%See \cite{ACMCCS} 
-See: \url{http://www.acm.org/about/class/1998/} 
-for help using the ACM Classification system.
-\textcolor{red}{Mandatory section to be included in your final version.}
-
-\terms{\plaingeneralterms}
-\textcolor{red}{Optional section to be included in your final version.}
-
-
 % =============================================================================
 \section{Introduction}
 % =============================================================================
-WSNs are often deployed in a highly changing environment. It  means that a programmer should always care about changes in data acquired by sensors. It leads to increasingly complex source-code. This problem has more significance in mobile WSNs, where we should be aware of location changes. Thus it is hard to implement and maintain such a software. Bringing Context-Oriented Programming in programming for WSN could solve the problem.
+Embedded systems are widely used to build different kind of devices and composition of devices. For example, in WSNs embedded platforms are mostly used. WSNs are inherently environment dependent. It  means that a programmer should always care about changes in data acquired by sensors. It leads to increasingly complex source-code. Even by using a representation of the state of the environment, it is hard to avoid complexity without elaborated tool. Thus it is hard to implement and maintain such a software.
 
-Context-Oriented Programming (COP) \cite{hirschfeld08} is an approach which provides an opportunity for a programmer to develop a software which can dynamically change the behavior depending on context conditions. Context can be defined as ``any information that can be used to characterize the situation of an entity, where an entity can be a person, place or physical object" \cite{dey99}. Context-awareness can be defined as detecting current internal or external state of WSNs.
+In most cases WSNs are used as a passive components to gather data and to send it to the base station, where it is precessed. But there are also cases when WSN could be out of the range of the base station for a long period of time. In that case WSN should handle the changes in the external state (like changes in environment) and in the internal state (like exceptions within the program). In other words, WSN should be more autonomous and adaptive.
 
-The context structure for WSNs could be very complex and have nontrivial interaction. But contexts can be divided into groups and considered as classes of contexts. Such classification brings COP on a new level of abstraction and makes it possible to operate complex structures of contexts as a superposition of smaller substructures. It also simplify the integration between different platforms, since another platform could be considered as a new class.
+Context-Oriented Programming (COP) \cite{hirschfeld08} is an approach which provides an opportunity for a programmer to develop a software which can dynamically change the behaviour depending on context conditions. Context can be defined as ``any information that can be used to characterize the situation of an entity, where an entity can be a person, place or physical object" \cite{dey99}. Context-awareness can be defined as detecting current internal or external state of WSNs.
 
-In this work context transition in WSNs are also considered. WSNs should be aware not only of the context, but also of the transition between contexts. In other words, system should perform particular actions in the same time when context is changed. It could be done by providing \textit{context transition behavior}. Thus programmer can specify particular behavior of WSN when context transition occurred. Programmer should also be able to define restrictions and dependencies in context transitions. During the execution there are contexts, which can not be activated while another context is active. If context has dependencies, then it can not be activated while another contexts is deactivated. Context restrictions and context dependency could clarify complex interactions between contexts.
-
-In this work we propose possible solutions of the problems stated above. We review several scenarios of using WSNs and propose how COP can be used in these scenarios. For every scenario we show a context structure and classification, and describe behavior of the WSN. At the end of the paper we discuss possible ways to manage context transitions and restrictions. We also show an implementation of COP using one of the languages for programming for WSNs.
-
-% =============================================================================
-\section{Copyright}
-% =============================================================================
-I'm not really undersatnd what this section about... (muxanasov)
-
-For publications in the SIGCHI Extended Abstracts, copyright remains with the author.  
-The publication is not considered an archival publication; however, it does go into the ACM Digital Library. 
-Because you retain copyright, as the author you are free to use this material as you like, including submitting a paper based on this work to other conferences or journals.  
-Authors grant unrestricted permission for ACM to publish the accepted submission in the SIGCHI Extended Abstracts without additional consideration or remuneration.
-
-% =============================================================================
-\section{Motivation}
-
-Some motivations here
-% =============================================================================
-
-
-\section{Challenges}
-% -----------------------------------------------------------------------------
-\paragraph{}
+Context-Oriented Programming could be used as an effective way to use a \textit{Context} as a representation of the environment. It also will help to avoid the increasing complexity of a program. But bringing COP into embedded systems is accompanied by following challenges.
 
 \begin{itemize}\compresslist
-\item 	
-First challenge
-\item 	
-Second challenge
-\item 	
-etc
+\item
+While COP could provide a convenient way to use an environment representation in WSNs, the context structure for WSNs could be very complex and have non-trivial interaction. Thus, initial Context-Oriented paradigm could not be applied as is.
+\item
+Embedded platforms are mostly static, there are no tools for object-oriented or dynamic programming. Therefore, COP approaches for high-level languages (like Java, C++ or Python) are not applicable. 
+\item
+Embedded platforms also have restrictions on a hardware level, such as low memory, power consumption constraints, low performance.
 \end{itemize}
 
-
-% =============================================================================
-\section{Contexts in WSNs}
-% =============================================================================
-WSNs are systems in which numerous tiny sensing devices are distributed over the environment to study it. They are proposed in many engineering, scientific,  civil and military applications and widely used to monitor different entities in areas ranging from wildlife \cite{juang02} \cite{lingren08} \cite{pastor08} to human health-care \cite{lorincz09} \cite{alemdar10}.
-
-Most of the implementations of WSNs consider that context is managed by human or by program on a remote computer or a base station, but there are cases when wireless nodes should manage the context by themselves. For example, in wildlife tracking nodes could be out the range of the base station for a long time, but it is still necessary to manage the context.
-
-While global contexts are described, we need to create tools to manage the context on a low hardware level, like wireless sensor node. We didn't consider decision making process, but focused on managing the behavior within the given context. In a trivial case, programmer activates context manually within the program.
-
-Different context and context classes (groups) can be extracted in different scenarios. There are also actions should be performed before activation and after deactivation of the context. Each context also has transition rules, i.e. transition from one context to another can be performed if it satisfies the particular conditions.
-
-\begin{figure}
-  \centering
-  \includegraphics[width=\linewidth]{smarthome.png}
-  \caption{Insert a caption below each figure.}
-  \label{fig:smarthome}
-\end{figure}
+Let's consider a simple example of the application of a WSN. 
 
 Figure \ref{fig:shd} shows a state diagram of possible contexts of \textit{Smart Home}. In this application three classes could be found: \textit{Emergency} class, \textit{Location} class and \textit{Climate} class. Contexts of \textit{Emergency} class are activated if system detects intruders, fire or health emergency. There is a necessity to perform particular actions during context transition. For example, to call the police, the fire or an ambulance. \textit{Location} class includes \textit{outdoor} and rooms in house. During context transitions within \textit{location} class, system have to turn on/off lights and lock/unlock door. \textit{Climate} class could contains temperature contexts. If system detects high or low temperature, then it enables conditioner or heater.
+
+\marginpar{
+  \begin{figure}
+    \centering
+    \includegraphics[width=\marginparwidth]{smarthome.png}
+    \caption{Insert a caption below each figure.}
+    \label{fig:shd}
+  \end{figure}
+}
+
+\begin{Sbox}
+\begin{minipage}{\marginparwidth}
+\begin{csource}
+(*@\textbf{context}@*) High {
+ (*@\textbf{transitions}@*) Normal;
+ uses interface Leds;
+}
+implementation {
+ event void activated(){}
+ event void deactivated(){}
+ bool check(){return TRUE;}
+ (*@\textbf{layered}@*) void toggle_leds(){
+  call Leds.set(1);
+ }
+}
+\end{csource}
+\end{minipage}
+\end{Sbox}
+
+\marginpar{
+  \begin{figure}
+    \TheSbox
+    \caption{Insert a caption below each figure.}
+    \label{fig:shd}
+  \end{figure}
+}
+
 
 \paragraph{Emergency class.} If WSN detects fire or housebreaking it can send an emergency call. If integrated with \textit{Healthcare system}, it can also activate emergency depends on \textit{Healthcare system} context. For example, if a householder has an injury or heart attack, the WSN can also activate a context from \textit{emergency} class.
 
@@ -162,39 +150,46 @@ Figure \ref{fig:shd} shows a state diagram of possible contexts of \textit{Smart
 
 \paragraph{Health monitoring.} WSN can be programmed to detect specific conditions and activate a specific context. For example, if the temperature in the room is lower (or higher) than normal, system can enable air heating (or conditioning) to return the temperature to the normal state. If \textit{Healthcare System} is integrated to \textit{Smart Home}, so the system can notify the householder about his current condition and recommend activities to improve householder's state of health.
 
+But contexts can be divided into groups and considered as classes of contexts. Such classification brings COP on a new level of abstraction and makes it possible to operate complex structures of contexts as a superposition of smaller substructures. It also simplify the integration between different platforms, since another platform could be considered as a new class.
+
 % =============================================================================
-\section{Implementation}
+\section{ConesC}
 % =============================================================================
 We are using TinyOS and nesC language for demonstration purposes. In order to use context-oriented paradigm, we added new key-words in the language. We are also extended components by \textit{context} and \textit{context configuration}. \textit{Context} is an analog of \textit{module} and \textit{context configuration} is an analog of \textit{configuration}. These two components can be used as other components in nesC language.
 
 \textit{Context} components is used to define context, possible transitions, actions before activation and after deactivation, layered functions, and to check transition conditions. In the rest it can be used like a \textit{module}.
 
-\begin{figure}
-\begin{lstlisting}
-context High {
-  transitions Normal;
-  uses interface Leds;
-}
-implementation {
-  event void activated() {
-  }
-  event void deactivated() {
-  }
-  bool check() {
-    return TRUE;
-  }
-  layered void toggle_leds() {
-    call Leds.set(1);
-  }
-}
-\end{lstlisting}
-\caption{Context component.}
-\label{fig:cc}
-\end{figure}
-
 On the figure \ref{fig:cc} context definition is displayed. Key word \textit{transitions} on the line 2 define legal transitions from context \textit{High}. It means, that only \textit{Normal} can be activated as the next context after \textit{High}. This definition is not mandatory. If \textit{transitions} are not defined, any transitions are legal. Line 3 represents regular nesC key word and means, that we are using \textit{Leds} component. Event \textit{activated} (line 6) is fired just before context activation, while event \textit{deactivated} (line 8) is fired just after deactivation. These events are also not mandatory. Method \textit{check()} represents \textit{context event check}. This method is called to verify conditions of context activation. If \textit{check()} returns FALSE, context will not be activated. If method is not defined, conditions will not be verified. Key-word \textit{layered} (line 13) indicates implementation of the function, which is specific for the current context. \textit{Layered} functions implementation is mandatory if they are defined in context configuration.
 
 In the \textit{context} component \textit{context transition check} and \textit{context transition trigger} can also be specified. For example, on the line 2 (figure \ref{fig:ctre}) key-word \textit{while} declares, that transition from \textit{Indoor} to \textit{Outdoor} context can be activated only if \textit{Activity.Moving} context is active, where \textit{Activity} is a context class.
+
+\begin{Sbox}
+\begin{minipage}{\marginparwidth}
+\begin{csource}
+(*@\textbf{context configuration}@*) Temperature {
+ (*@\textbf{layered}@*) void toggle_leds();
+}
+implementation {
+ (*@\textbf{contexts}@*) High, 
+  Normal (*@\textbf{is default}@*),
+  Low;
+ components LedsC;
+ High.Leds -> LedsC;
+ Normal.Leds -> LedsC;
+ Low.Leds -> LedsC;
+ Error.Leds -> LedsC;
+}
+\end{csource}
+\end{minipage}
+\end{Sbox}
+
+\marginpar{
+  \begin{figure}
+    \TheSbox
+    \caption{Insert a caption below each figure.}
+    \label{fig:shd}
+  \end{figure}
+}
 
 \begin{figure}
 \begin{lstlisting}
