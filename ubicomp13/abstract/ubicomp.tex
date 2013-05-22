@@ -110,15 +110,34 @@
 \maketitle
 
 \begin{abstract}
-Programming for embedded systems makes a significant part in the modern software development. Despite the rapid growth of the high-level languages there are still a necessity to use embedded systems. The prime example of this are Wireless Sensor Networks (WSNs). Most of the platforms for them are embedded.
+  We present our ongoing work towards applying the context-oriented
+  programming paradigm to wireless sensor networks
+  (WSNs). Context---as a representation of the environment where the
+  system operates---plays a key role in WSNs. For example, WSN
+  applications must often adapt their operation depending on
+  environmental data. System-level functionality, on the other hand,
+  almost always need to cope with unpredictable real-world
+  dynamics. We argue that promoting a notion of context as a
+  first-class citizen in WSN programming facilitates the design and
+  implementation of context-dependent functionality. To this end, we
+  conceive a context-oriented programming model expressly tailored to
+  WSNs, coupled with dedicated language constructs. Unlike the
+  existing literature on context-oriented programming, we embed the
+  latter within low-level C-like languages that do not rely on
+  resource-intensive features such as dynamic memory management. To
+  make our design concrete, we describe a context-oriented extension
+  of nesC, a widely used WSN programming language, and report on a
+  preliminary assessment of our design.
 
-The main task of WSNs is to monitor the environment. Thus, they are widely applied in different areas, such as health monitoring, wildlife tracking, smart home etc. But the environment is changing very fast, so it is necessary to react to these changes. In order to make WSN to be aware of changes we have to use a representation of the state of the environment within the WSN. In other words, we have to use \textit{Context} in programming for WSNs.
+% Programming for embedded systems makes a significant part in the modern software development. Despite the rapid growth of the high-level languages there are still a necessity to use embedded systems. The prime example of this are Wireless Sensor Networks (WSNs). Most of the platforms for them are embedded.
 
-\textit{Context} could be defined as an entity, which represents a state of the environment. It can be used as a simplified model of the environment and could be formed according to sensing data. It is possible to develop more autonomous and more flexible system by using \textit{Contexts} in programming for WSNs.
+% The main task of WSNs is to monitor the environment. Thus, they are widely applied in different areas, such as health monitoring, wildlife tracking, smart home etc. But the environment is changing very fast, so it is necessary to react to these changes. In order to make WSN to be aware of changes we have to use a representation of the state of the environment within the WSN. In other words, we have to use \textit{Context} in programming for WSNs.
 
-Context-oriented programming (COP) is a programming technique which makes it possible to create an adaptive software by using \textit{Context} as an information about the state. Such a software could adapt to changes in the environment and to evolve according to this changes. The term ``evolve'' means that software can change behaviour and this behaviour depends on the context in which it is executed.
+% \textit{Context} could be defined as an entity, which represents a state of the environment. It can be used as a simplified model of the environment and could be formed according to sensing data. It is possible to develop more autonomous and more flexible system by using \textit{Contexts} in programming for WSNs.
 
-In this work we show how COP could be used for programming for embedded platforms and for WSNs in particular. We overview an example of the possible application of the WSN, then we extract the structure of the context for this application to highlight the specific aspects of the context-oriented approach in embedded systems. In the end we propose a small extension of the existing language for WSNs.
+% Context-oriented programming (COP) is a programming technique which makes it possible to create an adaptive software by using \textit{Context} as an information about the state. Such a software could adapt to changes in the environment and to evolve according to this changes. The term ``evolve'' means that software can change behaviour and this behaviour depends on the context in which it is executed.
+
+% In this work we show how COP could be used for programming for embedded platforms and for WSNs in particular. We overview an example of the possible application of the WSN, then we extract the structure of the context for this application to highlight the specific aspects of the context-oriented approach in embedded systems. In the end we propose a small extension of the existing language for WSNs.
 \end{abstract}
 % =============================================================================
 \section{Introduction}
