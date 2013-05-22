@@ -140,7 +140,7 @@
 % =============================================================================
 \section{Introduction}
 % =============================================================================
-WSNs have a great variety of applications \cite{pastor08}. In this paper we'd like to focus on the one them --- Smart Home. In this application there are sensors to monitor the environment (like temperature, light intensity etc.), which are static. There are also mobile sensors, which are attached to the householder to track his location inside and outside the house. In order to ensure an appropriate quality of service, they should provide a long work time and be as autonomous as possible. WSN also have to track householder location and execute a list of instructions depending on it. In parallel, WSN should monitor and control a climate in the house. To satisfy these requirements we are proposing Context-Oriented programming for WSNs.
+WSNs have a great variety of applications \cite{pastor08}. In this paper we'd like to focus on the one them --- Smart Home. In this application there are sensors to monitor the environment (like temperature, light intensity etc.), which are static. There are also mobile sensors, which are attached to the householder to track his location inside and outside the house. In order to ensure an appropriate quality of service, they should provide a long work time and be as autonomous as possible. WSN also have to track householder location and execute a list of instructions depending on it. In parallel, WSN should monitor and control a climate in the house. It leads to very complex source code. To reduce the complexity we propose to use Context-Oriented paradigm.
 
 \marginpar{
   \begin{figure}
@@ -167,7 +167,7 @@ Embedded platforms also have restrictions on a hardware level, such as low memor
 
 In this work we are proposing a COP technique for WSNs, which meets the challenges described above. Based on the concepts of the technique, which are described below, we developed a language called {\textlst{ConesC}} as a context-oriented extension of nesC language.
 
-In {\textlst{ConesC}} we divided into groups. It brings COP on a new level of abstraction and makes it possible to operate complex structures of contexts as a superposition of smaller substructures. Thus, every WSNs could have several mostly independent groups of contexts. Context transitions within the group are initiated by triggers and can be performed only if particular conditions are satisfied. There are also actions which should be performed before activation and after deactivation of the context.
+In {\textlst{ConesC}} we divided contexts into groups. It brings COP on a new level of abstraction and makes it possible to operate complex structures of contexts as a superposition of smaller substructures. Thus, every WSNs could have several mostly independent groups of contexts. Context transitions within the group are initiated by triggers and can be performed only if particular conditions are satisfied. There are also actions which should be performed before activation and after deactivation of the context.
 % =============================================================================
 \section{ConesC}
 % =============================================================================
