@@ -57,7 +57,7 @@
   ACM 978-1-4503-2139-6/13/09...\$15.00.
 }
 
-\title{Bringing Context-Oriented Programming into Embedded Systems}
+\title{Torwads Context-Oriented Programming in Wireless Sensor Networks}
 
 \numberofauthors{8}
 % Notice how author names are alternately typesetted to appear ordered in 2-column format;
@@ -140,26 +140,8 @@
 % =============================================================================
 \section{Introduction}
 % =============================================================================
-Embedded systems are widely used to build different kind of devices and composition of devices. For example, in WSNs embedded platforms are mostly used. The main task of WSNs is to monitor the environment. Since WSNs are systems in which numerous tiny sensing devices are distributed over the environment to study it, they are very well suited here. They are proposed in many engineering, scientific,  civil and military applications and widely used to monitor different entities in areas ranging from wildlife \cite{juang02} \cite{lingren08} \cite{pastor08} to human health-care \cite{lorincz09} \cite{alemdar10}. In biology research there is a necessity to track wildlife. For example, WSN devices can be attached to wildlife species ( e.g. zebras \cite{juang02}, badgers \cite{dyo09} or turtles \cite{gorlick07}) to study their behavior.
+WSNs have a great variety of applications \cite{pastor08}. In this paper we'd like to focus on the one them --- Smart Home. In this application there are sensors to monitor the environment (like temperature, light intensity etc.), which are static. There are also mobile sensors, which are attached to the householder to track his location inside and outside the house. In order to ensure an appropriate quality of service, they should provide a long work time and be as autonomous as possible. WSN also have to track householder location and execute a list of instructions depending on it. In parallel, WSN should monitor and control a climate in the house. To satisfy these requirements we are proposing Context-Oriented programming for WSNs.
 
- Thus, they are widely applied in different areas, such as health monitoring, wildlife tracking, smart home etc. But the environment is changing very fast, so it is necessary to react to these changes. In order to make WSN to be aware of changes we have to use a representation of the state of the environment within the WSN. In other words, we have to use \textit{Context} in programming for WSNs.
-
-In most cases WSNs are used as a passive components to gather data and to send it to the base station, where it is precessed. But there are also cases when WSN could be out of the range of the base station for a long period of time. For example in wildlife tracking. In that case WSN should handle the changes in the external state (like changes in environment) and in the internal state (like exceptions within the program). In other words, WSN should be more autonomous and adaptive.
-
-Context-Oriented Programming \cite{hirschfeld08} is an approach which provides an opportunity for a programmer to develop a software which can dynamically change the behaviour depending on context conditions. Context can be defined as ``any information that can be used to characterize the situation of an entity, where an entity can be a person, place or physical object" \cite{dey99}. In other words, \textit{context} can be used as a simplified model of the environment and could be formed according to sensing data. It is possible to develop more autonomous and more flexible system by using \textit{Contexts} in programming for WSNs. Context-awareness can be defined as detecting current internal or external state of WSNs.
-
-Context-Oriented Programming could be used as an effective way to use a \textit{Context} as a representation of the environment. It also will help to avoid the increasing complexity of a program. But bringing COP into embedded systems is accompanied by following challenges.
-\begin{itemize}\compresslist
-\item
-While COP could provide a convenient way to use an environment representation in WSNs, the context structure for WSNs could be very complex and have non-trivial interaction. Thus, initial Context-Oriented paradigm could not be applied as is.
-\item
-Embedded platforms are mostly static, there are no tools for object-oriented or dynamic programming. Therefore, COP approaches for high-level languages (like Java, C++ or Python) are not applicable. 
-\item
-Embedded platforms also have restrictions on a hardware level, such as low memory, power consumption constraints, low performance.
-\end{itemize}
-Contexts can be divided into groups and considered as groups of contexts. Such classification brings COP on a new level of abstraction and makes it possible to operate complex structures of contexts as a superposition of smaller substructures. It also simplify the integration between different platforms, since another platform could be considered as a new group of contexts. Let's consider a simple example of the application of a WSN. 
-
-Figure \ref{fig:cdsm} shows a state diagram of possible contexts of \textit{Smart Home}. In this application two context groups could be found: \textit{Location} group and \textit{Climate} group.
 \marginpar{
   \begin{figure}
     \centering
@@ -168,25 +150,30 @@ Figure \ref{fig:cdsm} shows a state diagram of possible contexts of \textit{Smar
     \label{fig:cdsm}
   \end{figure}
 }
-\paragraph{Householder's location.} WSN can track a householder's location. For example, if a householder moves from a bedroom to a dining room, the system switches off the light in the bedroom and switches on the light in the dining room. If a householder leaves the house, then \textit{Smart Home} could just lock the door. If a householder is nearby, then it could open the door.
-\paragraph{Climate control.} WSN can be programmed to detect specific conditions and activate a specific context. For example, if the temperature in the room is lower (or higher) than normal, system can enable air heating (or conditioning) to return the temperature to the normal state.
+
+Context can be defined as ``any information that can be used to characterize the situation of an entity, where an entity can be a person, place or physical object" \cite{dey99}. Using \textit{context} as a building block programmer could easily create an application for WSN, which is aware of changes in the environment.
+
+Context-Oriented Programming \cite{hirschfeld08} is an approach which provides an opportunity for a programmer to develop a software which can dynamically change the behaviour depending on the activated context.
+
+Thus, COP could be used as an effective way to use a \textit{Context} for developing a software for WSNs. It also will help to avoid the increasing complexity of a program. But bringing COP into WSNs is accompanied by following challenges.
+\begin{itemize}\compresslist
+\item
+Context structure for WSNs could be very complex. In our example (Smart Home) there are a lot of possible \textit{contexts} like location in the specific room, climate states, levels of the light intensity etc. Some of \textit{contexts} are mutually exclusive, while other can be activated in parallel. For example, usually householder can't move from bathroom directly outside the house, thus this kind of the location change should be treated as an error. But climate state doesn't depend on the householder's location and corresponding \textit{contexts} can be activated or deactivated independently. Thus, there is a necessity to use a modified COP technique.
+\item
+Embedded platforms are mostly static, there are no tools for object-oriented or dynamic programming. Therefore, COP approaches for high-level languages (like Java, C++ or Python) are not applicable. 
+\item
+Embedded platforms also have restrictions on a hardware level, such as low memory, power consumption constraints, low CPU performance.
+\end{itemize}
+
+In this work we are proposing a COP technique for WSNs, which meets the challenges described above. Based on the concepts of the technique, which are described below, we developed a language called {\textlst{ConesC}} as a context-oriented extension of nesC language.
+
+In {\textlst{ConesC}} we divided into groups. It brings COP on a new level of abstraction and makes it possible to operate complex structures of contexts as a superposition of smaller substructures. Thus, every WSNs could have several mostly independent groups of contexts. Context transitions within the group are initiated by triggers and can be performed only if particular conditions are satisfied. There are also actions which should be performed before activation and after deactivation of the context.
 % =============================================================================
 \section{ConesC}
 % =============================================================================
-WSNs could have a very sofisticated structure of context. But the complexity can be redused by dividing contexts into groups. Each group has its own number of contexts and can be concidered as a state machine, where \textit{context} is a state. Thus, every WSNs could have several moslty independent groups of contexts, or state machines. Context transitions can be considered as changes of a state of the state machine. Context transitions have rules and constraints, thus state can not be changed if the conditions are not satisfied. Context transitions are initiated by triggers. There are also actions which should be performed before activation and after deactivation of the context. Thus, we can emphasize main requirements of the context-oriented language for embedded systems. Language should provide tools to define:
-\begin{itemize}\compresslist
-\item context
-\item context-depended functions
-\item context configuration
-\item actions before activation and after deactivation
-\item rules of context activation
-\item triggers
-\end{itemize}
-For demonstration purposes we are using TinyOS and nesC language, because it's a most popular tools for programming for WSNs. In order to use context-oriented paradigm, we added new key-words in the language. We are also extended components by \textit{context} and \textit{context configuration}. \textit{Context} is an analog of \textit{module} and \textit{context configuration} is an analog of \textit{configuration}. These two components can be used as other components in nesC language.
+Figure \ref{fig:cdsm} shows a state diagram of possible contexts of \textit{Smart Home}. In this application two context groups could be found: \textit{Location} group and \textit{Temperature} group.
 
-\textbf{Context} components is used to define context, possible transitions, actions before activation and after deactivation, layered functions, and to check transition conditions. In the rest it can be used like a \textit{module}.
-
-On the figure \ref{fig:cc} context definition is displayed. Key word \textbf{\textlst{transitions}} on the line \lstref{transitions} define legal transitions from context \textit{High}. It means, that only \textit{Normal} can be activated as the next context after \textit{High}. This definition is not mandatory. If transitions are not defined, any transitions are legal. \nolinebreak
+\paragraph{Householder's location.} WSN can track a householder's location. For example, if a householder moves from a bedroom to a dining room, the system switches off the light in the bedroom and switches on the light in the dining room. If a householder leaves the house, then \textit{Smart Home} could just lock the door. If a householder is nearby, then it could open the door.
 
 \begin{Sbox}
 \begin{minipage}{\marginparwidth}
@@ -243,11 +230,37 @@ implementation {
   \end{figure}
 }
 
-Line \lstref{uses} represents regular nesC key word and means, that we are using \textit{Leds} component. Event {\textlst{activated}} (line \lstref{activated}) is fired just before context activation, while event {\textlst{deactivated}} (line \lstref{deactivated}) is fired just after deactivation. These events are also not mandatory. Method {\textlst{check()}} on the line \lstref{check} represents \textit{context event check}. This method is called to verify conditions of context activation. If {\textlst{check()}} returns {\textlst{FALSE}}, context will not be activated. If method is not defined, conditions will not be verified. Key-word \textbf{\textlst{layered}} (line \lstref{layeredimp}) indicates implementation of the function, which is specific for the current context. \textit{Layered} functions implementation is mandatory if they are defined in the context configuration.
+\begin{Sbox}
+\begin{minipage}{\marginparwidth}
+\begin{csource}
+(*@\lstnote{activate}\textbf{activate}@*) Temperature.High;
+(*@\lstnote{call}@*)Temperature.toggle_leds();
+\end{csource}
+\end{minipage}
+\end{Sbox}
+
+\marginpar{
+  \begin{figure}
+    \TheSbox
+    \caption{Usage example.}
+    \label{fig:ue}
+  \end{figure}
+}
+
+\paragraph{Climate control.} WSN can be programmed to detect specific conditions and activate a specific context. For example, if the temperature in the room is lower (or higher) than normal, system can enable air heating (or conditioning) to return the temperature to the normal state.
+
+
+For demonstration purposes we are using TinyOS and nesC language, because it's a most popular tools for programming for WSNs. In order to use context-oriented paradigm, we added new key-words in the language. We are also extended components by \textit{context} and \textit{context configuration}. \textit{Context} is an analog of \textit{module} and \textit{context configuration} is an analog of \textit{configuration}. These two components can be used as other components in nesC language.
+
+\textbf{Context} component is used to define context, possible transitions, actions before activation and after deactivation, layered functions, and to check transition conditions. In the rest it can be used like a \textit{module}.
+
+On the figure \ref{fig:cc} context definition is displayed. Key word {\textlst{transitions}} on the line \lstref{transitions} define legal transitions from context \textit{High}. It means, that only \textit{Normal} can be activated as the next context after \textit{High}. This definition is not mandatory. If transitions are not defined, any transitions are legal. \nolinebreak
+
+Line \lstref{uses} represents regular nesC key word and means, that we are using \textit{Leds} component. Event {\textlst{activated}} (line \lstref{activated}) is fired just before context activation, while event {\textlst{deactivated}} (line \lstref{deactivated}) is fired just after deactivation. These events are also not mandatory. Method {\textlst{check()}} on the line \lstref{check} is called to verify conditions of context activation. If {\textlst{check()}} returns {\textlst{FALSE}}, context will not be activated. If method is not defined, conditions will not be verified. Key-word {\textlst{layered}} (line \lstref{layeredimp}) indicates the implementation of the function, which is specific for the current context. The implementation of the \textit{layered} function is mandatory if it is defined in the context configuration.
 
 \textbf{Context configuration} component is used to define layered functions and context configuration. In the rest it can be used like a regular \textit{configuration}.
 
-In the listing \ref{fig:ccc} we assume, that contexts {\textlst{High}}, {\textlst{Normal}} and {\textlst{Low}} are already defined. {\textlst{Error}} context is default and generated by compiler, however it can be overridden by programmer in a standard context definition way. On the line \lstref{layereddef} we declare a layered function, which should be implemented in each context. Key-word \textbf{\textlst{contexts}} (line \lstref{contexts}) declares contexts, which are belonging to the \textit{Temperature} context group. It also indicates, that all declared contexts should implement layered functions. On the line \lstref{isdefault} context \textit{Normal} is declared as a context which will be active after initialization. The rest of the listing is a regular declaration of components and wires.
+In the listing \ref{fig:ccc} we assume, that contexts {\textlst{High}}, {\textlst{Normal}} and {\textlst{Low}} are already defined. {\textlst{Error}} context is default and generated by compiler, however it can be overridden by programmer in a standard context definition way. On the line \lstref{layereddef} we declare a layered function, which should be implemented in each context. Key-word {\textlst{contexts}} (line \lstref{contexts}) declares contexts, which are belonging to the \textit{Temperature} context group. It also indicates, that all declared contexts should implement layered functions. On the line \lstref{isdefault} context \textit{Normal} is declared as a context which will be active after initialization. The rest of the listing is a regular declaration of components and wires.
 
 {\textlst{Context}} and {\textlst{context configuration}} have nesC-like structure and utilize the same logic. Both components can be used in native nesC way as a regular components.
 
