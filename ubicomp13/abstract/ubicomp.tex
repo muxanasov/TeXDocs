@@ -40,7 +40,7 @@
 \newcommand{\lstref}[1]{\lnnum{\ref{#1}}}
 
 \newcommand{\lstnote}[1] {
-\vbox{\llap{{\lnnum{\ref{#1}}}\hskip 1em}}\label{#1}
+\label{#1}\vbox{\llap{{\lnnum{\ref{#1}}}\hskip 1em}}
 }
 
 \lstnewenvironment{csource}[1][]
@@ -179,18 +179,14 @@ Figure \ref{fig:cdsm} utilises our concepts of {\textlst{ConesC}} and represents
 \begin{minipage}{\marginparwidth}
 \begin{csource}
 (*@\textbf{context configuration}@*) Temperature {
-(*@\lstnote{layereddef}\textbf{layered}@*) void toggle_leds();
-}
+(*@\lstnote{layereddef}\textbf{layered}@*) void toggle_leds();}
 implementation {
-(*@\lstnote{contexts}\textbf{contexts}@*) High, 
-(*@\lstnote{isdefault}@*) Normal (*@\textbf{is default}@*),
-  Low;
+(*@\lstnote{contexts}\textbf{contexts}@*) High, Low,
+(*@\lstnote{isdefault}@*) Normal (*@\textbf{is default}@*);
  components LedsC;
  High.Leds -> LedsC;
- Normal.Leds -> LedsC;
- Low.Leds -> LedsC;
- Error.Leds -> LedsC;
-}
+...
+ Error.Leds -> LedsC;}
 \end{csource}
 \end{minipage}
 \end{Sbox}
@@ -208,16 +204,13 @@ implementation {
 \begin{csource}
 (*@\textbf{context}@*) High {
 (*@\lstnote{transitions}\textbf{transitions}@*) Normal;
- uses interface Leds;
-}
+ uses interface Leds;}
 implementation {
 (*@\lstnote{activated}@*)event void activated(){}
 (*@\lstnote{deactivated}@*)event void deactivated(){}
 (*@\lstnote{check}@*)bool check(){return TRUE;}
 (*@\lstnote{layeredimp}\textbf{layered}@*) void toggle_leds(){
-  call Leds.set(1);
- }
-}
+  call Leds.set(1);}}
 \end{csource}
 \end{minipage}
 \end{Sbox}
