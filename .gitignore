@@ -1,0 +1,12 @@
+
+*.aux
+
+ubicomp13/abstract/.DS_Store
+
+*.out
+
+*.pdf
+
+*.gz
+
+*.log
