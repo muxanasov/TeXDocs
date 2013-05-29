@@ -10,3 +10,7 @@ ubicomp13/abstract/.DS_Store
 *.gz
 
 *.log
+
+*.bbl
+
+*.blg

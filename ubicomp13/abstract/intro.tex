@@ -42,14 +42,8 @@ and thus difficult to re-use, to debug, and to maintain.
 % % source code.
 
 % Wireless Sensor Networks (WSNs) can be applied in different areas \cite{pastor08}. In this paper we use Smart Home as a particular example. This application of WSN have to track householder location and execute a list of instructions depending on it. In parallel, WSN should monitor and control a climate in the house. On the hardware level WSN have sensors to monitor the environment (like temperature, light intensity etc.), which are static. There are also mobile sensors, which are attached to the householder to track his location inside and outside the house. In order to ensure an appropriate quality of service, they should provide a long work time and be as autonomous as possible. These requirements lead to very complex source code. To reduce the complexity we propose to use Context-Oriented paradigm.
-
 \marginpar{
-  \begin{figure}
-    \centering
-    \includegraphics[width=\marginparwidth]{smarthome.png}
-    \caption{Context diagram for Smart Home WSN.}
-    \label{fig:cdsm}
-  \end{figure}
+\input{healthcare_diagram}
 }
 
 We argue that promoting a notion of \emph{context} as a first-class

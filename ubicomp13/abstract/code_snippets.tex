@@ -1,0 +1,69 @@
+\begin{Sbox}
+\begin{minipage}{\marginparwidth}
+\begin{csource}
+(*@\textbf{context configuration}@*) Temperature {
+(*@\lstnote{layereddef}\textbf{layered}@*) void toggle_leds();}
+implementation {
+(*@\lstnote{contexts}\textbf{contexts}@*) High, Low,
+(*@\lstnote{isdefault}@*) Normal (*@\textbf{is default}@*);
+ components LedsC;
+ High.Leds -> LedsC;
+...
+ Error.Leds -> LedsC;}
+\end{csource}
+\end{minipage}
+\end{Sbox}
+
+\marginpar{
+  \begin{figure}
+    \TheSbox
+    \caption{Context configuration component.}
+    \label{fig:ccc}
+  \end{figure}
+}
+
+\begin{Sbox}
+\begin{minipage}{\marginparwidth}
+\begin{csource}
+(*@\textbf{context module}@*) High {
+(*@\lstnote{transitions}\textbf{transitions}@*) Normal;
+ uses interface Leds;}
+implementation {
+(*@\lstnote{activated}@*)event void activated(){}
+(*@\lstnote{deactivated}@*)event void deactivated(){}
+(*@\lstnote{check}@*)bool check(){return TRUE;}
+(*@\lstnote{layeredimp}\textbf{layered}@*) void toggle_leds(){
+  call Leds.set(1);}}
+\end{csource}
+\end{minipage}
+\end{Sbox}
+
+\marginpar{
+  \begin{figure}
+    \TheSbox
+    \caption{Context component.}
+    \label{fig:cc}
+  \end{figure}
+}
+
+\begin{Sbox}
+\begin{minipage}{\marginparwidth}
+\begin{csource}
+(*@\textbf{activate}@*)Temperature.High;
+Temperature.toggle_leds();
+\end{csource}
+\end{minipage}
+\end{Sbox}
+
+\marginpar{
+  \begin{figure}
+    \TheSbox
+    \caption{Usage example.}
+    \label{fig:ue}
+  \end{figure}
+}
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "ubicomp"
+%%% End: 

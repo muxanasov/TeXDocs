@@ -159,119 +159,29 @@
 % =============================================================================
 \section{ConesC}
 % =============================================================================
-In {\textlst{ConesC}} we divided contexts into groups. It brings COP on a new level of abstraction and makes it possible to operate complex structures of contexts as a superposition of smaller substructures. Thus, every WSNs could have several mostly independent groups of contexts. Context transitions within the group are initiated by triggers and can be performed only if particular conditions are satisfied. There are also actions which should be performed before activation and after deactivation of the context.
+In {\textlst{ConesC}} we divided contexts into \emph{context groups}. Each \emph{context group} consists of contexts which could be logically combined. For example, contexts, which are representing the information with the same type, could be integrated into one \emph{context group}. It brings COP on a new level of abstraction and makes it possible to operate complex structures of contexts as an integration of smaller substructures. Thus, every WSNs could have several mostly independent \emph{context groups}. Context transitions within the group are initiated by \emph{triggers} and can be performed only if particular conditions are satisfied. There are also actions which should be performed before activation and after deactivation of the context.
 
-Figure \ref{fig:cdsm} utilises our concepts of {\textlst{ConesC}} and represents a structure of contexts for Smart Home. In this application two context groups could be found: \textit{Location} group and \textit{Temperature} group.
+\input{code_snippets}
 
-\paragraph{Householder's location.} While householder is moving from one room to another, the system is tracking his location and switching off or on the light in rooms. If householder leaves the house, then \textit{Smart Home} locks the door and unlocks it when householder is nearby.
+Figure \ref{fig:cdsm} utilises our concepts of {\textlst{ConesC}} and represents a structure of contexts for Health-Care System. We can find two groups of contexts in this application: \textit{Location} group and \textit{Health conditions} group.
 
-\begin{Sbox}
-\begin{minipage}{\marginparwidth}
-\begin{csource}
-(*@\textbf{context configuration}@*) Temperature {
-(*@\lstnote{layereddef}\textbf{layered}@*) void toggle_leds();}
-implementation {
-(*@\lstnote{contexts}\textbf{contexts}@*) High, Low,
-(*@\lstnote{isdefault}@*) Normal (*@\textbf{is default}@*);
- components LedsC;
- High.Leds -> LedsC;
-...
- Error.Leds -> LedsC;}
-\end{csource}
-\end{minipage}
-\end{Sbox}
+\paragraph{Location.} While user is within the house, nodes, which attached to the user, have a mostly stable connection with the infrastructure and can send data directly to it. If user is outside, nodes should collect the information.
 
-\marginpar{
-  \begin{figure}
-    \TheSbox
-    \caption{Context configuration component.}
-    \label{fig:ccc}
-  \end{figure}
-}
+\paragraph{Health conditions.} Independently on the data collection, nodes also should monitor the readings to detect emergency situations. In our example, if user’s heart rate (HR) is above threshold (T), it could be treated as a heart attack. But it also could mean that he does exercise. In other case, emergency situation can also happen during exercises.
 
-\begin{Sbox}
-\begin{minipage}{\marginparwidth}
-\begin{csource}
-(*@\textbf{context module}@*) High {
-(*@\lstnote{transitions}\textbf{transitions}@*) Normal;
- uses interface Leds;}
-implementation {
-(*@\lstnote{activated}@*)event void activated(){}
-(*@\lstnote{deactivated}@*)event void deactivated(){}
-(*@\lstnote{check}@*)bool check(){return TRUE;}
-(*@\lstnote{layeredimp}\textbf{layered}@*) void toggle_leds(){
-  call Leds.set(1);}}
-\end{csource}
-\end{minipage}
-\end{Sbox}
+In order to use context-oriented paradigm in nesC, we added new key-words. We also extended components by \textit{context module} and \textit{context configuration}. These two components have nesC-like structure and utilize the same logic. Both components can be used as other components in native nesC-way.
 
-\marginpar{
-  \begin{figure}
-    \TheSbox
-    \caption{Context component.}
-    \label{fig:cc}
-  \end{figure}
-}
+\textbf{Context configuration} component represents a context group (figure \ref{fig:ccc}). It is used to declare \emph{layered functions} and contexts included in the group. The behaviour of the layered function (line \lstref{layereddef}) depends on activated context within the current group. Declared functions should be implemented in each declared context. Contexts, which are belonging to the group, are declared by using key-word {\textlst{contexts}} (line \lstref{contexts}). In {\textlst{context configuration}} it is mandatory to declare default context by using a key-word {\textlst{is default}}. This context will be activated just after initialization. In {\textlst{ConesC}} each group of contexts has an {\textlst{Error}} context, which is activated if particular errors have been occurred. This context is generated by the system, but can be overridden by programmer like a {\textlst{context}} component.
 
-\begin{Sbox}
-\begin{minipage}{\marginparwidth}
-\begin{csource}
-(*@\textbf{activate}@*)Temperature.High;
-Temperature.toggle_leds();
-\end{csource}
-\end{minipage}
-\end{Sbox}
+\textbf{Context} component (figure \ref{fig:cc}) represents particular context. It is used to define possible \emph{transitions}, \emph{actions} before activation and after deactivation, \emph{layered functions}, and to \emph{check} transition conditions. There are two types of \emph{checks} for context transitions. At first, we check if the transitions legal, next we check if the context can be activated. The first type of \emph{checks} is declared by the key-word {\textlst{transitions}} on the line \lstref{transitions}. In our example it means that only {\textlst{Normal}} can be activated as the next context after {\textlst{High}}. The definition is not mandatory, but if illegal transition will be called, then {\textlst{Error}} context will be activated. If transitions are not defined, any transitions are legal. Second type of \emph{checks} is method {\textlst{check}} (line \lstref{check}). If triggered transition is legal, we call then function {\textlst{check}}. If it returns {\textlst{FALSE}}, the activation will be ignored and system will remain in the previous state. If method is not defined, conditions will not be verified.
 
-\marginpar{
-  \begin{figure}
-    \TheSbox
-    \caption{Usage example.}
-    \label{fig:ue}
-  \end{figure}
-}
+In {\textlst{ConesC}} it is also possible to define a list of instructions, which should be performed during context transition. It is possible by implementing events {\textlst{activated}} and {\textlst{deactivated}}. Event {\textlst{activated}} (line \lstref{activated}) is fired just before context activation, while event {\textlst{deactivated}} (line \lstref{deactivated}) is fired just after deactivation. However, the implementation of these events is not mandatory.
 
-\paragraph{Climate control.} If the temperature in the room is lower (or higher) than normal, system can enable air heating (or conditioning) to return the temperature to the normal state.
-
-In order to use context-oriented paradigm in nesC, we added new key-words. We also extended components by \textit{context} and \textit{context configuration}. \textit{Context} is an analogue of \textit{module} and \textit{context configuration} is an analogue of \textit{configuration}. These two components can be used as other components in native nesC-way.
-
-\textbf{Context configuration} component represents a context group (figure \ref{fig:ccc}). It is used to declare layered functions and contexts included in the group. The behaviour of the layered function (line \lstref{layereddef}) depends on activated context within the current group. Declared functions should be implemented in each declared context. Contexts, which are belonging to the group, are declared by using key-word {\textlst{contexts}} (line \lstref{contexts}). In {\textlst{context configuration}} it is mandatory to declare default context by using a key-word {\textlst{is default}}. This context will be activated just after initialization. In {\textlst{ConesC}} each group of contexts has an {\textlst{Error}} context, which is activated if particular errors have been occurred. This context is generated by the system, but can be overridden by programmer like a {\textlst{context}} component.
-
-\textbf{Context} component (figure \ref{fig:cc}) represents particular context. It is used to define possible transitions, actions before activation and after deactivation, layered functions, and to check transition conditions. To define restrictions for particular context transitions we use key-word {\textlst{transitions}} on the line \lstref{transitions}. In our example it means that only {\textlst{Normal}} can be activated as the next context after {\textlst{High}}. The definition is not mandatory, but if illegal transition will be called, then {\textlst{Error}} context will be activated. If transitions are not defined, any transitions are legal. In {\textlst{ConesC}} it is also possible to define a list of instructions, which should be performed during context transition. It is possible by implementing events {\textlst{activated}} and {\textlst{deactivated}}. Event {\textlst{activated}} (line \lstref{activated}) is fired just before context activation, while event {\textlst{deactivated}} (line \lstref{deactivated}) is fired just after deactivation. However, the implementation of these events is not mandatory. In case of particular conditions of activation for current context, method {\textlst{check}} (line \lstref{check}) should be implemented. If {\textlst{check}} returns {\textlst{FALSE}}, the activation will be ignored and system will remain in the previous state. If method is not defined, conditions will not be verified. On the line \lstref{layeredimp} there is an implementation of the layered function. By calling layered function system choose a specific implementation of that function for the activated context. The implementation is mandatory if the function is declared in the {\textlst{context configuration}}.
+On the line \lstref{layeredimp} there is an implementation of the layered function. By calling layered function system choose a specific implementation of that function for the activated context. The implementation is mandatory if the function is declared in the {\textlst{context configuration}}.
 
 The context transition could be triggered by the key-word {\textlst{activate}}. In our example (figure \ref{fig:ue}) this key-word triggers the context transition from the current activated context to the context {\textlst{High}}. Then by calling function {\textlst{Temperature.toggle\_leds()}} system will call the function which was implemented within the context {\textlst{High}}.
 
-{\textlst{Context}} and {\textlst{context configuration}} have nesC-like structure and utilize the same logic. Both components can be used in native nesC way as a regular components.
-
-\marginpar{
-\begin{figure}
-\begin{minipage}[t]{\marginparwidth}
-\begin{tikzpicture}
-  \path \context{1}{indoor};
-  \path (c1.east)+(1.15, 0.0) \context{2}{outdoor};
-  \path (c1.south)+(0.0,-3) \context{3}{normal};
-  \path (c3.south)+(1.25,-2.0) \context{5}{excercising};
-  \path (c2.south)+(0.0, -3) \context{4}{emergency};
-  \background{c1}{c1}{c2}{c1}{Location group}{SYSTEM}{-1}
-  \background{c1}{c3}{c4}{c5}{Health conditions group}{APPLICATION}{-0.15}
-
-  \draw [->, rounded corners, thick] (c1.south) -- (0,-1) -- (2.15,-1) node [midway,text width=2cm,align=center] {infrastructure\\lost} -- (c2.south);
-  \draw [->, rounded corners, thick] (c2.north) -- (2.15,1) -- (0,1) node [midway,text width=2cm,align=center] {infrastructure\\detected}-- (c1.north);
-
-  \draw [<-, rounded corners, thick] (c3.south) -- (0,-4.5) -- (2.15,-4.5) node [above,midway,text width=2cm,align=center] {HR < T} -- (c4.south);
-  \draw [<-, rounded corners, thick] (c4.north) -- (2.15,-2.5) -- (0,-2.5) node [midway,text width=2cm,align=center] {HR > T \&\& $\neg$ moving}-- (c3.north); 
-
-  \draw [->, rounded corners, thick] (c3.south)+(-0.75,0) -- (-0.75,-6.075) node [rotate = 90,midway,text width=2cm,align=center] {HR > T \&\& moving} -- (c5.west);  
-  \draw [->, rounded corners, thick] (c5.east) -- ($(c4.south)+(0.75,-2)$) -- ($(c4.south)+(+0.75,0)$) node [rotate = 90,midway,text width=2cm,align=center] {HR > T \&\& $\neg$ moving}; 
-  
-  \draw [->, rounded corners, thick] (c5.north) -- ($(c5.north)+(0,0.471)$) -- ($(c3.south)+(-0.15,-1)$) node [above,midway,text width=2cm,align=center] {HR < T} -- ($(c3.south)+(-0.15,0)$);
-      \end{tikzpicture}
-\end{minipage}
- \caption{Sample}
- \label{fig:diagram}
-\end{figure}
-}
-
-For a preliminary evaluation we also implemented two simple applications with the same functionality: by using {\textlst{ConesC}} and by using {\textlst{nesC}}. The binary of a program written using {\textlst{ConesC}} is only 2\% bigger than the binary of the program written using {\textlst{nesC}}: 7758 bytes vs 7640 bytes.
+Since {\textlst{ConesC}} is based on {\textlst{nesC}} it is necessary to compare them. To do this we implemented two applications for {\textlst{telosB}} platform. These applications have the same functionality: it toggles light on the T-Mote depending on the temperature. One of these applications was implemented using {\textlst{nesC}}, while another was implemented using {\textlst{ConesC}}. Binaries of programs differ by only 2\%: 7758 bytes for {\textlst{ConesC}} vs 7640 bytes for {\textlst{nesC}}.
 
 \balance
 \bibliographystyle{acm-sigchi}
