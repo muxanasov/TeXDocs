@@ -1,0 +1,55 @@
+
+\begin{Sbox}
+\begin{minipage}{\marginparwidth}
+\begin{csource}
+(*@\textbf{context module}@*) Indoor {
+(*@\lstnote{transitions}\textbf{transitions}@*) Outdoor;
+ uses interface Collection;}
+implementation {
+(*@\lstnote{activated}@*)event void activate(){
+  //...}
+(*@\lstnote{deactivated}@*)event void deactivate(){
+  //...}
+(*@\lstnote{check}@*)command bool check(){
+  return TRUE;}
+(*@\lstnote{layeredimp}\textbf{layered}@*) command void report(){
+  //...
+  call Collection.send(msg);}}
+\end{csource}
+\end{minipage}
+\end{Sbox}
+\marginpar{
+  \begin{figure}
+    \TheSbox
+\vspace{-4mm}
+    \caption{Context component.}
+    \label{fig:cc}
+\vspace{3mm}
+  \end{figure}
+}
+
+\begin{Sbox}
+\begin{minipage}{\marginparwidth}
+\begin{csource}
+// in a periodic loop...
+call Location.report();
+// in a parallel task
+(*@\textbf{activate}@*) Location.Indoor;
+\end{csource}
+\end{minipage}
+\end{Sbox}
+
+\marginpar{
+  \begin{figure}
+    \TheSbox
+\vspace{-4mm}
+    \caption{Examples of context transition and layered function call.}
+    \label{fig:ue}
+\vspace{3mm}
+  \end{figure}
+}
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "ubicomp"
+%%% End: 
