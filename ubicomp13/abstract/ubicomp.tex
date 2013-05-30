@@ -65,7 +65,7 @@
   minimum height=1.5em,drop shadow]
 \tikzstyle{context} = [materia, text width=5em, minimum width=0em,
   minimum height=3em, rounded corners, drop shadow]
-\tikzstyle{texto} = [above, text width=15em]
+\tikzstyle{texto} = [above]
 \tikzstyle{linepart} = [draw, thick, color=black!50, -latex', dashed]
 \tikzstyle{line} = [draw, thick, color=black!50, -latex']
 \tikzstyle{ur}=[draw, text centered, minimum height=0.01em]
@@ -88,7 +88,7 @@
     % Draw the background
     \path[fill=yellow!20,rounded corners, draw=black!50, dashed]
       (a1) rectangle (a2);
-    \path (a1.east |- a1.south)+(2.75,-0.4) node (u1)[texto]
+    \path (a1.east |- a1.south)+(2.75,-0.4) node (u1)[texto,  text width=15em, align = left]
       {\textit{#5}};
     \path ($(a1.west) !.5! (a2.west)$)+(-2.1,0) node (u1)[rotate = 90, align = center, text width = 0, texto]
       {\scriptsize{#6}};
@@ -107,7 +107,7 @@
 
 \title{Torwads Context-Oriented Programming in Wireless Sensor Networks}
 
-\numberofauthors{2}
+\numberofauthors{3}
 % Notice how author names are alternately typesetted to appear ordered in 2-column format;
 % i.e., the first 4 autors on the first column and the other 4 auhors on the second column.
 % Actually, it's up to you to strictly adhere to this author notation.

@@ -1,26 +1,27 @@
 \begin{figure}
-\begin{minipage}[t]{\marginparwidth}
 \begin{tikzpicture}
-  \path \context{1}{indoor};
-  \path (c1.east)+(1.15, 0.0) \context{2}{outdoor};
-  \path (c1.south)+(0.0,-3) \context{3}{normal};
-  \path (c3.south)+(1.25,-2.0) \context{5}{exercising};
-  \path (c2.south)+(0.0, -3) \context{4}{emergency};
-  \background{c1}{c1}{c2}{c1}{Location group}{SYSTEM}{-1}
-  \background{c1}{c3}{c4}{c5}{Health condition group}{APPLICATION}{-0.15}
+ 
+  \path \context{3}{normal};
+  \path (c3.south)+(1.25,-2.0)\context{5}{exercising};
+  \path (c3.east)+(1.15, 0.0) \context{4}{emergency};
 
-  \draw [->, rounded corners, thick] (c1.south) -- (0,-1) -- (2.15,-1) node [midway,text width=2cm,align=center] {K beacons\\missed} -- (c2.south);
-  \draw [->, rounded corners, thick] (c2.north) -- (2.15,1) -- (0,1) node [midway,text width=2cm,align=center] {beacon\\received}-- (c1.north);
+  \path (c4.south)+(0,-4.625)\context{1}{indoor};
+  \path (c3.south)+(0,-4.625) \context{2}{outdoor};
 
-  \draw [<-, rounded corners, thick] (c3.south) -- (0,-4.5) -- (2.15,-4.5) node [above,midway,text width=2cm,align=center] {HR < T} -- (c4.south);
-  \draw [<-, rounded corners, thick] (c4.north) -- (2.15,-2.5) -- (0,-2.5) node [midway,text width=2cm,align=center] {HR > T \&\& $\neg$ moving}-- (c3.north); 
+  \background{c2}{c2}{c1}{c2}{Location group}{SYSTEM}{-1}
+  \background{c2}{c3}{c4}{c5}{Health condition group}{APPLICATION}{-0.15}
 
-  \draw [->, rounded corners, thick] (c3.south)+(-0.75,0) -- (-0.75,-6.075) node [rotate = 90,midway,text width=2cm,align=center] {HR > T \&\& moving} -- (c5.west);  
+  \draw [->, rounded corners, thick] (c1.south) -- ($(c1.south)+(0,-.5)$) -- ($(c2.south)+(0,-.5)$) node [midway,text width=2cm,align=center] {K beacons\\missed} -- (c2.south);
+  \draw [->, rounded corners, thick] (c2.north) -- ($(c2.north)+(0,.5)$) -- ($(c1.north)+(0,.5)$) node [midway,text width=2cm,align=center] {beacon\\received}-- (c1.north);
+
+  \draw [<-, rounded corners, thick] (c3.south) -- ($(c3.south)+(0,-.5)$) -- ($(c4.south)+(0,-.5)$) node [above,midway,text width=2cm,align=center] {HR < T} -- (c4.south);
+  \draw [<-, rounded corners, thick] (c4.north) -- ($(c4.north)+(0,.5)$) -- ($(c3.north)+(0,.5)$) node [midway,text width=2cm,align=center] {HR > T \&\& $\neg$ moving}-- (c3.north); 
+
+  \draw [->, rounded corners, thick] ($(c3.south)+(-0.75,0)$) -- ($(c5.west)+(-0.9975,0)$) node [rotate = 90,midway,text width=2cm,align=center] {HR > T \&\& moving} -- (c5.west);  
   \draw [->, rounded corners, thick] (c5.east) -- ($(c4.south)+(0.75,-2)$) -- ($(c4.south)+(+0.75,0)$) node [rotate = 90,midway,text width=2cm,align=center] {HR > T \&\& $\neg$ moving}; 
   
-  \draw [->, rounded corners, thick] (c5.north) -- ($(c5.north)+(0,0.471)$) -- ($(c3.south)+(-0.15,-1)$) node [above,midway,text width=2cm,align=center] {HR < T} -- ($(c3.south)+(-0.15,0)$);
-      \end{tikzpicture}
-\end{minipage}
+  \draw [->, rounded corners, thick] (c5.north) -- ($(c5.north)+(0,0.371)$) -- ($(c3.south)+(-0.15,-1.1)$) node [above,midway,text width=2cm,align=center] {HR < T} -- ($(c3.south)+(-0.15,0)$);
+\end{tikzpicture}
 \caption{Context diagram for the example health care application. (HR
   stands for heart rate, T is a safety threshold for heart rate, K is
   the number of consecutive beacons to be missed before the node
