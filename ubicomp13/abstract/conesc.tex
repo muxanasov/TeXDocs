@@ -25,9 +25,9 @@ application maps to these concepts. At application level, the
 \emph{health condition} context group includes three individual
 contexts representing a person's possible health conditions. In this
 example design, we deploy heart rate and acceleration sensors to
-determine a context. Starting from \emph{normal}
-context, a growth in heart rate may indicate an
-\emph{emergency} context if the person is not moving, or simply there is an
+determine a context. Starting from a context corresponding to \emph{normal}
+conditions, a growth in heart rate may correspond to an
+\emph{emergency} context if the person is not moving, or simply to an
 \emph{exercising} context should the acceleration sensor record significant
 movements.
 
@@ -52,8 +52,7 @@ opportunities in the near future.
 We build upon nesC, a widespread sensor network programming
 language~\cite{gay03:nesc}. NesC itself extends the C language by
 providing component-based programming and a notion of split-phase
-execution of functions to address the WSN highly concurrent processing
-and the devices' resource constraints. In nesC, \emph{commands} are
+execution. In nesC, \emph{commands} are
 function calls that return immediately. The results of the
 corresponding operations, if any, is returned by means of asynchronous
 \emph{events}.
@@ -127,20 +126,19 @@ the {\textlst{activate}} keyword, also shown in Figure~\ref{fig:ue}.
 
 \subsection{Ongoing Work and Early Results}
 
-We are implementing the tool-chain in support to \conesc. We designed
-translation rules from \conesc to pure nesC, and are implementing such
-rules using {\textlst{JavaCC}}. Meanwhile, we are assessing the effectiveness of
-\conesc using hand-written examples, looking at how simpler is the
-implementation of context-dependent functionality against processing
-and memory overhead. Our analysis targets the TelosB platform and
-considers nesC as a baseline, because it is both a widespread sensor
-network language and the target language of our tool-chain. For
-example, a comparison of a simplified version of the
-{\textlst{Location}} context configuration and its constituents
-individual contexts demonstrates that the compiled binaries grow by
-only 2\% using \conesc, and yet the code is way more decoupled, which
-fosters simpler maintenance, as well as significantly easier to read
-and to debug.
+We are implementing the tool-chain in support to \conesc. We design
+translation rules from \conesc to pure nesC, and implement such rules
+using {\textlst{JavaCC}}. Meanwhile, we are assessing the
+effectiveness of \conesc using hand-written examples, looking at how
+simpler is the implementation of context-dependent functionality
+against processing and memory overhead. Our analysis targets the
+TelosB platform and considers nesC as a baseline, because of its
+widespread adoption in WSNs. For example, a comparison of a simplified
+version of the {\textlst{Location}} context configuration and its
+individual context components shows that the compiled binaries
+grow by only 2\% using \conesc, and yet the code is more decoupled,
+which fosters simpler maintenance, as well as easier to
+read and to debug.
 
 
 % In {\textlst{ConesC}} we divided contexts into \emph{context groups}. Each \emph{context group} consists of contexts which could be logically combined. For example, contexts, which are representing the information with the same type, could be integrated into one \emph{context group}. It brings COP on a new level of abstraction and makes it possible to operate complex structures of contexts as an integration of smaller substructures. Thus, every WSNs could have several mostly independent \emph{context groups}. Context transitions within the group are initiated by \emph{triggers} and can be performed only if particular conditions are satisfied. There are also actions which should be performed before activation and after deactivation of the context.
