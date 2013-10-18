@@ -1,0 +1,19 @@
+\begin{Sbox}
+\begin{minipage}{\columnwidth}
+\begin{csource}
+(*@\textbf{context}@*) NoBaseStation {
+ (*@\lstnote{dependence}\textbf{transirions}@*) BaseStation iff ActivityG.Running;
+  uses interface DataStore;
+}implementation {
+ (*@\lstnote{activated}@*)event void activate(){
+  //...}
+ (*@\lstnote{deactivated}@*)event void deactivate(){
+  //...}
+ (*@\lstnote{check}@*)command bool check(){
+  return TRUE;}
+ (*@\lstnote{layeredimp}\textbf{layered}@*) command void report(msg_t msg){
+  //...
+  call DataStore.deposit(msg);}}
+\end{csource}
+\end{minipage}
+\end{Sbox}

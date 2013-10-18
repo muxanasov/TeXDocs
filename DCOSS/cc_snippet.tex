@@ -1,0 +1,16 @@
+\begin{Sbox}
+\begin{minipage}{\columnwidth}
+\begin{csource}
+(*@\textbf{context configuration}@*) BaseStationG {
+ (*@\lstnote{layereddef}\textbf{layered}@*) command void report(msg_t msg);
+}implementation {
+ (*@\lstnote{contexts}\textbf{contexts}@*) BaseStation,
+ (*@\lstnote{isdefault}@*) NoBaseStation (*@\textbf{is default}@*),
+ (*@\lstnote{iserror}@*) Error (*@\textbf{is error}@*);
+ components Routing, Logging, LedsC;
+ BaseStation.Collection -> Routing;
+ NoBaseStation.DataStore -> Logging;
+ Error.Leds -> LedsC;}
+\end{csource}
+\end{minipage}
+\end{Sbox}
