@@ -1,0 +1,106 @@
+\documentclass[10pt, conference, compsocconf]{IEEEtran}
+
+\usepackage{xspace}
+\usepackage[pdftex]{graphicx}
+\DeclareGraphicsExtensions{.pdf,.jpeg,.png}
+\usepackage{url}
+\usepackage[procnames]{listings}
+\usepackage{paralist}
+
+% correct bad hyphenation here
+\newcommand{\lm}[1]{\footnote{{\bf Luca: #1}}}
+\newcommand{\ma}[1]{\footnote{{\bf Mikhail: #1}}}
+
+\newcommand{\fakepar}[1]{\vspace{1mm}\noindent\textbf{#1.}}
+\newcommand{\wrt}{w.r.t.\ }
+
+%\linespread{0.97}
+
+
+\begin{document}
+
+\title{A Disciplined Approach to Self-adaptive Software\\ in Resource-constrained Cyberphysical Systems}
+
+% Author names and affiliations
+% use a multiple column layout for up to two different
+% affiliations
+
+\author{}
+
+% \author{\IEEEauthorblockN{Authors Name/s per 1st Affiliation (Author)}
+% \IEEEauthorblockA{line 1 (of Affiliation): dept. name of organization\\
+% line 2: name of organization, acronyms acceptable\\
+% line 3: City, Country\\
+% line 4: Email: name@xyz.com}
+% \and
+% \IEEEauthorblockN{Authors Name/s per 2nd Affiliation (Author)}
+% \IEEEauthorblockA{line 1 (of Affiliation): dept. name of organization\\
+% line 2: name of organization, acronyms acceptable\\
+% line 3: City, Country\\
+% line 4: Email: name@xyz.com}
+% }
+
+% make the title area
+\maketitle
+
+\input{abstract}
+
+\section{Introduction}
+
+\noindent Nuggets to play as motivation:
+\begin{itemize}
+\item CPSs intimately tied to the environment;
+\item WSNs are an extreme case of resource constraint;
+\item applications need to evolve because i)  requirements change,
+  ii) environment changes, iii) nodes possibly move;
+\item software development rather primitive, no established methodologies, low-level languages;
+\item resource constraints make things worse: no dynamic memory
+  allocation, fixed component bindings, ...
+\end{itemize}
+
+Follows a description of the approach: use a notion of context (and
+context groups) at the design stage together with dedicated COP
+support during the implementation. We are the first to bring a similar
+approach down to extremely resource-constrained platforms.
+
+Throughout the paper, use wildlife monitoring application as running
+example.
+
+\section{Design Concepts}
+
+Definition of context, context group, transitions among contexts, and
+related constraints (towards an error context, or preventing a
+transition).
+
+\section{Programming Support}
+
+This is going to be a primer on ConesC, with a mapping from the
+concepts in the previous section to specific language constructs.
+
+\section{Preliminary Evaluation}
+\noident Three key aspects:
+\begin{itemize}
+\item qualitatively compare ConesC and nesC implementations along
+  coupling, dependencies, programmer-visible program states, ...
+\item demonstrates that changing the application (for example, adding
+  a new context) is easier in ConesC than nesC;
+\item shows a few figures on run-time overhead to demonstrate the
+  approach is feasible.
+\end{itemize}
+
+\section{Conclusion}
+
+This is the end, pointers to ongoing and future work.
+
+% \begin{IEEEkeywords}
+% TBW
+% \end{IEEEkeywords}
+
+\IEEEpeerreviewmaketitle
+
+% \bibliographystyle{IEEEtran}      % 
+% \bibliography{ref}   % name your BibTeX data base
+
+\end{document}
+
+
