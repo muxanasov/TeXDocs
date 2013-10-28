@@ -4,12 +4,12 @@
 (*@\textbf{context configuration}@*) BaseStationG {
  (*@\lstnote{layereddef}\textbf{layered}@*) command void report(msg_t msg);
 }implementation {
- (*@\lstnote{contexts}\textbf{contexts}@*) BaseStation,
- (*@\lstnote{isdefault}@*) NoBaseStation (*@\textbf{is default}@*),
+ (*@\lstnote{contexts}\textbf{contexts}@*) InRange,
+ (*@\lstnote{isdefault}@*) OutRange (*@\textbf{is default}@*),
  (*@\lstnote{iserror}@*) Error (*@\textbf{is error}@*);
  components Routing, Logging, LedsC;
- BaseStation.Collection -> Routing;
- NoBaseStation.DataStore -> Logging;
+ InRange.Collection -> Routing;
+ OutRange.DataStore -> Logging;
  Error.Leds -> LedsC;}
 \end{csource}
 \end{minipage}

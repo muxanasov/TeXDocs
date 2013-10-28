@@ -1,24 +1,49 @@
-\section{Context Oriented nesC (ConesC)} To mention: detailed description of
-ConesC, using Wildlife tracking application.
+\section{Context Oriented nesC (ConesC)} 
+
+To mention: outline the main benefits
 
 Programming in ConesC is tightly coupled with environment-dependent behavior of
 the application and exploits two main concepts: \emph{i)} individual contexts
 and their transitions and \emph{ii)} context groups. The former represent
 different environment situations where a system may find itself. Each context
-maps a separate state of application-level or system-level. As the environment
-conditions change, a programmer initiates a context transition by
-\emph{activating} corresponding context. Context group is a set of contexts
+maps to a separate state of the device or environment a system operates in. As
+the environment conditions change, a programmer initiates a context transition
+by \emph{activating} corresponding context. Context group is a set of contexts
 sharing common characteristics. Thus, whenever a transition between involved
-contexts occurs it is determined by changes in the same physical quantity.
+contexts occurs, it is determined by changes in one or more physical quantities.
 
-Diagram on a figure~\ref{fig:wtd} displays contextual situations, which may
-occur during the execution. To reflect this diagram on a language level, ConesC
-utilizes new types of components, such as \emph{context} and \emph{context
-configuration}, and a set of new key-words. \emph{Context} and \emph{context
-group} types are extensions of \emph{module} and \emph{configuration}
-correspondingly. Their instances however can also be used as standard nesC
-components. E.g. they can provide or use interfaces as well as be declared in
-the same way.
+Diagram on a figure~\ref{fig:wtd} shows how these concepts are used in application's design.
+Situations, which are related to a social activity of animals, can be exploited
+to reduce energy consumption. For example, it make no sense to send beacons
+from the node, which is attached to the most active animal in a herd, i.e.~\emph{Leader},
+since the node communicates with the most nodes in the network. Opposite to~\emph{Leader},
+other nodes send beacons to reveal themselves, since they are~\emph{Not Leaders}.
+These situations are based on a physical quantity -- a number of
+received beacons -- and reflect variations of the same functionality,
+such as sending beacons, so they can be joined into a group.
+
+Possible situations, however, are not limited to social activity. In our
+application, for example, there is no need to
+track a location if an animal is \emph{Not Moving}, but should accelerometer detect any
+significant movement, a periodic sampling should be initiated. Increased
+difference between two location readings indicates that an animal is
+\emph{Running}, and location sampling operations should be more often. Thus, it
+is possible to save energy by varying the rate of GPS readings.
+
+Orthogonal to application-level functionality, system should transmit data to
+the Base Station (BS) or save readings locally depending on the BS
+availability. While the BS is \emph{Out Range}, GPS-sensor is used to
+get the location and data is written in internal memory. But should the node
+receive a beacon from the BS, the data is dumped and GPS-sensor is disabled
+since location can be acquired from the BS. The application also should be aware
+of battery status and disable power consuming modules like GPS and GPRS if the
+battery level is \emph{Low}.
+
+ConesC reflects this design by using new types of components, such as
+\emph{context} and \emph{context group}, which are extensions of \emph{module} and
+\emph{configuration} correspondingly, and a set of new key-words.
+Instances of new types, however, can also be used as standard nesC components,
+e.g. they can provide or use interfaces as well as be declared in the same way.
 
 \begin{figure}[!h]
 \centering
@@ -27,22 +52,21 @@ the same way.
 \label{fig:wtd}
 \end{figure}
 
-\subsection{Context and Context configuration}
+\subsection{Context and Context group}\label{subsec:components}
 
-\emph{Context configuration} component (figure~\ref{fig:ccc}) logically
-represents a context group and is intended to declare layered functions as well
+\emph{Context group} component (figure~\ref{fig:ccc}) is used to declare layered functions as well
 as included contexts. Here key-word \emph{layered} (line~\lstref{layereddef})
 means that the behavior of this function depends on activated context. The
 declaration of contexts (line~\lstref{contexts}) follows a key-word
 \emph{contexts}, but it can also be moved in \emph{components} declaration,
-since the key-word \emph{contexts} was introduced only for convenience and
-\emph{context} can be declared as a standard component. It is mandatory,
-however, to declare \emph{default} context (line~\lstref{isdefault}), which will
-be activated at the beginning of the execution, by using key-word \emph{is
+since \emph{context} is a component and the key-word \emph{contexts} was introduced only for
+convenience. It is mandatory, however, to declare \emph{default} context (line~\lstref{isdefault}),
+which will be activated at the beginning of the execution, by using key-word \emph{is
 default}. ConesC also supports a declaration of \emph{error}
 (line~\lstref{iserror}) context for each group by the key-word \emph{is error}.
-Error context is used to indicate errors occurred during the execution. If error
-context is not declared, it will be generated automatically.
+Error context is used to indicate and to handle errors occurred during the execution. If
+error context is not declared, it will be generated automatically. We discuss this context in
+section~\ref{subsec:rules}.
 
 \input{cc_snippet}
 \begin{figure}[!h]
@@ -52,26 +76,21 @@ component.}
 \label{fig:ccc}
 \end{figure}
 
-\emph{Context} component (figure~\ref{fig:cc}) includes a context-specific
-implementation of layered function (line~\lstref{layeredimp}) declared in
-context configuration. Since only one context in a group can be active at a
-time, a behavioral variation is enabled by this implementation. In our example,
-function \emph{report()} deposits a message in local memory while \emph{No Base
-Station} context is active. Programmer may want to add some instructions after
+\emph{Context} component (figures~\ref{fig:cc} and~\ref{fig:irc}) includes an
+implementation of layered function (line~\lstref{layeredimp}) declared in context configuration. 
+This approach enables a behavioral variation, since the implementation of a layered function is
+context-specific, and only one context withing the group can be active at a time. Thus, in our
+example, a behavior of the function \emph{report()} depends on the activated context and
+deposits a message in local memory while \emph{Out Range} context
+is active (figure~\ref{fig:cc}, line~\lstref{layeredimp}),
+or sends it directly to the BS otherwise (figure~\ref{fig:irc}, line~\lstref{layeredimp2}).
+Programmer may want to add some instructions after
 context activation such as initialization of variables or enabling/disabling
-modules (in our example, enable GPS-sensor on entering in \emph{no BS} context).
-Or it may be necessary to reset component's state before context deactivation.
-ConesC allows to do this by implementing events \emph{activated()} and
-\emph{deactivated()} correspondingly (lines~\lstref{activated}
+modules (in our example, enable GPS-sensor on entering in \emph{Out Range}
+context). Or it may be necessary to reset component's state before context
+deactivation. ConesC allows to do this by implementing events \emph{activated()} and
+\emph{deactivated()} correspondingly (figure~\ref{fig:cc}, lines~\lstref{activated}
 and~\lstref{deactivated}), it is not obligatory though.
-
-In order to double check if context is really taking place during a context
-transition and avoid false positives, ConesC provides a \emph{check()} command
-(line~\lstref{check}). It is also not mandatory to implement this command, but
-should it return \emph{FALSE}, an initiated context transition will not occur, a
-context will not be activated and a system will remain in the previous state.
-This approach allows one not to think about conditions a transition taking place
-in, but foresee possible conflicts.
 
 \input{c_snippet}
 \begin{figure}[!h]
@@ -80,17 +99,38 @@ in, but foresee possible conflicts.
 \label{fig:cc}
 \end{figure}
 
-\subsection{Transition rules}
+\subsection{Transition rules}\label{subsec:rules}
 
-Along with declaration of a new component types, ConesC also allows to specify
-rules and dependencies for context transitions. In our application for example
-within \emph{Activity} group a transition from \emph{not moving} to
-\emph{resting} is only possible. Since each transition is governed by a separate
-rule, it is declared in context component as shown on figure~\ref{fig:nmc}
-(line~\lstref{transitions}). Here key-word \emph{transitions} indicates a list
-of possible contexts a transition can be performed to. If programmer initiates a
-transition to a context which is not declared in the rule, an \emph{error}
-context will be activated.
+In ConesC every context transition implies several checking stages (figure~\ref{fig:ad}) such as:
+possibility of the transition, dependencies check and conditions check. The successful check allows
+to continue a transition, while the failure leads to different states depending on the stage. In this
+section we discuss and provide a usage examples for each of them. 
+
+Negative outcomes of the first two conditional chooses (figure~\ref{fig:ad}) indicate
+serious logical problems of a program. ConesC allows programmer to
+handle these errors at run-time, by defining and implementing an error context. It will be activated,
+if the context transition is not possible or dependencies are not satisfied. As it was mentioned in
+the subsection~\ref{subsec:components}, an error context can be declared
+in~\emph{context group} by using a key-word~\emph{is error}. It is not mandatory,
+though, and it will be generated automatically anyway. Conditions check, however, can fail quite
+often, since it depends on rapidly changing environment. If conditions are not
+satisfied, context will not be activated and the system will remain in the same context. 
+
+\begin{figure}[!h]
+\centering
+\includegraphics[width=\columnwidth]{pdf/activation_diagram}
+\caption{Activation diagram.}
+\label{fig:ad}
+\end{figure}
+
+In our scenario, which is displayed on a figure~\ref{fig:wtd}, within \emph{Activity} group a
+transition from \emph{Not Moving} to \emph{Resting} is only possible, and it is checked
+by the first conditional chose displayed on a figure~\ref{fig:ad}.
+Since each transition is governed by a separate rule, it is declared in a context component as shown
+on figure~\ref{fig:nmc} (line~\lstref{transitions}). Here key-word \emph{transitions} indicates the
+context a transition can be performed to. An attempt to initiate
+a transition to the context, which is not declared in a given active context, leads to an error context
+activation, since this kind of transitions is not possible.
 
 \input{nmc_snippet}
 \begin{figure}[!h]
@@ -99,27 +139,47 @@ context will be activated.
 \label{fig:nmc}
 \end{figure}
 
-To map intergroup relations we are introducing a context transition dependencies
-in our context-oriented language. Within the \emph{Base Station} group for
-example a transition from \emph{no Base Station} to \emph{Base Station} is only
-possible if an animal is \emph{running}. Thus, the dependency for this
-transition is \emph{running} context, which belongs to \emph{Activity} group.
-Our approach also covers this type of situations by adding dependencies to the
-transition declaration as it is shown on a figure~\ref{fig:cc}
-(line~\lstref{dependence}). In \emph{transitions} section a context name
-followed by a key-word \emph{iff} and full name of another context means that
-the transition will only be executed if the latter context is active. Should the
-rule with dependency be violated, a transition to an error context will be
-triggered.
+Despite the application's  functionality is split into isolated pieces by~\emph{context groups},
+they can still be interconnected. For example, within the 
+\emph{Base Station} group a transition from \emph{Out Range} to \emph{In Range} is only
+make sense if an animal is \emph{Running}. These inter-group relations are covered in our
+context-oriented language by context dependencies, which are checked in the second
+conditional chose on a figure~\ref{fig:ad}. In ConesC dependencies are declared as it is shown on a
+figure~\ref{fig:cc} (line~\lstref{dependence}). In \emph{transitions} section a context name
+followed by a key-word \emph{iff} and a full name of another context means that
+the transition will only be executed if the latter context is active. Should the rule with dependency
+be violated, a transition to an error context will be triggered.
 
-Other type of intergroup relations implies automatic triggering of context
-transition. Considering \emph{battery} group in our example, we can notice that
+The last conditional chose displayed on a figure~\ref{fig:ad} is used for soft rules, violation of
+which does not affect the execution of a program. For example, context~\emph{Running} is
+activated if the difference between two GPS readings is relatively big, but it may be due to a noise.
+To make sure false positives are avoided, a programmer may also want to check
+readings of an accelerometer. Another example includes energy saving scenario,
+thus a programmer may want to activate~\emph{In Range} context only if a battery is
+in~\emph{Normal} state (figure~\ref{fig:wtd}).
+Violation of mentioned rules is a common situation and should not lead to an error state.
+To this end, ConesC provides a \emph{check()} command
+(figure~\ref{fig:irc}, line~\lstref{check}). It is not mandatory to implement this command, but
+should it return \emph{FALSE}, an initiated context transition does not occur,
+a context is not activated and a system remains in the previous state.
+This approach allows one not to think about conditions a transition taking
+place in, but foresee possible inconsistency.
+
+\input{irc_snippet}
+\begin{figure}[!h]
+\TheSbox
+\caption{InRange context.}
+\label{fig:irc}
+\end{figure}
+
+Other type of inter-group relations implies automatic triggering of context
+transition. Considering \emph{Battery} group in our example, we can notice that
 for further energy saving programmer may want to trigger a transition to
-\emph{No Base Station} context withing a \emph{Base Station} group as long as
+\emph{Out Range} context withing a \emph{Base Station} group as long as
 \emph{Low} context is active. Our design allows one to do that by declaring a
-\emph{triggers} section. On a figure~\ref{fig:cc} (line~\lstref{triggers}) all
-the declared after this key-word contexts will be activated as soon as a
-transition to the current context is triggered, all declared rules are
+\emph{triggers} section. On a figure~\ref{fig:lc} (line~\lstref{triggers}) all
+the contexts, which are declared after this key-word, will be activated as soon as a
+transition to the current context is triggered, all declared in a given activated context rules are
 satisfied, and implemented \emph{check()} command returns \emph{TRUE}.
 
 \input{lc_snippet}
@@ -131,13 +191,14 @@ satisfied, and implemented \emph{check()} command returns \emph{TRUE}.
 
 \subsection{Usage}
 
-This section shows how ConesC structures can be used to invoke a behavioral
-variation. Here we describe one aspect of an application's behavioral variation
+This section shows how ConesC can be used to invoke a behavioral
+variation. Here we describe one aspect of an application's behavioral variation,
 which is related to the Base Station availability. As it was mentioned before,
-if a node receives a beacon from the Base Station it activates \emph{Base
-Station} context, and \emph{no Base Station} context in case of timeout.
-Programmer however can not operate by contexts directly, but should use
-\emph{context group}, which is \emph{BaseStationG} in our example. In the main
+if a node receives a beacon from the Base Station it activates \emph{In Range}
+context, and \emph{Out Range} context in case of timeout.
+Since the behavioral variation is encapsulated in a context group~\emph{BaseStationG},
+a programmer may not care about the context implementation, but should use a context group
+to change a behavior of the application at run-time. In the main
 configuration (figure~\ref{fig:mc}) base station group is declared
 (line~\lstref{declaration}) and wired (line~\lstref{wiring}) as a standard
 component, since it is an extension of a configuration.
@@ -153,23 +214,16 @@ In the main module (figure~\ref{fig:mm}) however it is necessary to declare
 explicitly that we are using a context group \emph{BaseStationG}
 (line~\lstref{cgdecl}). Activation of a context initiates by using a key-word
 \emph{activate} which is followed by a full context name. Thus
-\emph{BaseStation} context is activated on the line~\lstref{actBS} as soon as a
+\emph{InRange} context is activated on the line~\lstref{actBS} as soon as a
 beacon from the base station received. But should timeout occur, context
-\emph{NoBaseStation} will be activated (line~\lstref{actNoBS}). The benefit of
+\emph{OutRange} will be activated (line~\lstref{actNoBS}). The benefit of
 this approach is that layered function can be called independently
-(line~\lstref{calling}), and activating code is kept separately from function
-calls. Moreover one should not care about the base station availability, while
+(line~\lstref{calling}), and activating code can be kept separately from function
+calls, even in a separate module (figure~\ref{fig:bscm}).
+Moreover one should not care about the base station availability, while
 reporting measured data, since the behavior of layered function
-\emph{BaseStationG.report()} depends on activated context, e.g. the base station
-availability.
-
-It is also obligated to implement event \emph{contextChanged()} for each used
-context group, as we did on the line~\lstref{eventCC}. This event is fired every
-time when context changes. Context in this scope is considered as a constant,
-whose name consists of two parts, joined by a dot: a name of a group and a name
-of a context. Thus, in function \emph{BaseStationG.contextChanged()} we can use
-a passed parameter \emph{con} to find out what context has been activated, as
-shown on line~\lstref{concheck}.
+\emph{BaseStationG.report()} depends on activated context, i.e. the base
+station availability.
 
 \input{mm_snippet}
 \begin{figure}[!h]
@@ -177,3 +231,31 @@ shown on line~\lstref{concheck}.
 \caption{Main module.}
 \label{fig:mm}
 \end{figure}
+
+\input{bscm_snippet}
+\begin{figure}[!h]
+\TheSbox
+\caption{Base station context manager.}
+\label{fig:bscm}
+\end{figure}
+
+Every time the context changed, an event~\emph{contextChanged()} is fired. This event can be
+caught and handled, as it is shown on the line~\lstref{eventCC} (figure~\ref{fig:mm}),
+but it is not obligated though. Context in this scope is considered as a constant,
+whose name consists of two parts, joined by a dot: a name of a group and a name
+of a context. Thus, in function \emph{BaseStationG.contextChanged()} we can use
+a passed parameter \emph{con} to find out what context has been activated, as
+shown on line~\lstref{concheck}.
+
+\subsection{Discussion}
+
+The main benefit of ConesC is a possibility to alternate the behavior of a software at
+run-time. It implies also a run-time errors catching and handling. Our approach
+provides a deep modularization as well. Thus, behavioral variations are encapsulated
+into different modules -- contexts. The latter, in turn, are highly decoupled, which
+is discussed in section~\ref{sec:eval}. It enhance code readability and re-usability, debugging
+and developing processes. Except being isolated, each context contains rules for its
+own activation and, if rules are not satisfied, delegates the control by invoking an error.
+Error event is fired in every module, where the corresponding context group is using.
+Within the latter module, however, behavioral variation can be achieved by calling a
+layered function, since the contextual dependent logic is encapsulated by a context group.

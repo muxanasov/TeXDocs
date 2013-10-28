@@ -1,0 +1,14 @@
+\begin{Sbox}
+\begin{minipage}{\columnwidth}
+\begin{csource}
+(*@\textbf{context}@*) InRange {
+  uses interface Collection;
+  uses (*@\textbf{context group}@*) BatteryG; 
+}implementation {
+ (*@\lstnote{check}@*)command bool check(){
+    return BatteryG.getContext() == BatteryG.Normal;}
+ (*@\lstnote{layeredimp2}\textbf{layered}@*) command void report(msg_t msg){
+    call Collection.send(msg);}}
+\end{csource}
+\end{minipage}
+\end{Sbox}

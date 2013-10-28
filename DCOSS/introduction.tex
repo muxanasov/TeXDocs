@@ -6,8 +6,8 @@ are usually very complex. It is hard to read, reuse, debug and maintain this
 kind of applications.
 
 We are claiming that the notion of Context in a low-level software will
-significantly improve these aspects (readability and re-usability of the code as
-well as debugging and maintaining of the application).
+significantly improve these aspects (readability and re-usability of the code
+aswell as debugging and maintaining of the application).
 
 Since WSNs are usually built on embedded platforms, there are CPU, memory,
 energy consumption and even language restrictions.
@@ -15,30 +15,10 @@ energy consumption and even language restrictions.
 ...
 
 Consider for example a wildlife tracking application\cite{pasztor10}, whose
-goals are to track a location and movement of animals, and to analyze
-communications between them. Here GPS-sensor and accelerometer are used to
-detect different activities of an animal. Communication activity can be detected
-by sending and receiving beacons via low-power radio module. Two animals are
-considered communicating if their nodes receive beacons of each other.
-
-In order to save energy we have to foresee different situation a system could
-find itself in. In our application for example there is no need to track a
-location if an animal is \emph{not moving}, but should accelerometer detect any
-significant movement, a periodic sampling should be initiated. Increased
-difference between two location readings indicates that an animal is
-\emph{running}, and sampling operations should be more often. Thus, it is
-possible to save energy by varying the rate of location readings. We also can
-exploit a social activity of animals to reduce a traffic and save energy.
-\emph{Leader} is communicating with the most animals in a herd and receiving
-beacons from them. Thus, there is no need to send beacons from a leader.
-
-Orthogonal to application-level functionality, system should transmit data to
-the Base Station (BS) or save readings locally depending on the BS availability.
-While there is \emph{no BS} within the range, GPS-sensor is used to get the
-location and data is written in internal memory. But should the node receive a
-beacon from the BS, the data is dumped and GPS-sensor is disabled since location
-can be acquired from the BS. The application also should be aware of battery
-status and disable power consuming modules like GPS and GPRS if the battery
-level is \emph{low}.
+goals are to track a location and movement of animals, and to analyze social
+interactions between them. Here GPS-sensor and accelerometer are used to detect
+different activities of an animal. Communication activity can be detectedby
+sending and receiving beacons via low-power radio module. Two animals are
+considered interacting if their nodes receive beacons of each other.
 
 To mention: structure of the paper.

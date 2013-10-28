@@ -1,0 +1,16 @@
+\begin{Sbox}
+\begin{minipage}{\columnwidth}
+\begin{csource}
+(*@\textbf{module}@*) BaseStationContextManager {
+  (*@\lstnote{cgdecl}@*)uses (*@\textbf{context group}@*) BaseStationG;
+   //...
+}implementation {
+   //...
+   event msg_t Radio.receive(msg_t msg) {
+  (*@\lstnote{actBS}@*) (*@\textbf{activate}@*) BaseStationG.InRange;
+    call BSReset.startOneShot(INTERVAL);}
+   event void BSReset.fired() {
+  (*@\lstnote{actNoBS}@*) (*@\textbf{activate}@*) BaseStationG.OutRange;}
+\end{csource}
+\end{minipage}
+\end{Sbox}
