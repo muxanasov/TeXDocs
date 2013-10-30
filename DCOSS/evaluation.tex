@@ -1,8 +1,67 @@
 \section{Evaluation}\label{sec:eval}
-To mention: two implementations.
 
-\paragraph{Complexity.} Description goes here. To mention: overall complexity increases, but average complexity per module decreases. Explanation goes here.
+In this section we show the evaluation of our approach. To this end, we compare
+implementations of wildlife tracking application using nesC against its ConesC-written analog.
 
-\paragraph{Coupling.} Description goes here. Coupling table. Discussion about coupling.
+\subsection{Coupling}\label{sec:evalcomp}
 
-\paragraph{CPU and memory overhead.} Description goes here. Results and discussion.
+According to the work of Stevens et al.~\cite{stevens79}, there are seven types
+of coupling, which are summarized in table~\ref{tab:couptypes}. It is generally
+known that the tightest coupling is, the more difficult is debugging,
+maintaining and reusing the program. In this section we demonstrate how ConesC
+can reduce the coupling of the implementation of our scenario. The result of our
+analysis, which is displayed on the figure~\ref{tab:coupres}, shows that ConesC
+implementation is much more decoupled as compared to its nesC counterpart. It is
+so, because our model implies context as a separate state, moreover it is
+isolated and can not be operated directly. Our abstraction toward~\emph{context
+groups} allows to perform system-level operations -- e.g. data storage --
+orthogonally to the data processing without actual coupling modules involved.
+
+\begin{table}[!h]
+\renewcommand{\arraystretch}{1.3}
+\caption{Coupling types.}
+\label{tab:couptypes}
+\input{tab_couptypes}
+\end{table}
+
+\begin{table}[!h]
+\renewcommand{\arraystretch}{1.3}
+\caption{Coupling comparison.}
+\label{tab:coupres}
+\input{tab_coupres}
+\end{table}
+
+\subsection{Complexity} 
+
+We estimate the complexity of the program by making use of such indicators as the number of
+lines of code (LOC), the number of variable declaration and the number of
+functions~\cite{pressman01}. Our results are illustrated on the
+table~\ref{tab:compres}. Despite the overall increase of complexity of the whole
+application, there is a significant reduction of the per-module complexity.
+Context-oriented approach forces a programmer to make a program logically
+fragmented, which leads to increased number of modules (\emph{contexts}
+and~\emph{context configurations}) and boilerplate code. Because of the same
+reason, functions have to be spitted into smaller isolated parts. It has to be
+noted that the bigger the scale of application is, the closer these numbers are.
+In the same time, this isolation leads to a code simplification, improved
+readability and re-useability along with easier debugging process.
+
+\begin{table}[!h]
+\renewcommand{\arraystretch}{1.3}
+\caption{Complexity comparison.}
+\label{tab:compres}
+\input{tab_compres}
+\end{table}
+
+\subsection{CPU and memory overhead}
+
+Here we discuss a CPU overhead for context transitions and calls of layered
+functions. Since there are neither contexts nor layered functions in nesC-based
+implementation, we measured a number of CPU-cycles of parts with different
+execution flow. For example, contextual events, like a base station presence,
+are detected and handled in ConesC differently as compared to nesC, but,
+eventually, it results in the same functionality. To this end we use MSPSim
+emulator~\cite{eriksson09}. Our evaluation shows that the overhead of a function
+call linearly depends on a number of context in group where the function is
+declared. We observe the same dependency for context transitions. As concerns
+memory, we have 3\% overheade for both RAM and binary sizes.
