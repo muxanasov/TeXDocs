@@ -1,0 +1,109 @@
+\section{Introduction}
+
+Cyberphysical systems (CPSs) place a computing and communication core
+in the environment to gather data from, and possibly take actions on
+the real world. Because of the intimate interactions between the
+``world'' and the ``machine''~\cite{jackson}, CPS software must be
+self-adaptive against the many and unpredictable environment
+dynamics. This is difficult to achieve in general, and even more so
+when developers are to battle against the resource limitations
+inherent in many existing CPS platforms.
+
+\fakepar{Example} Wireless sensor networks---an extreme case of
+resource-constrained CPS platform---are deployed in disparate
+applications~\cite{someSURVEY}, such as health-care and smart homes.
+
+Consider an example wildlife monitoring application~\cite{badgers}. Sensor
+nodes are embedded in collars attached to animals to study their
+social interactions. The nodes are equipped with a range of sensors to
+track an animal's movement, including GPS and accelerometer. A
+low-power short-range radio allows the nodes to discover each other
+based on periodic radio beaconing, logging the contacts to provide
+information on the animals' encounters. The same radio is also used
+to off-load the contact traces when in reach of a
+base-station. Otherwise, a cellular radio is available to
+send the collected data to zoologists. Crucially, the nodes run on
+batteries, and energy represents a precious resource that developers
+may need to trade for other system's functionality depending on the
+specific situation.
+
+For example, sensor sampling consumes non-negligible amounts of
+energy, especially for devices such as the
+GPS. Depending on the desired granularity and on the difference
+between consecutive GPS readings---the latter taken as indication of
+the speed of movement---developers may want to tune the GPS sampling
+frequency accordingly. Differently, when in reach of a base-station,
+developers may turn the GPS off altogether, as location information can
+be inferred from the (static) base-station. Similarly, the contact
+traces can be sent directly to the base-station when in reach, rather
+than being stored locally otherwise.  When the battery is running low,
+developers may want to turn off all sensors to make the node survive
+at least until the next encounter with a base-station, not to lose the
+collected contact traces.
+
+\fakepar{Contribution and road-map} Taking into account every possible
+situation in the design of CPS software is a challenge. Multiple
+combined aspects concurrently determine how the software should adapt
+its operation, e.g., battery levels and physical positions in our
+example application. Although the existing literature already
+investigates similar problems at a conceptual level~\cite{}, a
+principled approach at tackling them in the design and implementation
+of CPS software for extremely resource-constrained platforms is
+lacking. As a result, existing implementations 
+are very much entangled, and thus difficult to debug and to
+maintain~\cite{programmingsurvey}.
+
+We address this issue by enabling a notion of context-oriented design
+and programming for tiny CPS platforms. To this end, we define in
+Section~\ref{sec:design} a notion of \emph{context} and \emph{context
+  group}, useful to conceptually organize the different situations the
+system may find itself in, providing support during the design
+phases. We reflect these design notions in a dedicated
+\emph{programming model}, illustrated in Section~\ref{sec:conesc},
+which brings concepts of context-oriented programming~\cite{cop} into 
+mainstream sensor network programming~\cite{tinyos}. This
+is originally characterized by severe restrictions, e.g., the
+inability to create run-time instances of components and the exclusive
+use of statically-allocated memory.
+
+Our preliminary evaluation, reported in Section~\ref{sec:eval},
+suggests that our approach may result in better structured
+implementations, where components are increasingly decoupled and
+simpler to reason about. We further demonstrate that accounting for
+changing requirements is likely easier in our approach. These results,
+nevertheless, come at a limited increase in resource consumption,
+which does not impact the feasibility of our approach on the target
+platforms. For example, we observe a mere 3\% increase in program
+memory. Energy-wise, the overhead is negligible.
+
+We conclude the paper with a brief account of related efforts in
+Section~\ref{sec:related}, and with directions for future work and
+concluding remarks in Section~\ref{sec:ending}.
+
+% \hrule
+
+% \noindent Nuggets to play as motivation:
+% \begin{itemize}
+% \item CPSs intimately tied to the environment;
+% \item WSNs are an extreme case of resource constraint;
+% \item applications need to evolve because i)  requirements change,
+%   ii) environment changes, iii) nodes possibly move;
+% \item software development rather primitive, no established methodologies, low-level languages;
+% \item resource constraints make things worse: no dynamic memory
+%   allocation, fixed component bindings, ...
+% \end{itemize}
+
+% Follows a description of the approach: use a notion of context (and
+% context groups) at the design stage together with dedicated COP
+% support during the implementation. We are the first to bring a similar
+% approach down to extremely resource-constrained platforms.
+
+% Throughout the paper, use wildlife monitoring application as running
+% example.
+
+
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "paper"
+%%% End: 
