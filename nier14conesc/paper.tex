@@ -16,10 +16,9 @@
 
 %\linespread{0.97}
 
-
 \begin{document}
 
-\title{A Disciplined Approach to Self-adaptive Software\\ in Resource-constrained Cyberphysical Systems}
+\title{A Context-oriented Approach to Self-adaptive Software\\ in Resource-constrained Cyberphysical Systems}
 
 % Author names and affiliations
 % use a multiple column layout for up to two different
@@ -45,40 +44,30 @@
 
 \input{abstract}
 
-\section{Introduction}
-
-\noindent Nuggets to play as motivation:
-\begin{itemize}
-\item CPSs intimately tied to the environment;
-\item WSNs are an extreme case of resource constraint;
-\item applications need to evolve because i)  requirements change,
-  ii) environment changes, iii) nodes possibly move;
-\item software development rather primitive, no established methodologies, low-level languages;
-\item resource constraints make things worse: no dynamic memory
-  allocation, fixed component bindings, ...
-\end{itemize}
-
-Follows a description of the approach: use a notion of context (and
-context groups) at the design stage together with dedicated COP
-support during the implementation. We are the first to bring a similar
-approach down to extremely resource-constrained platforms.
-
-Throughout the paper, use wildlife monitoring application as running
-example.
+\input{intro}
 
 \section{Design Concepts}
+\label{sec:design}
 
+\hrule
 Definition of context, context group, transitions among contexts, and
 related constraints (towards an error context, or preventing a
 transition).
+\hrule
 
 \section{Programming Support}
+\label{sec:conesc}
 
+\hrule
 This is going to be a primer on ConesC, with a mapping from the
 concepts in the previous section to specific language constructs.
+\hrule
 
 \section{Preliminary Evaluation}
-\noident Three key aspects:
+\label{sec:eval}
+
+\hrule
+\noindent Three key aspects:
 \begin{itemize}
 \item qualitatively compare ConesC and nesC implementations along
   coupling, dependencies, programmer-visible program states, ...
@@ -87,10 +76,18 @@ concepts in the previous section to specific language constructs.
 \item shows a few figures on run-time overhead to demonstrate the
   approach is feasible.
 \end{itemize}
+\hrule
 
-\section{Conclusion}
+\section{Related Work}
+\label{sec:related}
 
+
+\section{Future Work and Conclusion}
+\label{sec:ending}
+
+\hrule
 This is the end, pointers to ongoing and future work.
+\hrule
 
 % \begin{IEEEkeywords}
 % TBW
