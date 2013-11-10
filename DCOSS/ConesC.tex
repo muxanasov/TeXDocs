@@ -1,6 +1,13 @@
 \section{Context Oriented nesC (ConesC)} 
 
-To mention: outline the main benefits
+The main benefit of ConesC is a possibility to alternate the behavior of a software at
+run-time. It implies also a run-time errors catching and handling. Our approach
+provides a deep modularization as well. Thus, behavioral variations are encapsulated
+into different modules. The latter, as we show in section~\ref{sec:evalcomp},
+are highly decoupled, which enhances code readability and re-usability as well as debugging
+and developing processes. The behavioral variation can be achieved by calling a
+layered function, since the contextual dependent logic is encapsulated by an isolated module, or
+by catching and handling an error event, which can be invoked at run-time.
 
 Programming in ConesC is tightly coupled with environment-dependent behavior of
 the application and exploits two main concepts: \emph{i)} individual contexts
@@ -244,16 +251,3 @@ whose name consists of two parts, joined by a dot: a name of a group and a name
 of a context. Thus, in function \emph{BaseStationG.contextChanged()} we can use
 a passed parameter \emph{con} to find out what context has been activated, as
 shown on line~\lstref{concheck}.
-
-\subsection{Discussion}
-
-The main benefit of ConesC is a possibility to alternate the behavior of a software at
-run-time. It implies also a run-time errors catching and handling. Our approach
-provides a deep modularization as well. Thus, behavioral variations are encapsulated
-into different modules -- contexts. The latter, in turn, are highly decoupled, which
-is discussed in section~\ref{sec:evalcomp}. It enhance code readability and re-usability, debugging
-and developing processes. Except being isolated, each context contains rules for its
-own activation and, if rules are not satisfied, delegates the control by invoking an error.
-Error event is fired in every module, where the corresponding context group is using.
-Within the latter module, however, behavioral variation can be achieved by calling a
-layered function, since the contextual dependent logic is encapsulated by a context group.
