@@ -106,6 +106,64 @@ and~\lstref{deactivated}), it is not obligatory though.
 \label{fig:cc}
 \end{figure}
 
+\subsection{Usage}
+
+This section shows how ConesC can be used to invoke a behavioral
+variation. Here we describe one aspect of an application's behavioral variation,
+which is related to the Base Station availability. As it was mentioned before,
+if a node receives a beacon from the Base Station it activates the~\emph{In Range}
+context, and the~\emph{Out Range} context in case of timeout.
+Since the behavioral variation is encapsulated in a context group~\emph{BaseStationG},
+a programmer may not care about the context implementation, but should use a context group
+to change a behavior of the application at run-time. In the main
+configuration (figure~\ref{fig:mc}) the base station group is declared
+(line~\lstref{declaration}) and wired (line~\lstref{wiring}) as a standard
+component, since it is an extension of a configuration.
+
+\input{mc_snippet}
+\begin{figure}[!h]
+\TheSbox
+\caption{Main configuration.}
+\label{fig:mc}
+\end{figure}
+
+In the main module (figure~\ref{fig:mm}) however it is necessary to declare
+explicitly that we are using a context group \emph{BaseStationG}
+(line~\lstref{cgdecl}). Activation of a context initiates by using a key-word
+\emph{activate} which is followed by a full context name. Thus
+\emph{InRange} context is activated on the line~\lstref{actBS} as soon as a
+beacon from the base station is received. But should timeout occur, context
+\emph{OutRange} will be activated (line~\lstref{actNoBS}). The benefit of
+this approach is that layered function can be called independently
+(line~\lstref{calling}), and activating code can be kept separately from function
+calls, even in a separate module (figure~\ref{fig:bscm}).
+Moreover one should not care about the base station availability, while
+reporting measured data, since the behavior of layered function
+\emph{BaseStationG.report()} depends on activated context, i.e. the base
+station availability.
+
+\input{mm_snippet}
+\begin{figure}[!h]
+\TheSbox
+\caption{Main module.}
+\label{fig:mm}
+\end{figure}
+
+\input{bscm_snippet}
+\begin{figure}[!h]
+\TheSbox
+\caption{Base station context manager.}
+\label{fig:bscm}
+\end{figure}
+
+Every time the context changed, an event~\emph{contextChanged()} is fired. This event can be
+caught and handled, as it is shown on the line~\lstref{eventCC} (figure~\ref{fig:mm}),
+but it is not mandatory though. Context in this scope is considered as a constant,
+whose name consists of two parts, joined by a dot: a name of a group and a name
+of a context. Thus, in function \emph{BaseStationG.contextChanged()} we can use
+a passed parameter \emph{con} to find out what context has been activated, as
+shown on line~\lstref{concheck}.
+
 \subsection{Transition rules}\label{subsec:rules}
 
 In ConesC every context transition implies several checking stages (figure~\ref{fig:ad}) such as:
@@ -185,61 +243,3 @@ automatic transitions.
 \caption{Low context.}
 \label{fig:lc}
 \end{figure}
-
-\subsection{Usage}
-
-This section shows how ConesC can be used to invoke a behavioral
-variation. Here we describe one aspect of an application's behavioral variation,
-which is related to the Base Station availability. As it was mentioned before,
-if a node receives a beacon from the Base Station it activates the~\emph{In Range}
-context, and the~\emph{Out Range} context in case of timeout.
-Since the behavioral variation is encapsulated in a context group~\emph{BaseStationG},
-a programmer may not care about the context implementation, but should use a context group
-to change a behavior of the application at run-time. In the main
-configuration (figure~\ref{fig:mc}) the base station group is declared
-(line~\lstref{declaration}) and wired (line~\lstref{wiring}) as a standard
-component, since it is an extension of a configuration.
-
-\input{mc_snippet}
-\begin{figure}[!h]
-\TheSbox
-\caption{Main configuration.}
-\label{fig:mc}
-\end{figure}
-
-In the main module (figure~\ref{fig:mm}) however it is necessary to declare
-explicitly that we are using a context group \emph{BaseStationG}
-(line~\lstref{cgdecl}). Activation of a context initiates by using a key-word
-\emph{activate} which is followed by a full context name. Thus
-\emph{InRange} context is activated on the line~\lstref{actBS} as soon as a
-beacon from the base station is received. But should timeout occur, context
-\emph{OutRange} will be activated (line~\lstref{actNoBS}). The benefit of
-this approach is that layered function can be called independently
-(line~\lstref{calling}), and activating code can be kept separately from function
-calls, even in a separate module (figure~\ref{fig:bscm}).
-Moreover one should not care about the base station availability, while
-reporting measured data, since the behavior of layered function
-\emph{BaseStationG.report()} depends on activated context, i.e. the base
-station availability.
-
-\input{mm_snippet}
-\begin{figure}[!h]
-\TheSbox
-\caption{Main module.}
-\label{fig:mm}
-\end{figure}
-
-\input{bscm_snippet}
-\begin{figure}[!h]
-\TheSbox
-\caption{Base station context manager.}
-\label{fig:bscm}
-\end{figure}
-
-Every time the context changed, an event~\emph{contextChanged()} is fired. This event can be
-caught and handled, as it is shown on the line~\lstref{eventCC} (figure~\ref{fig:mm}),
-but it is not mandatory though. Context in this scope is considered as a constant,
-whose name consists of two parts, joined by a dot: a name of a group and a name
-of a context. Thus, in function \emph{BaseStationG.contextChanged()} we can use
-a passed parameter \emph{con} to find out what context has been activated, as
-shown on line~\lstref{concheck}.
