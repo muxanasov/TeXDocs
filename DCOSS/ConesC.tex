@@ -110,18 +110,10 @@ and~\lstref{deactivated}), it is not obligatory though.
 
 In ConesC every context transition implies several checking stages (figure~\ref{fig:ad}) such as:
 possibility of the transition, dependencies check and conditions check. The successful check allows
-to continue a transition, while the failure leads to different states depending on the stage. In this
-section we discuss and provide a usage examples for each of them. 
-
-Negative outcomes of the first two conditional chooses (figure~\ref{fig:ad}) indicate
-serious logical problems of a program. ConesC allows programmer to
-handle these errors at run-time, by defining and implementing an error context. It will be activated,
-if the context transition is not possible or dependencies are not satisfied. As it was mentioned in
-the subsection~\ref{subsec:components}, an error context can be declared
-in~\emph{context group} by using a key-word~\emph{is error}. It is not mandatory,
-though, and it will be generated automatically anyway. Conditions check, however, can fail quite
-often, since it depends on rapidly changing environment. If conditions are not
-satisfied, context will not be activated and the system will remain in the same context. 
+to continue a transition, while the failure leads ether to canceling the transition or to
+activation of the~\emph{Error} context. The latter is generated automatically unless declared in
+in a~\emph{context group} by using the key-word~\emph{is error} (figure~\ref{fig:ccc}
+line~\ref{iserror}).
 
 \begin{figure}[!h]
 \centering
