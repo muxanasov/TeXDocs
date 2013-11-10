@@ -22,22 +22,22 @@ contexts occurs, it is determined by changes in one or more physical quantities.
 \subsection{Application design}
 
 The diagram on a figure~\ref{fig:wtd} shows how these concepts are used in application's design.
-Situations, which are related to a social activity of animals, can be exploited
-to reduce energy consumption. For example, it makes no sense to send beacons
-from the node, which is attached to the most active animal in a herd, i.e.~\emph{Leader},
-since the node communicates with the most nodes in the network. Opposite to~\emph{Leader},
-other nodes send beacons to reveal themselves, since they are~\emph{Not Leaders}.
-These situations are based on a physical quantity -- the number of
-received beacons -- and reflect variations of the same functionality,
-such as sending beacons, so they can be joined into a group.
-
-Possible situations, however, are not limited to social activity. In our
-application, for example, there is no need to
+Depending on GPS readings developers may want to vary a sampling rate to use energy
+more effective. For example, there is no need to
 track a location if an animal is \emph{Not Moving}, but should accelerometer detect any
 significant movement, a periodic sampling should be initiated. Increased
 difference between two location readings indicates that an animal is
-\emph{Running}, and location sampling should occurs more often. Thus, it
-is possible to save energy by varying the rate of GPS readings.
+\emph{Running}, and location sampling should occurs more often.
+Here contexts~\emph{Running}, \emph{Resting} and~\emph{Not Moving} are based on
+a physical quantity -- the velocity of an animal -- and reflect
+variations of the same functionality, such as GPS sampling with a given frequency,
+so they can be joined into a group.
+
+In social networks there exists a motion~\cite{pasztor10}, which can be exploited to
+reduce energy consumption. For example, it makes no sense to send beacons
+from the node, which is attached to the most active animal in a herd, i.e.~\emph{Leader},
+since the node communicates with the most nodes in the network. Opposite to~\emph{Leader},
+other nodes send beacons to reveal themselves.
 
 Orthogonal to application-level functionality, the system should transmit data to
 the Base Station (BS) or save readings locally depending on the BS
