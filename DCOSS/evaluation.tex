@@ -8,13 +8,13 @@ implementations of wildlife tracking application using nesC against its ConesC-w
 According to the work of Stevens et al.~\cite{stevens79}, there are seven types
 of coupling, which are summarized in Table~\ref{tab:couptypes}. It is generally
 known that the tightest coupling is, the more difficult is debugging,
-maintaining and reusing the program. In this section we demonstrate how ConesC
-can reduce the coupling of the implementation of our scenario. The result of our
-analysis, which is displayed on Table~\ref{tab:coupres}, shows that ConesC
-implementation is much more decoupled as compared to its nesC counterpart. It is
-so, because our model implies context as a separate state, moreover it is
-isolated and can not be operated directly. Our abstraction toward~\emph{context
-groups} allows to perform system-level operations -- e.g. data storage --
+maintaining and reusing the program. Coupling types, which are presented in this section, are not forbidden in ConesC, but some of them can be easily avoided with a proper use of its concepts. The result of our analysis, which is displayed on Table~\ref{tab:coupres}, shows that ConesC
+implementation is much more decoupled as compared to its nesC counterpart. 
+
+Both implementations have~\emph{External} and~\emph{Data} couplings, since the application is processing the same data differently depending on the current state -- i.e. context in terms of ConesC -- and typed interfaces are used to share the data among modules. We did not use, however, neither messages to share data nor different parts of the same data format, so~\emph{Stamp} and~\emph{Message} couplings are avoided in both implementations.
+
+Implementation of context components in ConesC, example of which are presented in Fig.~\ref{fig:cc} and~\ref{fig:irc}, do not rely on internal work of each other, so the are not coupled in the sense of~\emph{Content coupling}, as compared to nesC-written application, where all the behavioral variations are encapsulated in one module or function. Since each context represents a separate state of the environment or the device the system operates in, contexts are not intended to share any global states, to control the flow of each other and to pass the information how to execute. Our abstraction toward~\emph{context
+groups} allows developers to perform system-level operations -- e.g. data storage --
 orthogonally to the data processing without actual coupling modules involved.
 
 \begin{table}[!h]
@@ -38,12 +38,15 @@ lines of code (LOC), the number of variable declaration and the number of
 functions~\cite{pressman01}. Our results are illustrated on
 Table~\ref{tab:compres}. Despite the overall increase of complexity of the whole
 application, there is a significant reduction of the per-module complexity.
-Context-oriented approach forces a programmer to make a program logically
-fragmented, which leads to increased number of modules (\emph{contexts}
-and~\emph{context configurations}) and boilerplate code. Because of the same
-reason, functions have to be spitted into smaller isolated parts. It has to be
-noted that the bigger the scale of application is, the closer these numbers are.
-In the same time, this isolation leads to a code simplification, improved
+Context-oriented approach makes a program logically
+fragmented, which leads to increased number of modules -- e.g.~\emph{contexts}
+and~\emph{context configurations} -- and boilerplate code. Because of the same
+reason, functions have to be spitted into smaller isolated parts. We believe, however,
+that in larger applications the number of the similar lines of code will be bigger.
+The number of LOC can also be decreased significantly -- as showed in Table~\ref{fig:compres} in
+parentheses -- by having a tool, which generates a boilerplate code using a diagram of a
+context-oriented model of the application, similar to the one displayed in Fig.~\ref{fig:wtd}.
+The isolation leads to a code simplification, improved
 readability and re-useability along with easier debugging process.
 
 \begin{table}[!h]
@@ -56,12 +59,23 @@ readability and re-useability along with easier debugging process.
 \subsection{CPU and memory overhead}
 
 Here we discuss a CPU overhead for context transitions and calls of layered
-functions. Since there are neither contexts nor layered functions in nesC-based
+functions, as well as memory overhead of using ConesC as compared to nesC. To perform a CPU
+overhead comparison we use MSPSim emulator~\cite{eriksson09}, while memory overhead was
+simply estimated by a nesC compiler at the binary generation.
+
+Since there are neither contexts nor layered functions in nesC-based
 implementation, we measured a number of CPU-cycles of parts with different
 execution flow. For example, contextual events, like a base station presence,
 are detected and handled in ConesC differently as compared to nesC, but,
-eventually, it results in the same functionality. To this end we use MSPSim
-emulator~\cite{eriksson09}. Our evaluation shows that the overhead of a function
-call linearly depends on the number of contexts in a group where the function is
-declared. We observe the same dependency for context transitions. As concerns
-memory, we have 3\% overhead for both RAM and binary sizes.
+eventually, it results in the same functionality. Our evaluation shows that CPU overhead of
+a layered function call is from 1 to 2 -- depending on the activated context -- CPU-cycles
+for~\emph{Battery},~\emph{Base Station} and~\emph{Communication} groups, and from
+1 to 3 CPU-cycles for~\emph{Locator} group, which leads us to the linear dependency on the
+number of contexts per group. The overhead of context transitions is slightly bigger, but still has
+linear dependency on the number of contexts per group: 15 CPU-cycles
+for~\emph{Battery},~\emph{Base Station} and~\emph{Communication} groups, and 20
+CPU-cycles for~\emph{Locator} group in the worst case. The CPU-overhead of using ConesC is
+negligible in terms of energy consumption, since it is even lesser than the simplest operation in
+TinyOS -- turning on/off LEDs -- consumes 8 CPU-cycles.
+
+As concerns memory, we have 3\% overhead for both RAM and binary sizes.
