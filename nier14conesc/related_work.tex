@@ -1,2 +1,18 @@
 \section{Related Work}
 \label{sec:related}
+
+While there are a lot of work related to developing of context-oriented
+languages~\cite{Sehic11,Kamina11,Bardram05} and context-awareness of
+CPSs~\cite{Wood08,Sehic11,Ghezzi10}, no holistic approach yet developed to bring
+self-adaptivity to CPSs. Sehic et al.~\cite{Sehic11} proposed, however, a macro-language for rapid
+development of context-aware applications for CPSs, but it is built upon Java-based
+platform and not applicable for autonomous CPSs, since they are extremely resource-constrained. 
+
+Languages for CPSs are static, hence all behavioral variations should be predefined at the design
+level, which brings us to the necessity of using context-oriented programming~\cite{Salvaneschi11}
+to create self-adaptive software for CPSs. To this end, we modified and applied such
+techniques as: \emph{Per-Object activation} and \emph{Layer-in-Class} \cite{Salvaneschi12}.
+The latter implies the implementations of layers~\cite{Costanza11} -- i.e. behavioral variations --
+in one class. In our approach we used \emph{context groups} to aggregate behavioral variations,
+which are invoked by explicit activation of corresponding \emph{context}, i.e. we adopted
+\emph{Per-Object activation}, where an \emph{object} is a~\emph{context}.
