@@ -1,12 +1,47 @@
-\section{Related Work}
-\label{sec:related}
+\section{Related Work} \label{sec:related}
+The very first work towards context-oriented programming was provided by
+Hirschfeld et al.~\cite{Hirschfeld08}, while the main language constructs of COP
+were provided by Costanza et al.~\cite{Costanza11}. There are a lot of work
+related to developing of context-oriented
+languages~\cite{Sehic11,Kamina11,Bardram05}, but they are based, however, on
+high-level languages and resource consuming platforms, and not applicable for
+autonomous CPSs.
 
-The very first work towards context-oriented programming was provided by Hirschfeld et al.~\cite{Hirschfeld08}, while the main language constructs of COP were provided by Costanza et al.~\cite{Costanza11}. There are a lot of work related to developing of context-oriented languages~\cite{Sehic11,Kamina11,Bardram05}, but they are based, however, on high-level languages and resource consuming platforms, and not applicable for autonomous CPSs.
+There are some attempts to apply context-oriented programming for the software
+for CPSs. Sehic et al.~\cite{Sehic11} proposed, for example, a macro-language
+for rapid development of context-aware applications for CPSs. Wood et
+al.~\cite{Wood08} developed a CPS for Assisted-Living and Residential
+Monitoring, which utilizes a technique of a context-depended behavior. Another
+work, provided by Ghezzi et al.~\cite{Ghezzi10}, is devoted to the language
+support for bringing a context-awareness for CPSs.
 
-There are some attempts to apply context-oriented programming for the software for CPSs. Sehic et al.~\cite{Sehic11} proposed, for example, a macro-language for rapid development of context-aware applications for CPSs. Wood et al.~\cite{Wood08} developed a CPS for Assisted-Living and Residential Monitoring, which utilizes a technique of a context-depended behavior. Another work, provided by Ghezzi et al.~\cite{Ghezzi10}, is devoted to the language support for bringing a context-awareness for CPSs.
+Several attempts were also performed towards self-adaptive software for CPSs. In
+the work of Steine et al.~\cite{Steine11} authors were focused on run-time
+reconfiguration of WSNs by adjusting protocol values dynamically depending on
+the conditions the system operates in. Marques et al.~\cite{Marques11} propose a
+run-time evaluation of QoS characteristics for better adaptation. Another
+research was provided towards self-adaptive protocols: MAC-protocol by Park et
+al.~\cite{Park08} and routing protocol by Bourdenas et al.~\cite{Bourdenas11}.
+Self-adaptivity is also considered as a main ingredient of run-time error
+handling~\cite{Bourdenas10} and energy management~\cite{Jiang07}.
 
-Several attempts were also performed towards self-adaptive software for CPSs. In the work of Steine et al.~\cite{Steine11} authors were focused on run-time reconfiguration of WSNs by adjusting protocol values dynamically depending on the conditions the system operates in. Marques et al.~\cite{Marques11} propose a run-time evaluation of QoS characteristics for better adaptation. Another research was provided towards self-adaptive protocols: MAC-protocol by Park et al.~\cite{Park08}  and routing protocol by Bourdenas et al.~\cite{Bourdenas11}. Self-adaptivity is also considered as a main ingredient of run-time error handling~\cite{Bourdenas10} and energy management~\cite{Jiang07}. 
+Despite the research activity in the area of self-adaptive software for CPSs is
+quite intensive, it remains fragmented, and no holistic approach yet developed.
+Researches are usually focused only on the
+system~\cite{Steine11,Marques11,Park08,Bourdenas11,Bourdenas10,Jiang07} or only
+on application level~\cite{Wood08,Sehic11,Ghezzi10}, while the another level is
+absolutely abandoned. In our work we combine different aspects of
+self-adaptivity for CPSs and provide robust approach for self-adaptivity on both
+system and application levels.
 
-Despite the research activity in the area of self-adaptive software for CPSs is quite intensive, it remains fragmented, and no holistic approach yet developed. Researches are usually focused only on the system~\cite{Steine11,Marques11,Park08,Bourdenas11,Bourdenas10,Jiang07} or only on application level~\cite{Wood08,Sehic11,Ghezzi10}, while the another level is absolutely abandoned. In our work we combine different aspects of self-adaptivity for CPSs and provide robust approach for self-adaptivity on both system and application levels.
-
-Salvaneschi et al.~\cite{Salvaneschi11,Salvaneschi12} outlined possible techniques for language adaptation for context-oriented programming. Our work not only utilizes concepts of COP, but also provides a novel approach for bringing context-oriented programming to CPSs. To this end, we modified and applied such techniques as: \emph{Per-Object activation} and \emph{Layer-in-Class} \cite{Salvaneschi12}. The latter implies the implementations of layers~\cite{Costanza11} -- i.e. behavioral variations -- in one class. In our approach we used \emph{context groups} to aggregate behavioral variations, which are invoked by explicit activation of corresponding \emph{context}, i.e. we adopted \emph{Per-Object activation}, where an \emph{object} is a~\emph{context}.
+Salvaneschi et al.~\cite{Salvaneschi11,Salvaneschi12} outlined possible
+techniques for language adaptation for context-oriented programming. Our work
+not only utilizes concepts of COP, but also provides a novel approach for
+bringing context-oriented programming to CPSs. To this end, we modified and
+applied such techniques as: \emph{Per-Object activation} and
+\emph{Layer-in-Class} \cite{Salvaneschi12}. The latter implies the
+implementations of layers~\cite{Costanza11} -- i.e. behavioral variations -- in
+one class. In our approach we used \emph{context groups} to aggregate behavioral
+variations, which are invoked by explicit activation of corresponding
+\emph{context}, i.e. we adopted \emph{Per-Object activation}, where an
+\emph{object} is a~\emph{context}.
