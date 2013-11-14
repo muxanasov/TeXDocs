@@ -1,0 +1,92 @@
+\section{Design Concepts}
+\label{sec:design}
+
+Our approach to providing support to designing self-adaptive CPS
+software is intentionally fundamental and conceptually simple: CPS
+software targeted at resource-constrained devices hardly requires the
+design of sophisticated functionality. Nevertheless, the lack of a
+principled approach for its design is currently hampering the field at
+large~\cite{gp,cpskeynote}. Key in our approach, nevertheless, is the
+co-design of design-time support and programming model. We illustrate
+the latter in Section~\ref{sec:conesc}.
+
+We define two key design concepts: \emph{i)} individual
+\emph{contexts}; and \emph{ii)} \emph{context groups}, along with the
+notions necessary to weave these into a complete design.  Contexts
+represent the different environmental situations the system may
+encounter, and correspond to behavioral variations associated to a
+given situation. As the environment surrounding the system mutates,
+the software should adapt accordingly by \emph{activating} a suitable
+context. Context groups represent collections of individual contexts
+sharing common characteristics; e.g., whenever the \emph{same}
+high-level functionality must adapt to changes in the surrounding
+environment.
+
+\begin{figure}
+\begin{center}
+\includegraphics[scale=.45]{imgs/wildlifetracking}
+\vspace{-2mm}
+\caption{Wildlife monitoring application design.}
+  \label{fig:design}
+\vspace{-4mm}
+\end{center}
+\end{figure}
+
+Figure~\ref{fig:design} graphically depicts the context-oriented
+design of the example wildlife monitoring applications described
+earlier. Context groups are defined to describe behavioral variations
+corresponding to battery levels, base-station reachability, as well as
+an animal's health conditions and activity. Context groups are tagged
+as system-level or application-level to discern application-specific
+functionality from likely re-usable system services.
+
+The contexts within a group define the behavioral variations at
+hand. For example, the software must behave differently depending on
+whether the base-station is reachable.  The contexts in a group are
+tied with explicit \emph{transitions}, labeled with the conditions
+triggering the context change. For example, the system shall
+transition from context ``Base-station reachable'' to ``Base-station
+unreachable'' whenever no beacons are received from the base-station
+within a specific timeout. This entails a node is out of the
+base-station range and the software must adapt accordingly.
+
+The specific software adaptation is encapsulated in the individual
+contexts. In the latter, it is useful to distinguish \emph{one-time
+  operations} executed at the time of entering or existing a context,
+from \emph{continuous activities} that occur as long as a context is
+active. For example, whenever entering ``Base-station reachable'', the
+software shall disable the GPS sensor---location can be inferred from
+the base-station---and dump onto the latter the contact logs
+accumulated while the base-station was unreachable. Similarly, when
+the latter situation, the software must re-enable the GPS sensor on
+entering the corresponding context and log the contacts locally as
+long as ``Base-station unreachable'' persists, as shown in
+Figure~\ref{fig:design}.
+
+Required adaptation functionality may span multiple context groups. To
+this end, developers can bind context activations across groups and/or
+make context transitions subject to the activation of other
+contexts. An example of the former is in ``Low Battery'': when
+entering, ``Out Range'' shall also consequently activate, as radio
+communication BLA BLA\lm{Check, there's a bug in the diagram.}. An
+example of conditioned context transitions is when activating
+``Base-station reachable''. Besides receiving a beacon from the
+base-station, which implies radio connectivity, the adaptation process
+must check that ``Running'' in the ``Animal activity'' group is
+currently active. Indeed, gaining radio connectivity to the
+base-station entails the animal is moving. Should that not be the
+case, developers might have not correctly captured how contexts
+evolve, potentially indicating a design error.
+
+The concepts we define provide design-time support to reason on the
+different situations the software must adapt to, and to identify common
+functionality, orthogonal aspects, and mutual constraints. This
+ultimately helps separate concerns during the implementation phase, as
+we illustrate next.
+
+
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "paper"
+%%% End: 
