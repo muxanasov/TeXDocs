@@ -6,12 +6,33 @@
 \usepackage{url}
 \usepackage[procnames]{listings}
 \usepackage{paralist}
+\usepackage{listings}
+
+\lstdefinelanguage{conesc}
+{
+ morekeywords={components, is, error, default, context, group, layered, command, implementation, contexts, event, call, void, uses, transitions, iff, activate},
+ morecomment=[s]{/*}{*/},
+ sensitive=false,
+ escapeinside={*}{*}
+}
+
+\lstset{
+  basicstyle=\scriptsize\ttfamily,
+  keywordstyle=\bfseries,
+  showstringspaces=false,
+  emphstyle=\bfseries,
+}
+
+\lstdefinestyle{conescframe}{language=conesc,frame=single,xleftmargin=4mm,framexleftmargin=4mm,numbers=left,numberstyle=\scriptsize,numbersep=4pt}
 
 % correct bad hyphenation here
 \newcommand{\lm}[1]{\footnote{{\bf Luca: #1}}}
 \newcommand{\ma}[1]{\footnote{{\bf Mikhail: #1}}}
 
-\newcommand{\fakepar}[1]{\vspace{1mm}\noindent\textbf{#1.}}
+\newcommand{\conesc}{{\textsc{ConesC}}\xspace}
+\newcommand{\code}[1]{{\bfseries\texttt{#1}}}
+
+\newcommand{\fakepar}[1]{\vspace{0.4mm}\noindent\textbf{#1.}}
 \newcommand{\wrt}{w.r.t.\ }
 
 %\linespread{0.97}
@@ -45,42 +66,12 @@
 \input{abstract}
 
 \input{intro}
-
-\section{Design Concepts}
-\label{sec:design}
-
-\hrule
-Definition of context, context group, transitions among contexts, and
-related constraints (towards an error context, or preventing a
-transition).
-\hrule
-
-\section{Programming Support}
-\label{sec:conesc}
-
-\hrule
-This is going to be a primer on ConesC, with a mapping from the
-concepts in the previous section to specific language constructs.
-\hrule
-
-\section{Preliminary Evaluation}
-\label{sec:eval}
-
-\hrule
-\noindent Three key aspects:
-\begin{itemize}
-\item qualitatively compare ConesC and nesC implementations along
-  coupling, dependencies, programmer-visible program states, ...
-\item demonstrates that changing the application (for example, adding
-  a new context) is easier in ConesC than nesC;
-\item shows a few figures on run-time overhead to demonstrate the
-  approach is feasible.
-\end{itemize}
-\hrule
+\input{design}
+\input{programming}
+\input{eval}
 
 \section{Related Work}
 \label{sec:related}
-
 
 \section{Future Work and Conclusion}
 \label{sec:ending}
