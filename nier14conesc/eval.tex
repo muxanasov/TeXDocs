@@ -1,0 +1,45 @@
+\section{Current Work and Preliminary Evaluation}
+\label{sec:eval}
+
+We implemented a translator from \conesc to pure nesC that allows us
+to rely on the optimized nesC tool-chain to obtain running
+implementations. As for tool support, we are also investigating ways
+to automatically generate \conesc skeletons based on graphical
+representations of contexts and context groups similar to
+Figure~\ref{fig:design}. We are also planning to use the same notation
+as input to perform domain-specific static verification, e.g., using
+model-checking techniques~\cite{mottolaicse}.
+
+Using the translator, we compare an implementation of the wildlife
+monitoring application using our approach against a
+functionally-equivalent implementation that would arguably result from
+current practice~\cite{programmingsurvey,badgersEWSN}. First, we study
+the logical structuring and simplicity of the implementations, which
+determine to a great extent the ease of debugging and
+maintenance. Next, we study to what extent either approach lends
+itself to evolving the software against initially unforeseen
+requirements. Finally, we assess the system overhead that our approach
+introduces over the current practice, which represents the price to
+pay to obtain the advantages it brings.
+
+% \hrule
+% \noindent Three key aspects:
+% \begin{itemize}
+% \item qualitatively compare ConesC and nesC implementations along
+%   coupling, dependencies, programmer-visible program states, ...
+% \item demonstrates that changing the application (for example, adding
+%   a new context) is easier in ConesC than nesC;
+% \item shows a few figures on run-time overhead to demonstrate the
+%   approach is feasible.
+% \end{itemize}
+
+\hrule
+The results we present hereafter are based on a TMote
+Sky~\cite{} platform, a wireless sensor node featuring a TI MSP430 MCU
+with 8KBytes of RAM and a low-power CC2420 radio.
+\hrule
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "paper"
+%%% End: 
