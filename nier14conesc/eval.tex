@@ -32,7 +32,7 @@ Our analysis shows that ConesC implementation is much more decoupled as
 compared to its nesC counterpart. Since each context represents a situation
 the system may find itself in, they are isolated into modules and do not rely
 on the internal work of each other or share any global state, which reduces
-programmed-visible states. Contrary, in nesC implementation, each situation
+programmer-visible states. Contrary, in nesC implementation, each situation
 is represented by a global state, which should have been taken into account
 in every module.
 
@@ -56,12 +56,11 @@ global states of the program.
 %   approach is feasible.
 % \end{itemize}
 
-ConeC shows a negligible CPU-overhead. In our scenario a call of a layered
-function consumes up to 3 CPU-cycles, and up to 20 CPU-cycles for context
-transitions, depending on the number of contexts in a context group, where the
-function and contexts are declared. These numbers are negligible in terms of
-energy consumption, since the simplest operation, like enabling/disabling LED,
-uses 8 CPU-cycles.
+ConeC approach in our scenario shows a CPU-overhead up to 3 cycles for calls of
+a layered function and up to 20 CPU-cycles for context transitions, depending on
+the number of contexts in a context group, where the function and contexts are
+declared. These numbers are negligible in terms of energy consumption, since the
+simplest operation, like enabling/disabling LED, uses 8 CPU-cycles.
 
 \hrule
 The results we present hereafter are based on a TMote
