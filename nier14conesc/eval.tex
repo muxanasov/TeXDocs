@@ -27,11 +27,41 @@ pay to obtain the advantages it brings.
 % \begin{itemize}
 % \item qualitatively compare ConesC and nesC implementations along
 %   coupling, dependencies, programmer-visible program states, ...
+
+Our analysis shows that ConesC implementation is much more decoupled as
+compared to its nesC counterpart. Since each context represents a situation
+the system may find itself in, they are isolated into modules and do not rely
+on the internal work of each other or share any global state, which reduces
+programmed-visible states. Contrary, in nesC implementation, each situation
+is represented by a global state, which should have been taken into account
+in every module.
+
 % \item demonstrates that changing the application (for example, adding
 %   a new context) is easier in ConesC than nesC;
+
+Changing the application -- adding a new context, for example -- is easier in
+ConesC than in nesC. Let us consider, developers want to track a spread of a
+disease. To this end, they modify the application, as shown in Fig.~\ref{fig:mwtd},
+\ma{I'm not sure we have enough room for this}
+by adding a new context~\emph{Carrier} to mark an animal that have been in
+contact with diseased one, but shows no increase in temperature yet. In
+ConesC-written implementation it is necessary to make changes in 5 lines and
+to add a new module -- \emph{Carrier} context -- while the number of
+programmer-visible states remains the same. In nesC counterpart, however,
+developers need to modify 8 lines of code, which also leads to 2 additional
+global states of the program.
+
+
 % \item shows a few figures on run-time overhead to demonstrate the
 %   approach is feasible.
 % \end{itemize}
+
+ConeC shows a negligible CPU-overhead. In our scenario a call of a layered
+function consumes up to 3 CPU-cycles, and up to 20 CPU-cycles for context
+transitions, depending on the number of contexts in a context group, where the
+function and contexts are declared. These numbers are negligible in terms of
+energy consumption, since the simplest operation, like enabling/disabling LED,
+uses 8 CPU-cycles.
 
 \hrule
 The results we present hereafter are based on a TMote
