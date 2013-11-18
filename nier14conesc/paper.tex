@@ -7,6 +7,7 @@
 \usepackage[procnames]{listings}
 \usepackage{paralist}
 \usepackage{listings}
+\usepackage{xcolor}
 
 \lstdefinelanguage{conesc}
 {
@@ -24,21 +25,28 @@
   emphstyle=\bfseries,
 }
 
-\lstdefinestyle{conescframe}{language=conesc,frame=single,xleftmargin=4mm,framexleftmargin=4mm,numbers=left,numberstyle=\scriptsize,numbersep=4pt}
+\definecolor{Lemon}{HTML}{FFFACD}
+\lstdefinestyle{conescframe}{
+  language=conesc,
+  frame=lines,%single,
+  xleftmargin=4mm,
+  framexleftmargin=4mm,
+  numbers=left,
+  numberstyle=\scriptsize,
+  numbersep=4pt,
+  backgroundcolor=\color{Lemon}
+}
 
 % -begin- //nice in-code glyphs routine
 \usepackage{tikz}
 % for the pretty dark-circle-enclosed numbers
-\newcommand*\circled[1]{\tikz[baseline=(char.base)]{
-            \node[shape=circle,fill,inner sep=1.5pt, text=white,font=\scriptsize] (char) {#1};}}
+\newcommand*\circled[2]{\tikz[baseline=(char.base)]{
+            \node[shape=circle,fill,inner sep=0.1pt, text=white,font=#2] (char) {#1};}}
+
 \newcounter{lstNoteCounter}
-\newcommand{\lnnum}[1]{\circled{#1}}
-
-
-\newcommand{\lstref}[1]{\lnnum{\ref{#1}}}
-
+\newcommand{\lstref}[1]{\circled{\ref{#1}}{\normalsize}}
 \newcommand{\lstnote}[1] {
-\label{#1}\vbox{\llap{{\lnnum{\ref{#1}}}\hskip 1em}}
+  \label{#1}\hbox to -8.5pt{\llap{{\circled{\ref{#1}}{\scriptsize\rmfamily}}\hskip 0.98em}}
 }
 % -end- //nice in-code glyphs routine
 

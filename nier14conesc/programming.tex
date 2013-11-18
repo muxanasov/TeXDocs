@@ -38,7 +38,7 @@ disastrous effects and yet be very difficult to nail down.
 \begin{figure}[!tb]
 \begin{lstlisting}[style=conescframe]
 context group BaseStationG {
- layered command void report(contact_t contact); *\label{cg:layered}*
+*\lstnote{cg:layered}* layered command void report(contact_t contact);
 }implementation {
  contexts Reachable, Unreachable is default, *\label{cg:ctx}* 
           ErrorC is error; *\label{cg:error}*
