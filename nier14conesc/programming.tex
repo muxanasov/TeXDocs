@@ -13,27 +13,25 @@ translated to other programming systems~\cite{programmingsurvey}.
 for sensor networks, derived from C. Applications are built by
 interconnecting \emph{components} that interact by providing or using
 \emph{interfaces}. An interface lists one or more functions, tagged as
-\emph{commands} or \emph{events}. Commands are used to execute
-actions, while events are used to collect the results
-asynchronously. % Interfaces in nesC are bidirectional: data flows both
+\emph{commands} or \emph{events}. % Commands are used to execute
+% actions, while events are used to collect the results
+% asynchronously.
+% Interfaces in nesC are bidirectional: data flows both
 % ways between components connected through the same
 % interface.
 Component \emph{configurations} specify the wirings among
 components. % Configurations are component themselves, so they can offer
 % interfaces and be wired to other components.
-
-nesC exemplifies the limitations dictated by the extreme resource
-constraints of the target platforms, and hence the reasons why
-existing COP approaches cannot be directly ported. Because of the few
-KBytes of memory typically available, for example, components cannot
-be instantiated at run-time. They are rather in-lined at compile time
-so the compiler can reduce the size of the executable
-binary~\cite{nesc}, which would hardly fit in the available program
-memory otherwise. The use of dynamically-allocated memory is extremely
-discouraged: the MCUs provide no memory protection while the systems
-are meant to be long-running, so bugs in memory handling may have
-disastrous effects and yet be very difficult to nail down.
-
+nesC exemplifies the limitations dictated by the target platforms, and
+hence the reasons why existing COP approaches cannot be directly
+ported. Because of the limited memory available, for
+example, components cannot be instantiated at run-time. % They are
+% rather in-lined at compile time so the compiler can reduce the size of
+% the executable binary~\cite{nesc}, which would hardly fit in the
+% available program memory otherwise.
+The use of dynamically-allocated memory is also discouraged: the MCUs
+provide no memory protection, so bugs in memory handling may have
+disastrous effects.
 
 \begin{figure}[!tb]
 \begin{lstlisting}[style=conescframe]
@@ -121,11 +119,10 @@ application logic---confined within the layered functions inside the
 individual contexts---from the adaptation logic itself, which may be
 specified in a separate component. 
 
-Additionally, a keyword \code{triggers} to be used close to
-\code{transitions} in an individual context is available to bind
+Additionally, a keyword \code{triggers} is available to bind
 context activations across groups, as in the case of ``Low'' in
 Figure~\ref{fig:design}, which is required to consequently activate
-``Unreachable''.\lm{CHECK!}
+``Unreachable''. Programmers use \code{triggers} inside \lm{CHECK!}
 
 %%% Local Variables: 
 %%% mode: latex

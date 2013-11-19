@@ -9,6 +9,18 @@
 \usepackage{listings}
 \usepackage{xcolor}
 
+% No space between bibliography items:
+\let\oldthebibliography=\thebibliography
+  \let\endoldthebibliography=\endthebibliography
+  \renewenvironment{thebibliography}[1]{%
+    \begin{oldthebibliography}{#1}%
+      \setlength{\parskip}{0ex}%
+      \setlength{\itemsep}{0ex}%
+  }%
+  {%
+    \end{oldthebibliography}%
+  }
+
 \lstdefinelanguage{conesc}
 {
  morekeywords={components, is, error, default, context, group, layered, command, implementation, contexts, event, call, void, uses, transitions, iff, activate},
@@ -101,14 +113,9 @@
 \label{sec:ending}
 
 \hrule
-This is the end, pointers to ongoing and future work.
+Summary of results and advantages. This is the end, pointers to ongoing and future work.
 \hrule
 
-% \begin{IEEEkeywords}
-% TBW
-% \end{IEEEkeywords}
-
-\IEEEpeerreviewmaketitle
 
 {\small
 \bibliographystyle{IEEEtran}      % 

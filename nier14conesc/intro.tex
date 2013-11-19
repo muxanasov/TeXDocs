@@ -6,8 +6,9 @@ the real world. Because of the intimate interactions between the
 ``world'' and the ``machine''~\cite{jackson}, CPS software is
 eminently required to be self-adaptive against the many and
 unpredictable environment dynamics. This is difficult to achieve in
-general~\cite{}, and even more so when developers are to battle against the
-resource limitations inherent in many existing CPS platforms.
+general~\cite{}, and even more so when developers are to battle
+against the resource limitations inherent in many existing CPS
+platforms.
 
 \fakepar{Example} Consider a wireless sensor network application for
 wildelife monitoring~\cite{badgers}. Sensor nodes are embedded in
@@ -38,7 +39,7 @@ developers may want to turn off all sensors to make the node survive
 at least until the next encounter with a base-station, not to lose the
 collected contact traces.
 
-\fakepar{Contribution and road-map} Taking into account every possible
+\fakepar{Challenges and new ideas} Taking into account every possible
 situation in the design of CPS software is a challenge. Multiple
 combined aspects concurrently determine how the software should adapt
 its operation, e.g., battery levels and physical positions in our
@@ -49,19 +50,18 @@ of CPS software for extremely resource-constrained platforms is
 lacking. As a result, existing implementations are very entangled, and
 thus difficult to debug and to maintain~\cite{programmingsurvey}.
 
-We address this issue by co-designing a set of context-oriented design
-concepts and a corresponding programming model for
+We address this issue by co-designing context-oriented design concepts
+and a corresponding programming model expressily conceived for
 resource-constrained CPS platforms. To this end, we define in
 Section~\ref{sec:design} a dedicated notion of \emph{context} and
 \emph{context group}, useful to conceptually organize the different
 situations the system may find itself in, providing support during the
 design phases. We reflect these notions in a custom \emph{programming
-  model}, illustrated in Section~\ref{sec:conesc}, which exemplifies
-our approach by bringing concepts of context-oriented
-programming~\cite{cop} into sensor network
-programming~\cite{tinyos}. This is characterized by severe
-restrictions, e.g., the inability to create run-time instances of
-components and the exclusive use of statically-allocated memory.
+  model}, described in Section~\ref{sec:conesc}, which exemplifies our
+approach by bringing concepts of context-oriented
+programming~\cite{cop} in traditional sensor network programming
+languages~\cite{nesc}. These are characterized by severe restrictions,
+e.g., the inability to create run-time instances of components.
 
 Section~\ref{sec:eval} illustrates early results suggesting that our
 approach may result in better structured implementations, where
