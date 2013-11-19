@@ -38,10 +38,10 @@ disastrous effects and yet be very difficult to nail down.
 \begin{figure}[!tb]
 \begin{lstlisting}[style=conescframe]
 context group BaseStationG {
- layered command void report(contact_t contact); *\label{cg:layered}*
+*\lstnote{cg:layered}* layered command void report(contact_t contact);
 }implementation {
- contexts Reachable, Unreachable is default, *\label{cg:ctx}* 
-          ErrorC is error; *\label{cg:error}*
+*\lstnote{cg:ctx}* contexts Reachable, Unreachable is default,
+*\lstnote{cg:error}*          ErrorC is error;
  // Standard nesC component wirings...
 }
 \end{lstlisting}
@@ -67,13 +67,13 @@ environment-dependent implementations of layered functions.
 
 Figure~\ref{fig:configuration} depicts a snippet of \conesc code to
 implement the ``Base Station'' group in Figure~\ref{fig:design}. In
-this example, the \code{report()} function (line~\ref{cg:layered})
+this example, the \code{report()} function (line~\lstref{cg:layered})
 changes behavior depending on whether the base-station is
 \code{Reachable} or \code{Unreachable}. The latter are the contexts
 included in this group, specified after the keyword \code{contexts}
-(line~\ref{cg:ctx}) with optional modifiers to specify the active
-context at start-up (\code{is default} in line~\ref{cg:ctx}) and an
-error context (\code{is error} in line~\ref{cg:error}). The error
+(line~\lstref{cg:ctx}) with optional modifiers to specify the active
+context at start-up (\code{is default} in line~\lstref{cg:ctx}) and an
+error context (\code{is error} in line~\lstref{cg:error}). The error
 context is automatically activated should there be violations to
 constraints defined over context transitions, e.g., the fact that
 ``Running'' must be active when transitioning from
@@ -82,12 +82,12 @@ constraints defined over context transitions, e.g., the fact that
 \begin{figure}[!tb]
 \begin{lstlisting}[style=conescframe]
 context Unreachable {
- transitions Reachable iff ActivityG.Running; *\label{ct:tr}*
+*\lstnote{ct:tr}* transitions Reachable iff ActivityG.Running;
  uses interface DataStore;
 } implementation {
- event void activate(){ //...} *\label{ct:activate}*
- event void deactivate(){ //...} *\label{ct:deactivate}*
- layered command void report(contact_t contact){ *\label{ct:layer}*
+*\lstnote{ct:activate}* event void activate(){ //...}
+*\lstnote{ct:deactivate}* event void deactivate(){ //...}
+*\lstnote{ct:layer}* layered command void report(contact_t contact){
   call DataStore.deposit(contact);
  }
 }
@@ -100,14 +100,14 @@ context Unreachable {
 
 Figure~\ref{fig:context} shows the \conesc specification of the
 ``Unreachable'' context. The keyword \code{transitions}
-(line~\ref{ct:tr}) specifies the allowed outgoing transitions,
+(line~\lstref{ct:tr}) specifies the allowed outgoing transitions,
 possibly with associated constraints expressed with the \code{iff}
 keyword. The specific implementation of the layered function is
 indicated with the \code{layered} keyword
-(line~\ref{ct:layer}). Command and event implementations are as in
+(line~\lstref{ct:layer}). Command and event implementations are as in
 standard nesC. Particularly, the predefined events \code{activate()}
-(line~\ref{ct:activate}) and \code{deactivate()}
-(line~\ref{ct:deactivate}) are automatically signalled when entering
+(line~\lstref{ct:activate}) and \code{deactivate()}
+(line~\lstref{ct:deactivate}) are automatically signalled when entering
 and existing the context, allowing the implementation of one-time
 operations and the start/stop of continuous activities in a context.
 
