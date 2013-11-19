@@ -1,73 +1,124 @@
 \section{Current Work and Preliminary Evaluation}
 \label{sec:eval}
-\lm{High choesion, but components not enough...}
 
 We implemented a translator from \conesc to pure nesC that allows us
-to rely on the optimized nesC tool-chain to obtain running
-implementations. As for tool support, we are also investigating ways
+to rely on the nesC tool-chain to obtain running
+implementations. We are also investigating ways
 to automatically generate \conesc skeletons based on graphical
 representations of contexts and context groups similar to
-Figure~\ref{fig:design}. We are also planning to use the same notation
-as input to perform domain-specific static verification, e.g., using
+Figure~\ref{fig:design}. Further, we plan to use the same notation
+as input to perform static verification, e.g., using domain-specific
 model-checking techniques~\cite{mottolaicse}.
 
 Using the translator, we compare an implementation of the wildlife
-monitoring application using our approach against a
-functionally-equivalent implementation that would arguably result from
-current practice~\cite{programmingsurvey,badgersEWSN}. First, we study
-the logical structuring and simplicity of the implementations, which
-determine to a great extent the ease of debugging and
-maintenance. Next, we study to what extent either approach lends
-itself to evolving the software against initially unforeseen
-requirements. Finally, we assess the system overhead that our approach
-introduces over the current practice, which represents the price to
-pay to obtain the advantages it brings.
+monitoring application against a functionally-equivalent nesC
+implementation that would arguably result from current
+practice~\cite{programmingsurvey,badgersEWSN}. Our comparison
+addresses three key dimensions, as described next.
+
+% First, we
+% study the logical structuring and simplicity of the implementations,
+% which determine to a great extent the ease of debugging and
+% maintenance. Next, we study to what extent either approach lends
+% itself to evolving the software against initially unforeseen
+% requirements. Finally, we assess the system overhead our approach
+% introduces over the current practice.
+
+\begin{figure}[!tb]
+\renewcommand{\arraystretch}{1.1}
+\scriptsize
+\centering
+\begin{tabular}{|l|l|l|l|l|l|l|l|}
+\hline
+\bfseries Implementation & \rotatebox{90}{\bfseries Content} & \rotatebox{90}{\bfseries Common} 
+& \rotatebox{90}{\bfseries External} & \rotatebox{90}{\bfseries Control}
+& \rotatebox{90}{\bfseries Stamp} & \rotatebox{90}{\bfseries Data}
+& \rotatebox{90}{\bfseries Message}\\
+\hline
+nesC-based &
+yes&yes&yes&yes&--&yes&--\\
+\hline
+ConesC-based &
+--&--&yes&--&--&yes&--\\
+\hline
+\end{tabular}
+\caption{Coupling comparison.}
+\vspace{-5mm}
+\label{fig:coupres}
+\end{figure}
 
 % \hrule
 % \noindent Three key aspects:
 % \begin{itemize}
 % \item qualitatively compare ConesC and nesC implementations along
 %   coupling, dependencies, programmer-visible program states, ...
+\fakepar{1.\ Coupling and cohesion} Our analysis reveals the \conesc
+implementation is more decoupled than its nesC counterpart, as
+shown in Figure~\ref{fig:coupres}. Based on current practice, the
+adaptation functionality would be implemented as a monolithic nesC
+component, using global state variables to dispatch function calls
+depending on the current situation. With our approach, most types of
+coupling among components are removed, as context transitions
+implicitly cater for the needed dispatching of function
+calls. Consequently, programmers are relieved from explicitly managing
+global state transitions, which facilitates maintenance and testing.
 
-Our analysis shows that ConesC implementation is much more decoupled as
-compared to its nesC counterpart. Since each context represents a situation
-the system may find itself in, they are isolated into modules and do not rely
-on the internal work of each other or share any global state, which reduces
-programmer-visible states. Contrary, in nesC implementation, each situation
-is represented by a global state, which should have been taken into account
-in every module.
+Nevertheless, the individual \conesc components also appear more
+cohesive and simpler: on average, using our approach, a component is
+almost half the lines of code than using plain nesC and defines half
+the number of global variables as in nesC. We further observe a 75\%
+reduction in the number of commands/events declared in \conesc
+components compared to a plain nesC implementation.
+
+% Our analysis shows that ConesC implementation is much more decoupled as
+% compared to its nesC counterpart. Since each context represents a situation
+% the system may find itself in, they are isolated into modules and do not rely
+% on the internal work of each other or share any global state, which reduces
+% programmer-visible states. Contrary, in nesC implementation, each situation
+% is represented by a global state, which should have been taken into account
+% in every module.
 
 % \item demonstrates that changing the application (for example, adding
 %   a new context) is easier in ConesC than nesC;
 
-Changing the application -- adding a new context, for example -- is easier in
-ConesC than in nesC. Let us consider, developers want to track a spread of a
-disease. To this end, they modify the application, as shown in Fig.~\ref{fig:mwtd},
-\ma{I'm not sure we have enough room for this}
-by adding a new context~\emph{Carrier} to mark an animal that have been in
-contact with diseased one, but shows no increase in temperature yet. In
-ConesC-written implementation it is necessary to make changes in 5 lines and
-to add a new module -- \emph{Carrier} context -- while the number of
-programmer-visible states remains the same. In nesC counterpart, however,
-developers need to modify 8 lines of code, which also leads to 2 additional
-global states of the program.
+\fakepar{2.\ Evolving the software} CPS software needs to
+evolve in response to unforeseen environment dynamics and changing
+requirements. Say, for example, developers of the wildlife monitoring
+applications need to track the spreading of a disease. To this
+end, they modify the application design by adding a new context
+``Carrier'' to mark an animal who was in contact with a diseased one,
+but shows no increase in body temperature yet. 
 
+Using our approach, this is as simple as changing 5~lines of code in
+the \conesc implementation, besides the functionality needed in the
+new \code{Carrier} context.  Based on current practice, the same
+modification would crucially require adding at least two global
+states.  This adds the burden of explicitly managing their
+transitions and is further detrimental to maintainability and ease
+of debugging.\lm{Can we count how many files one needs to touch in the
+  two cases?}
+
+\fakepar{3.\ System overhead} The advantages above come at the price
+of a negligible system overhead. On the widespread TMote sky sensor
+node~\cite{}, calls to layered functions in our example application
+add only 3 MCU cycles over standard function calls, whereas context
+transitions involve at most 20 MCU cycles. To put these figures in
+prospective, turning an LED on takes 8 MCU cycles. The energy consumed
+by the additional MCU cycles is hence immaterial. As for memory
+consumption, we measure a mere 3\% increase in both RAM and program
+memory.
 
 % \item shows a few figures on run-time overhead to demonstrate the
 %   approach is feasible.
-% \end{itemize}
+% % \end{itemize}
 
-ConeC approach in our scenario shows a CPU-overhead up to 3 cycles for calls of
-a layered function and up to 20 CPU-cycles for context transitions, depending on
-the number of contexts in a context group, where the function and contexts are
-declared. These numbers are negligible in terms of energy consumption, since the
-simplest operation, like enabling/disabling LED, uses 8 CPU-cycles.
+% ConeC approach in our scenario shows a CPU-overhead up to 3 cycles for calls of
+% a layered function and up to 20 CPU-cycles for context transitions, depending on
+% the number of contexts in a context group, where the function and contexts are
+% declared. These numbers are negligible in terms of energy consumption, since the
+% simplest operation, like enabling/disabling LED, uses 8 CPU-cycles.
 
-\hrule
-The results we present hereafter are based on a TMote
-Sky~\cite{} platform, a wireless sensor node featuring a TI MSP430 MCU
-with 8KBytes of RAM and a low-power CC2420 radio.
-\hrule
+
 
 %%% Local Variables: 
 %%% mode: latex
