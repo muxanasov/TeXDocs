@@ -1,9 +1,9 @@
-\documentclass[10pt, conference, compsocconf]{IEEEtran}
+\documentclass{sig-alternate}
 
 \usepackage{xspace}
-\usepackage[pdftex]{graphicx}
-\DeclareGraphicsExtensions{.pdf,.jpeg,.png}
-\usepackage{url}
+\usepackage{graphicx}
+% \DeclareGraphicsExtensions{.pdf,.jpeg,.png}
+% \usepackage{url}
 \usepackage[procnames]{listings}
 \usepackage{paralist}
 \usepackage{listings}
@@ -82,19 +82,41 @@
 % use a multiple column layout for up to two different
 % affiliations
 
-\author{}
+\numberofauthors{3} 
+\author{
+% You can go ahead and credit any number of authors here,
+% e.g. one 'row of three' or two rows (consisting of one row of three
+% and a second row of one, two or three).
+%
+% The command \alignauthor (no curly braces needed) should
+% precede each author name, affiliation/snail-mail address and
+% e-mail address. Additionally, tag each line of
+% affiliation/address with \affaddr, and tag the
+% e-mail address with \email.
+%
+% 1st. author
+\alignauthor
+Mikhail Afanasov \\
+       \affaddr{Politecnico di Milano, Italy}\\
+       \email{afanasov@elet.polimi.it}
+% 2nd. author
+\alignauthor
+Luca Mottola \\
+       \affaddr{Politecnico di Milano, Italy and SICS Swedish ICT}\\
+       \email{luca.mottola@polimi.it}
+% 3rd. author
+\alignauthor 
+Carlo Ghezzi\\
+       \affaddr{Politecnico di Milano, Italy}\\
+       \email{carlo.ghezzi@polimi.it}
+}
 
-% \author{\IEEEauthorblockN{Authors Name/s per 1st Affiliation (Author)}
-% \IEEEauthorblockA{line 1 (of Affiliation): dept. name of organization\\
-% line 2: name of organization, acronyms acceptable\\
-% line 3: City, Country\\
-% line 4: Email: name@xyz.com}
-% \and
-% \IEEEauthorblockN{Authors Name/s per 2nd Affiliation (Author)}
-% \IEEEauthorblockA{line 1 (of Affiliation): dept. name of organization\\
-% line 2: name of organization, acronyms acceptable\\
-% line 3: City, Country\\
-% line 4: Email: name@xyz.com}
+% \author{ 
+% \alignauthor 
+% %
+% M.~Afanasov$*$, L. Mottola$*\dagger$ and C.~Ghezzi$*$\\
+% %
+% \affaddr{$*$Politecnico di Milano (Italy), $\dagger$SICS Swedish ICT} \\
 % }
 
 % make the title area
@@ -117,10 +139,10 @@ Summary of results and advantages. This is the end, pointers to ongoing and futu
 \hrule
 
 
-{\small
-\bibliographystyle{IEEEtran}      % 
+% {\small
+\bibliographystyle{plain}      % 
 \bibliography{bibl}   % name your BibTeX data base
-}
+% }
 
 \end{document}
 
