@@ -51,7 +51,7 @@ of sending them over the radio.
 
 The specific software adaptation is encapsulated in the individual
 contexts. In the latter, it is useful to distinguish \emph{one-time
-  operations} executed at the time of entering or existing a context,
+operations} executed at the time of entering or existing a context,
 from \emph{continuous activities} that occur as long as a context is
 active. For example, whenever entering ``Reachable'', the software
 dumps onto the base-station the contact logs locally accumulated while
@@ -62,17 +62,15 @@ unreachable'' persists, as shown in Figure~\ref{fig:design}.
 Required adaptation functionality may span multiple context groups. To
 this end, developers can bind context activations across groups and/or
 make context transitions subject to the activation of other
-contexts. An example of the former is in ``Nest Activity'': when entering --
-the coordinates of the nest are static and well known -- ``Base-station
-Reachable'' shall also consequently activate, as the latter is usually deployed
-near the nest. An example of conditioned context transitions is when activating
-``Base-station reachable''. Besides receiving a beacon from the
-base-station, which implies radio connectivity, the adaptation process
-must check that ``Nest'' in the ``Animal activity'' group is
-currently active. Indeed, gaining radio connectivity to the
-base-station entails the animal is close to its nest. Should that not be the
-case, developers might have not correctly captured how contexts
-evolve, potentially indicating a design error.
+contexts. An example of the former is in ``Base-station Reachable'': when
+entering, ``Not Moving'' shall also consequently activate, as the base station
+is static. An example of conditioned context transitions is when activating
+``Health conditions Diseased''. Besides abnormal conditions, which reveals the
+disease, the adaptation process must check that either ``Resting'' or ``Not
+moving'' in the ``Animal activity'' group is currently active. Indeed, if an
+animal is diseased, it probably does not very active. Should that not be the
+case, developers might have not correctly captured how contexts evolve,
+potentially indicating a design error.
 
 The concepts we define provide design-time support to reason on the
 different situations the software must adapt to, and to identify common
