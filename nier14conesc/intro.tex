@@ -3,75 +3,72 @@
 Cyberphysical systems (CPSs) place a computing and communication core
 in the environment to gather data from, and possibly take actions on
 the real world. Because of the intimate interactions between the
-``world'' and the ``machine''~\cite{jackson}, CPS software is
-eminently required to be self-adaptive against the many and
+``world'' and the ``machine''~\cite{Jackson:1995:WM:225014.225041},
+CPS software is eminently required to self-adapt against the many and
 unpredictable environment dynamics. This is difficult to achieve in
-general~\cite{}, and even more so when developers are to battle
-against the resource limitations inherent in many existing CPS
+general~\cite{cheng:adaptive}, and even more so when developers are to
+battle against the resource limitations inherent in many existing CPS
 platforms.
 
 \fakepar{Example} Consider a wireless sensor network application for
-wildlife monitoring~\cite{badgers}. Sensor nodes are embedded in
-collars attached to animals to study their social interactions. The
-nodes are equipped with sensors to track an animal's movement,
-including GPS and accelerometer, and to detect its health conditions,
-e.g., based on body temperature and heart rate. A low-power
-short-range radio allows the nodes to discover each other based on
-periodic radio beaconing. A node logs the radio contacts to infer the
-animal's encounters. The radio is also used to off-load the contact
-traces when in reach of a base-station. Otherwise, a cellular radio is
-available to send the collected data to zoologists. Crucially, the
-nodes run on batteries, and energy represents a precious resource that
-developers may need to trade for other system's functionality
-depending on the specific situation.
+wildlife monitoring~\cite{pasztor10:selective}.  Sensor nodes are
+embedded in collars attached to animals,e.g., badgers, to study their
+social interactions. The nodes are equipped with sensors to track an
+animal's movement, e.g., using GPS, and to detect its health
+conditions, e.g., based on body temperature.  A low-power short-range
+radio allows the nodes to discover each other based on periodic radio
+beaconing.  A node logs the radio contacts to track an animal's
+encounters with other animals. The radio is also used to off-load the
+contact traces when in reach of a base-station. 
 
-For example, sensor sampling consumes non-negligible amounts of
+The nodes run on batteries, making energy a precious resource that
+developers may trade against the system's functionality, depending on
+the situation. For example, sensor sampling consumes non-negligible
 energy, especially for devices such as the GPS. Depending on the
 desired granularity and on the difference between consecutive GPS
-readings---the latter taken as indication of the movement
-speed---developers may want to tune the GPS sampling
-frequency. Differently, when in reach of a base-station, developers
-may turn the GPS off altogether, as location information can be
-inferred from the (static) base-station. Similarly, the contact traces
-can be sent directly to the base-station when in reach, rather than
-being stored locally otherwise.  When the battery is running low,
-developers may want to turn off all sensors to make the node survive
-at least until the next encounter with a base-station, not to lose the
-collected contact traces.
+readings---the latter taken as indication of the pace of
+movement---developers may tune the GPS sampling frequency
+accordingly. The contact traces can be sent directly to the
+base-station whenever in reach, but they need to be stored locally on
+a node otherwise.  When the battery is running low, developers may
+turn off the GPS sensor to make the node survive until the next
+encounter with a base-station, not to lose the collected contact
+traces.
 
-\fakepar{Challenges and new ideas} Taking into account every possible
-situation in the design of CPS software is a challenge. Multiple
-combined aspects concurrently determine how the software should adapt
-its operation, e.g., battery levels and physical positions in our
-example application. Although the existing literature already
-investigates similar problems at a conceptual level~\cite{}, a
-principled approach at tackling them in the design and implementation
-of CPS software for extremely resource-constrained platforms is
-lacking. As a result, existing implementations are very entangled, and
-thus difficult to debug and to maintain~\cite{programmingsurvey}.
+\fakepar{Challenges and new ideas} Taking into explicit account every
+possible situation in the design of CPS software is a
+challenge. Critically, \emph{multiple combined aspects} concurrently
+determine how the software should adapt its operation, e.g., battery
+levels and physical location in our example application. Although the
+existing literature already investigates similar problems at a
+conceptual level~\cite{cheng:adaptive}, a principled approach at
+tackling them in the design and implementation of CPS software for
+extremely resource-constrained platforms is lacking. As a result,
+existing implementations are very entangled, and thus difficult to
+debug and to maintain~\cite{Picco:2010:SEW:1882362.1882421}.
 
-We address this issue by co-designing context-oriented design concepts
+We address this issue by presenting context-oriented design concepts
 and a corresponding programming model expressly conceived for
 resource-constrained CPS platforms. To this end, we define in
 Section~\ref{sec:design} a dedicated notion of \emph{context} and
 \emph{context group}, useful to conceptually organize the different
-situations the system may find itself in, providing support during the
-design phases. We reflect these notions in a custom \emph{programming
-  model}, described in Section~\ref{sec:conesc}, which exemplifies our
-approach by bringing concepts of context-oriented
-programming~\cite{cop} in traditional sensor network programming
-languages~\cite{nesc}. These are characterized by severe restrictions,
+situations the system may find itself in, and their combinations. This
+provides support during the design phases. We reflect these notions in
+a custom \emph{programming model}, described in
+Section~\ref{sec:conesc}, which brings concepts of context-oriented
+programming~\cite{Hirschfeld08} in traditional low-level CPS programming
+languages~\cite{gay03nesc}. Notably, these are characterized by severe restrictions,
 e.g., the inability to create run-time instances of components.
 
-Section~\ref{sec:eval} illustrates early results suggesting that our
-approach may result in better structured implementations, where
-components are increasingly decoupled and simpler to reason about. We
-further demonstrate that accounting for changing requirements is
-likely easier in our approach. These results, nevertheless, come at a
-limited increase in resource consumption, which does not impact the
-feasibility of our approach on the target platforms. For example, we
-observe a mere 3\% increase in program memory. Energy-wise, the
-overhead is negligible.
+Section~\ref{sec:eval} illustrates early results indicating that our
+approach results in better structured implementations, where
+components are increasingly decoupled and thus simpler to test and to
+maintain. We further demonstrate that accounting for changing
+requirements is likely easier in our approach. These results,
+nevertheless, come at a limited increase in resource consumption,
+which does not impact the feasibility of our approach on the target
+platforms. For example, we observe a mere 3\% increase in program
+memory, whereas the energy overhead is immaterial.
 
 We conclude the paper with a brief account of related efforts in
 Section~\ref{sec:related}, and with directions for future work and
