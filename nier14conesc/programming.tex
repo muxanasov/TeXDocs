@@ -65,16 +65,15 @@ environment-dependent implementations of layered functions.
 
 Figure~\ref{fig:configuration} depicts a snippet of \conesc code to
 implement the ``Base Station'' group in Figure~\ref{fig:design}. In
-this example, the \code{report()} function (line~\lstref{cg:layered})
-changes behavior depending on whether the base-station is
+this example, the \code{report()} function on the line~\lstref{cg:layered}
+changes the behavior depending on whether the base-station is
 \code{Reachable} or \code{Unreachable}. The latter are the contexts
-included in this group, specified after the keyword \code{contexts}
-(line~\lstref{cg:ctx}) with optional modifiers to specify the active
-context at start-up (\code{is default} in line~\lstref{cg:ctx}) and an
-error context (\code{is error} in line~\lstref{cg:error}). The error
-context is automatically activated should there be violations to
-constraints defined over context transitions, e.g., the fact that
-``Running'' must be active when transitioning from
+included in this group, specified on the line~\lstref{cg:ctx} after the keyword
+\code{contexts} with optional modifiers: \code{is default} to specify the active
+context at start-up and \code{is error} to specify an error context on the
+line~\lstref{cg:error}. The error context is automatically activated should
+there be violations to constraints defined over context transitions, e.g., the
+fact that ``Running'' must be active when transitioning from
 ``Unreachable'' to ``Reachable'', as shown in Figure~\ref{fig:design}.
 
 \begin{figure}[!tb]
@@ -96,16 +95,16 @@ context Unreachable {
 
 Figure~\ref{fig:context} shows the \conesc specification of the
 ``Unreachable'' context. The keyword \code{transitions}
-(line~\lstref{ct:tr}) specifies the allowed outgoing transitions,
+on the line~\lstref{ct:tr} specifies the allowed outgoing transitions,
 possibly with associated constraints expressed with the \code{iff}
 keyword. The specific implementation of the layered function is
-indicated with the \code{layered} keyword
-(line~\lstref{ct:layer}). Command and event implementations are as in
+indicated on the line~\lstref{ct:layer} with the \code{layered} keyword.
+Command and event implementations are as in
 standard nesC. Particularly, the predefined events \code{activate()}
-(line~\lstref{ct:activate}) and \code{deactivate()}
-(line~\lstref{ct:deactivate}) are automatically signalled when entering
-and existing the context, allowing the implementation of one-time
-operations and the start/stop of continuous activities in a context.
+and \code{deactivate()}, displayed on lines~\lstref{ct:activate}
+and~\lstref{ct:deactivate}, are automatically signalled when entering and
+existing the context, allowing the implementation of one-time operations and the
+start/stop of continuous activities in a context.
 
 Explicit context activation may happen anywhere in the code, using the
 \code{activate} keyword, as in
