@@ -74,12 +74,6 @@ during the execution. If an~\emph{error} context is not declared, it will be gen
 We discuss the use of this context in section~\ref{subsec:rules}.
 
 \input{cc_snippet}
-\begin{figure}[!h]
-\TheSbox
-\caption{Context configuration
-component.}
-\label{fig:ccc}
-\end{figure}
 
 Figures~\ref{fig:cc} and~\ref{fig:irc} displays a~\emph{Context} component, main
 purpose of which is an implementation of layered function declared in context configuration. 
@@ -99,11 +93,6 @@ lines~\lstref{activated} and~\lstref{deactivated} in Fig.~\ref{fig:cc}. The impl
 these events, however, is not obligatory.
 
 \input{c_snippet}
-\begin{figure}[!h]
-\TheSbox
-\caption{Context component.}
-\label{fig:cc}
-\end{figure}
 
 \subsection{Usage}
 
@@ -119,11 +108,6 @@ configuration, where the base station group is declared on the line~\lstref{decl
 as a standard component afterwards on the line~\lstref{wiring}.
 
 \input{mc_snippet}
-\begin{figure}[!h]
-\TheSbox
-\caption{Main configuration.}
-\label{fig:mc}
-\end{figure}
 
 In the main module, which is displayed in Fig.~\ref{fig:mm}, it is necessary to declare
 explicitly that the context group \emph{BaseStationG} is used, as shown on the line~\lstref{cgdecl}.
@@ -140,18 +124,8 @@ beacon from the base station is received. But should timeout occur, context
 \emph{OutRange} is activated on the line~\lstref{actNoBS}.
 
 \input{mm_snippet}
-\begin{figure}[!h]
-\TheSbox
-\caption{Main module.}
-\label{fig:mm}
-\end{figure}
 
 \input{bscm_snippet}
-\begin{figure}[!h]
-\TheSbox
-\caption{Base station context manager.}
-\label{fig:bscm}
-\end{figure}
 
 Every time the context changed, an event~\emph{contextChanged()} is fired. This event can be
 caught and handled, as it is shown on the line~\lstref{eventCC} in Fig.~\ref{fig:mm},
@@ -187,11 +161,6 @@ a transition to the context, which is not declared in a given active context, le
 activation, since this kind of transitions is not possible.
 
 \input{nmc_snippet}
-\begin{figure}[!h]
-\TheSbox
-\caption{NotMoving context.}
-\label{fig:nmc}
-\end{figure}
 
 Despite the application's  functionality is split into isolated pieces by~\emph{context groups},
 there may exist relations among them. For example, within the 
@@ -220,11 +189,6 @@ This approach allows one not to think about conditions a transition taking
 place in, but foresee possible inconsistencies.
 
 \input{irc_snippet}
-\begin{figure}[!h]
-\TheSbox
-\caption{InRange context.}
-\label{fig:irc}
-\end{figure}
 
 Other types of inter-group relations imply automatic triggering of context
 transition. Considering \emph{Battery} group in our example, we can notice that
@@ -235,8 +199,3 @@ for further energy saving developers may want to trigger a transition to
 The same checks apply to automatic transitions.
 
 \input{lc_snippet}
-\begin{figure}[!h]
-\TheSbox
-\caption{Low context.}
-\label{fig:lc}
-\end{figure}

@@ -1,16 +1,18 @@
-\begin{Sbox}
-\begin{minipage}{\columnwidth}
-\begin{csource}
-(*@\textbf{module}@*) BaseStationContextManager {
-  (*@\lstnote{cgdecl}@*)uses (*@\textbf{context group}@*) BaseStationG;
+\begin{figure}[!tb]
+\begin{lstlisting}[style=conescframe]
+module BaseStationContextManager {
+*\lstnote{cgdecl}*  uses context group BaseStationG;
    //...
 }implementation {
    //...
    event msg_t Radio.receive(msg_t msg) {
-  (*@\lstnote{actBS}@*) (*@\textbf{activate}@*) BaseStationG.InRange;
+*\lstnote{actBS}*    activate BaseStationG.InRange;
     call BSReset.startOneShot(INTERVAL);}
    event void BSReset.fired() {
-  (*@\lstnote{actNoBS}@*) (*@\textbf{activate}@*) BaseStationG.OutRange;}
-\end{csource}
-\end{minipage}
-\end{Sbox}
+*\lstnote{actNoBS}*    activate BaseStationG.OutRange;}
+\end{lstlisting}
+\vspace{-4mm}
+\caption{Base station context manager.}
+  \label{fig:bscm}
+\vspace{-2mm}
+\end{figure}

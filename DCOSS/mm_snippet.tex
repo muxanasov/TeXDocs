@@ -1,16 +1,18 @@
-\begin{Sbox}
-\begin{minipage}{\columnwidth}
-\begin{csource}
-(*@\textbf{module}@*) Application {
-  (*@\lstnote{cgdecl}@*)uses (*@\textbf{context group}@*) BaseStationG;
+\begin{figure}[!tb]
+\begin{lstlisting}[style=conescframe]
+module Application {
+*\lstnote{cgdecl}*  uses context group BaseStationG;
    //...
 }implementation {
    //...
    event void Timer.fired() {
-  (*@\lstnote{calling}@*) call BaseStationG.report(msg);}
-  (*@\lstnote{eventCC}@*)event void BaseStationG.contextChanged(context_t con) {
-  (*@\lstnote{concheck}@*) if(con == BaseStationG.InRange)
+*\lstnote{calling}* call BaseStationG.report(msg);}
+*\lstnote{eventCC}* event void BaseStationG.contextChanged(context_t con) {
+*\lstnote{concheck}* if(con == BaseStationG.InRange)
       dbg("Debug", "Base station is within the range!");}}
-\end{csource}
-\end{minipage}
-\end{Sbox}
+\end{lstlisting}
+\vspace{-4mm}
+\caption{Main module.}
+  \label{fig:mm}
+\vspace{-2mm}
+\end{figure}

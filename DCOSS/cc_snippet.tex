@@ -1,16 +1,18 @@
-\begin{Sbox}
-\begin{minipage}{\columnwidth}
-\begin{csource}
-(*@\textbf{context configuration}@*) BaseStationG {
- (*@\lstnote{layereddef}\textbf{layered}@*) command void report(msg_t msg);
+\begin{figure}[!tb]
+\begin{lstlisting}[style=conescframe]
+context group BaseStationG {
+*\lstnote{layereddef}*  layered command void report(msg_t msg);
 }implementation {
- (*@\lstnote{contexts}\textbf{contexts}@*) InRange,
- (*@\lstnote{isdefault}@*) OutRange (*@\textbf{is default}@*),
- (*@\lstnote{iserror}@*) Error (*@\textbf{is error}@*);
+*\lstnote{contexts}*  contexts InRange,
+*\lstnote{isdefault}*    OutRange is default,
+*\lstnote{iserror}*    ErrorC is error;
  components Routing, Logging, LedsC;
  InRange.Collection -> Routing;
  OutRange.DataStore -> Logging;
  Error.Leds -> LedsC;}
-\end{csource}
-\end{minipage}
-\end{Sbox}
+\end{lstlisting}
+\vspace{-4mm}
+\caption{Context configuration component.}
+  \label{fig:ccc}
+\vspace{-2mm}
+\end{figure}
