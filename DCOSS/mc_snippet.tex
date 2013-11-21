@@ -1,11 +1,13 @@
-\begin{Sbox}
-\begin{minipage}{\columnwidth}
-\begin{csource}
-(*@\textbf{configuration}@*) ApplicationC {
+\begin{figure}[!tb]
+\begin{lstlisting}[style=conescframe]
+configuration ApplicationC {
 }implementation {
-  (*@\lstnote{declaration}\textbf{components}@*) BaseStationG, Application;
+*\lstnote{declaration}*  components BaseStationG, Application;
    //...
-  (*@\lstnote{wiring}@*)Application.BaseStationG -> BaseStationG;}
-\end{csource}
-\end{minipage}
-\end{Sbox}
+*\lstnote{wiring}*    Application.BaseStationG -> BaseStationG;}
+\end{lstlisting}
+\vspace{-4mm}
+\caption{Main configuration.}
+  \label{fig:mc}
+\vspace{-2mm}
+\end{figure}
