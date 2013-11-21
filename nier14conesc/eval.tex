@@ -52,18 +52,18 @@ ConesC-based &
 % \begin{itemize}
 % \item qualitatively compare ConesC and nesC implementations along
 %   coupling, dependencies, programmer-visible program states, ...
-\fakepar{1.\ Coupling and cohesion} Our analysis reveals the \conesc
-implementation is more decoupled than its nesC counterpart, as
-shown in Figure~\ref{fig:coupres}. Based on current practice, the
-adaptation functionality would be implemented as a monolithic nesC
-component, using global state variables to dispatch function calls
-depending on the current situation. With our approach, most types of
-coupling among components are removed, as context transitions
-implicitly cater for the needed dispatching of function
+\fakepar{1.\ Coupling and cohesion} Our analysis reveals that the
+\conesc implementation is significanlty more decoupled than its nesC
+counterpart, as shown in Figure~\ref{fig:coupres}. Based on current
+practice, the adaptation functionality would be implemented as a
+monolithic nesC component, using global state variables to dispatch
+function calls depending on the current situation. With our approach,
+most types of coupling among components are removed, as context
+transitions implicitly cater for the needed dispatching of function
 calls. Consequently, programmers are relieved from explicitly managing
 global state transitions, which facilitates maintenance and testing.
 
-Nevertheless, the individual \conesc components also appear more
+The individual \conesc components also appear more
 cohesive and simpler: on average, using our approach, a component is
 almost half the lines of code than using plain nesC and defines half
 the number of global variables as in nesC. We further observe a 75\%
@@ -95,18 +95,20 @@ new \code{Carrier} context.  Based on current practice, the same
 modification would crucially require adding at least two global
 states.  This adds the burden of explicitly managing their
 transitions and is further detrimental to maintainability and ease
-of debugging.\lm{Can we count how many files one needs to touch in the
-  two cases?}
+of debugging.
 
 \fakepar{3.\ System overhead} The advantages above come at the price
-of a negligible system overhead. On the widespread TMote sky sensor
+of a negligible system overhead. On the widespread TMote Sky sensor
 node~\cite{}, calls to layered functions in our example application
-add only 3 MCU cycles over standard function calls, whereas context
-transitions involve at most 20 MCU cycles. To put these figures in
-prospective, turning an LED on takes 8 MCU cycles. The energy consumed
-by the additional MCU cycles is hence immaterial. As for memory
-consumption, we measure a mere 3\% increase in both RAM and program
-memory.
+add only 3 CPU cycles over standard function calls, whereas context
+transitions involve at most 20 CPU cycles. To put these figures in
+prospective, turning an LED on takes 8 CPU cycles on a TMote Sky
+node. The energy consumed by the additional CPU cycles is hence
+immaterial. As for memory consumption, we measure a mere 3\% increase
+in both RAM and program memory. These figures demonstrate that the
+price to pay for obtaining signicant advanatges in the quality of the
+resulting implementations is very modest, and hence our approach is
+ultiamtely feasible even on extremely resource-cosntrained platforms.
 
 % \item shows a few figures on run-time overhead to demonstrate the
 %   approach is feasible.
