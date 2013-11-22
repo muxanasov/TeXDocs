@@ -69,7 +69,7 @@ context-dependent implementations of layered functions.
 Figure~\ref{fig:configuration} depicts a snippet of \conesc code to
 implement the ``Base Station'' group in Figure~\ref{fig:design}. In
 this example, the \code{report()} command on
-line~\lstref{cg:layered}---used to report a context with another animal
+line~\lstref{cg:layered}---used to report a contact with another animal
 to the end-use---changes the behavior depending on whether the
 base-station is \code{Reachable} or \code{Unreachable}. The latter are
 the contexts included in this group, specified on line~\lstref{cg:ctx}
@@ -110,7 +110,7 @@ specified in Figure~\ref{fig:design}. The specific implementation of
 the layered function is indicated on line~\lstref{ct:layer} with the
 \code{layered} keyword.  The implementation of other commands or
 events is as in standard nesC. Particularly, the predefined events
-\code{activate()} and \code{deactivate()}, shown on
+\code{activated()} and \code{deactivated()}, shown on
 lines~\lstref{ct:activate} and~\lstref{ct:deactivate}, are
 automatically signalled when entering and existing the context,
 allowing the implementation of one-time operations and the
