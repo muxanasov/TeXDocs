@@ -63,7 +63,7 @@ the software must log the contacts locally as long as the
 The required adaptation functionality may span multiple context
 groups. To this end, developers can bind context activations across
 groups. An example is in the ``Reachable'' context within the
-``Base-station'' group: on entering, context ``Not Moving'' should
+``Base-station'' group: on entering, context ``NotMoving'' should
 also consequently activate. As base-stations are typically deployed at
 known locations, and yet their radio range is very limited, continuing
 to sample the GPS sensor is likely a waste of energy, as a node's
@@ -76,7 +76,7 @@ of other contexts, which is useful to check for design errors at
 run-time. An example is when activating the ``Diseased'' context in
 the ``Health conditions'' group. Besides an abnormal body temperature
 that may reveal a disease, the adaptation process must check that
-either ``Resting'' or ``Not Moving'' in the ``Animal activity'' group
+either ``Resting'' or ``NotMoving'' in the ``Animal activity'' group
 is currently active. Indeed, if an animal is diseased, it is probably
 not very active. Should that not be the case, developers might have
 not correctly captured how contexts evolve, potentially indicating a
