@@ -1,14 +1,13 @@
 \section{Programming Support}
 \label{sec:conesc}
 
-We render the design concepts above in a set of programming constructs
-feasible within existing programming environments for
-resource-constrained CPS platforms~\cite{mottola10:survey}. In doing
-so, we borrow from context-oriented programming
-(COP)~\cite{Hirschfeld08}. We exemplify our approach based on
+We render the design concepts above in a set of context-oriented
+programming (COP)~\cite{Hirschfeld08} constructs feasible within
+existing programming environments for resource-constrained CPS
+platforms~\cite{mottola10:survey}.  We exemplify our approach based on
 nesC~\cite{gay03nesc}, a mainstream sensor network programming
 language. However, our approach is not tied to it, and may be readily
-translated to other programming systems~\cite{mottola10:survey}.
+translated to other similar programming systems~\cite{mottola10:survey}.
 
 \fakepar{Target language} nesC is an event-driven programming language
 for sensor networks, derived from C. Applications are built by
@@ -69,17 +68,19 @@ context-dependent implementations of layered functions.
 
 Figure~\ref{fig:configuration} depicts a snippet of \conesc code to
 implement the ``Base Station'' group in Figure~\ref{fig:design}. In
-this example, the \code{report()} function on line~\lstref{cg:layered}
-changes the behavior depending on whether the base-station is
-\code{Reachable} or \code{Unreachable}. The latter are the contexts
-included in this group, specified on line~\lstref{cg:ctx} after the
-keyword \code{contexts} with optional modifiers: \code{is default}
-(line~\lstref{cg:def}) specifies the active context at start-up, and
-\code{is error} (line~\lstref{cg:error}) indicates an error
-context. The latter is automatically activated should there be
+this example, the \code{report()} command on
+line~\lstref{cg:layered}---used to report a context with another animal
+to the end-use---changes the behavior depending on whether the
+base-station is \code{Reachable} or \code{Unreachable}. The latter are
+the contexts included in this group, specified on line~\lstref{cg:ctx}
+after the keyword \code{contexts} with optional modifiers: \code{is
+  default} (line~\lstref{cg:def}) specifies the active context at
+start-up, and \code{is error} (line~\lstref{cg:error}) indicates an
+error context. The latter is automatically activated should there be
 violations to constraints defined over context transitions, e.g., the
-fact that ``Resting'' or ``Not Moving'' must be active when transitioning from
-``Healthy'' to ``Diseased'', as shown in Figure~\ref{fig:design}.
+fact that ``Resting'' or ``Not Moving'' must be active when
+transitioning from ``Healthy'' to ``Diseased'', as shown in
+Figure~\ref{fig:design}.
 
 \begin{figure}[!tb]
 \begin{lstlisting}[style=conescframe]
@@ -101,7 +102,7 @@ context Reachable {
 
 Figure~\ref{fig:context} shows the \conesc specification of the
 ``Reachable'' context. The keyword \code{transitions} on
-line~\lstref{ct:tr} specifies the allowed outgoing transitions, wheras
+line~\lstref{ct:tr} specifies the allowed outgoing transitions, whereas
 the keyword \code{triggers} on line~\lstref{ct:trigger} is available
 to bind context activations across groups. In this case, entering the
 ``Unreachable'' context consequently activates ``NotMoving'', as
@@ -112,8 +113,8 @@ events is as in standard nesC. Particularly, the predefined events
 \code{activate()} and \code{deactivate()}, shown on
 lines~\lstref{ct:activate} and~\lstref{ct:deactivate}, are
 automatically signalled when entering and existing the context,
-allowing the implementation of one-time operations and the start/stop
-of continuous activities in a context.
+allowing the implementation of one-time operations and the
+starting/stopping of continuous activities in a context.
 
 The contexts indicated after the \code{transitions} keyword inside
 individual contexts are possibly followed by the \code{iff} keyword to
@@ -131,11 +132,11 @@ Explicit context activation may happen anywhere in the code, using the
 \begin{lstlisting}[language=conesc]
 activate BaseStationG.Unreachable;
 \end{lstlisting}
-Notably, this allows to completely decouple the context-dependent
+This allows to completely decouple the context-dependent
 application logic---confined within the layered functions inside the
 individual contexts---from the adaptation logic itself, which may be
 specified in a separate component. This allows to separate orthogonal
-concerns and hence to ease the testing, maitenance, and evolution of
+concerns and hence to ease the testing, maintenance, and evolution of
 the software, as we discuss next.
 
 %%% Local Variables: 
