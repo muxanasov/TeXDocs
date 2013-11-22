@@ -52,16 +52,16 @@ ConesC-based &
 % \item qualitatively compare ConesC and nesC implementations along
 %   coupling, dependencies, programmer-visible program states, ...
 \fakepar{1.\ Coupling and cohesion} Our analysis reveals that the
-\conesc implementation is significanlty more decoupled than its nesC
-counterpart, as shown in Figure~\ref{fig:coupres}. Based on current
-practice, the adaptation functionality would be implemented as a
-monolithic nesC component, using global state variables to dispatch
-function calls depending on the current situation. With our approach,
-most types of coupling among components are removed, as context
-transitions implicitly cater for the appropriate dispatching of
-function calls. Consequently, programmers are relieved from explicitly
-managing global state transitions, which facilitates maintenance and
-testing.
+\conesc implementation is significantly more decoupled than its nesC
+counterpart, as qualitatively indicated in
+Figure~\ref{fig:coupres}. Based on current practice, the adaptation
+functionality would be implemented as a monolithic nesC component,
+using global state variables to dispatch function calls depending on
+the current situation. With our approach, most types of coupling among
+components are removed, as context transitions implicitly cater for
+the appropriate dispatching of function calls. Consequently,
+programmers are relieved from explicitly managing global state
+transitions, which facilitates maintenance and testing.
 
 The individual \conesc components also appear more
 cohesive and simpler: on average, using our approach, a component is
@@ -107,9 +107,9 @@ these figures in prospective, turning an LED on takes 8 CPU cycles on
 a TMote Sky. The energy consumed by the additional CPU cycles is
 hence immaterial. As for memory consumption, we measure a mere 3\%
 increase in both RAM and program memory. These figures demonstrate
-that the price to pay for obtaining signicant advanatges in the
+that the price to pay for obtaining significant advantages in the
 quality of the resulting implementations is modest, and hence our
-approach is ultiamtely feasible even on extremely resource-cosntrained
+approach is ultimately feasible even on extremely resource-constrained
 platforms.
 
 % \item shows a few figures on run-time overhead to demonstrate the

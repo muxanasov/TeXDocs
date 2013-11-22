@@ -2,9 +2,9 @@
 \label{sec:design}
 
 Our approach to support the design of self-adaptive CPS software is
-intentionally fundamental and conceptually simple. However, the lack
-of a principled approach in this domain is currently hampering the
-field at large~\cite{Picco:2010:SEW:1882362.1882421}. % Key in our
+intentionally simple. However, the lack of a principled approach in
+this domain is currently hampering the field at
+large~\cite{Picco:2010:SEW:1882362.1882421}. % Key in our
 % approach is the combination of design-time support and programming
 % model. We illustrate the latter in Section~\ref{sec:conesc}.
 
@@ -51,9 +51,9 @@ accordingly; for example, by locally storing the contact logs instead
 of sending them over the radio.
 
 The specific software adaptation is encapsulated in the individual
-contexts. In the latter, it is useful to distinguish \emph{one-time
+contexts. In the latter, it is useful to distinguish between \emph{one-time
   operations} executed at the time of entering or existing a context,
-from \emph{continuous activities} that occur as long as a context is
+and \emph{continuous activities} that occur as long as a context is
 active. For example, on entering context ``Reachable'', the software
 dumps on the base-station the contact logs locally accumulated while
 the latter was unreachable. Similarly, when in the latter situation,
