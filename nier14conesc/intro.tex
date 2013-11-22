@@ -44,8 +44,8 @@ existing literature already investigates similar
 problems~\cite{cheng:adaptive}, a principled approach at tackling them
 in the design and implementation of CPS software for extremely
 resource-constrained platforms is lacking. As a result, existing
-implementations are very entangled, and thus difficult to debug and to
-maintain~\cite{Picco:2010:SEW:1882362.1882421}.
+implementations are very entangled, and thus difficult to test,
+maintain, and evolve~\cite{Picco:2010:SEW:1882362.1882421}.
 
 We address this issue by presenting context-oriented design concepts
 and a corresponding programming model expressly conceived for
@@ -56,9 +56,11 @@ situations the system may find itself in, and their combinations. This
 provides support during the design phases. We reflect these notions in
 a custom \emph{programming model}, described in
 Section~\ref{sec:conesc}, which brings concepts of context-oriented
-programming~\cite{Hirschfeld08} in traditional low-level CPS programming
-languages~\cite{gay03nesc}. Notably, these are characterized by severe restrictions,
-e.g., the inability to create run-time instances of components.
+programming~\cite{Hirschfeld08} in traditional low-level CPS
+programming languages~\cite{gay03nesc}. Notably, these are
+characterized by severe restrictions, e.g., the inability to create
+run-time instances of components because of the few KBytes of data and
+program memory typically available.
 
 Section~\ref{sec:eval} illustrates early results indicating that our
 approach results in better structured implementations, where
