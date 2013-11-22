@@ -1,4 +1,4 @@
-\section{Current Work and Preliminary Evaluation}
+\section{Current Work and\\ Preliminary Evaluation}
 \label{sec:eval}
 
 We implemented a translator from \conesc to pure nesC that allows us
@@ -59,9 +59,10 @@ practice, the adaptation functionality would be implemented as a
 monolithic nesC component, using global state variables to dispatch
 function calls depending on the current situation. With our approach,
 most types of coupling among components are removed, as context
-transitions implicitly cater for the needed dispatching of function
-calls. Consequently, programmers are relieved from explicitly managing
-global state transitions, which facilitates maintenance and testing.
+transitions implicitly cater for the appropriate dispatching of
+function calls. Consequently, programmers are relieved from explicitly
+managing global state transitions, which facilitates maintenance and
+testing.
 
 The individual \conesc components also appear more
 cohesive and simpler: on average, using our approach, a component is
@@ -81,13 +82,14 @@ components compared to a plain nesC implementation.
 % \item demonstrates that changing the application (for example, adding
 %   a new context) is easier in ConesC than nesC;
 
-\fakepar{2.\ Evolving the software} CPS software needs to
-evolve in response to unforeseen environment dynamics and changing
+\fakepar{2.\ Evolving the software} CPS software needs to evolve in
+response to unforeseen environment dynamics and changing
 requirements. Say, for example, developers of the wildlife monitoring
-applications need to track the spreading of a disease. To this
-end, they modify the application design by adding a new context
-``Carrier'' to mark an animal who was in contact with a diseased one,
-but shows no increase in body temperature yet. 
+applications need to track the spreading of a disease. To this end,
+they modify the application design by adding a new context ``Carrier''
+in the ``Health conditions'' group to mark an animal who was in
+contact with a diseased one, but shows no increase in body temperature
+yet.
 
 Using our approach, this is as simple as changing 5~lines of code in
 the \conesc implementation, besides the functionality needed in the
@@ -95,20 +97,21 @@ new \code{Carrier} context.  Based on current practice, the same
 modification would crucially require adding at least two global
 states.  This adds the burden of explicitly managing their
 transitions and is further detrimental to maintainability and ease
-of debugging.
+of testing.
 
 \fakepar{3.\ System overhead} The advantages above come at the price
 of a negligible system overhead. On the widespread TMote Sky sensor
-node~\cite{}, calls to layered functions in our example application
-add only 3 CPU cycles over standard function calls, whereas context
-transitions involve at most 20 CPU cycles. To put these figures in
-prospective, turning an LED on takes 8 CPU cycles on a TMote Sky
-node. The energy consumed by the additional CPU cycles is hence
-immaterial. As for memory consumption, we measure a mere 3\% increase
-in both RAM and program memory. These figures demonstrate that the
-price to pay for obtaining signicant advanatges in the quality of the
-resulting implementations is very modest, and hence our approach is
-ultiamtely feasible even on extremely resource-cosntrained platforms.
+node~\cite{polastre05telos}, calls to layered functions in our example
+application add only 3 CPU cycles over standard function calls,
+whereas context transitions involve at most 20 CPU cycles. To put
+these figures in prospective, turning an LED on takes 8 CPU cycles on
+a TMote Sky. The energy consumed by the additional CPU cycles is
+hence immaterial. As for memory consumption, we measure a mere 3\%
+increase in both RAM and program memory. These figures demonstrate
+that the price to pay for obtaining signicant advanatges in the
+quality of the resulting implementations is modest, and hence our
+approach is ultiamtely feasible even on extremely resource-cosntrained
+platforms.
 
 % \item shows a few figures on run-time overhead to demonstrate the
 %   approach is feasible.
