@@ -2,11 +2,11 @@
 \label{sec:design}
 
 Our approach to support the design of self-adaptive CPS software is
-intentionally fundamental and conceptually simple. However,, the lack
-of a principled approach for its design is currently hampering the
-field at large~\cite{Picco:2010:SEW:1882362.1882421}. Key in our
-approach is the combination of design-time support and programming
-model. We illustrate the latter in Section~\ref{sec:conesc}.
+intentionally fundamental and conceptually simple. However, the lack
+of a principled approach in this domain is currently hampering the
+field at large~\cite{Picco:2010:SEW:1882362.1882421}. % Key in our
+% approach is the combination of design-time support and programming
+% model. We illustrate the latter in Section~\ref{sec:conesc}.
 
 We define two key design concepts: \emph{i)} individual
 \emph{contexts}; and \emph{ii)} \emph{context groups}, along with the
@@ -29,55 +29,57 @@ functionality must adapt to changes in the surrounding environment.
 \end{center}
 \end{figure}
 
-Figure~\ref{fig:design} graphically depicts the context-oriented
-design of the example wildlife monitoring applications described
-earlier. Context groups are defined to describe behavioral variations
-corresponding to battery levels, base-station reachability, as well as
-an animal's health conditions and activity. Context groups are tagged
-as system-level or application-level to discern application-specific
-functionality from likely re-usable system services.
+As n example, Figure~\ref{fig:design} graphically depicts the
+context-oriented design of the wildlife monitoring applications
+described earlier. Context groups are defined to describe behavioral
+variations corresponding to battery levels, base-station reachability,
+as well as an animal's health conditions and activity. Context groups
+are tagged as system-level or application-level to discern
+application-specific functionality from likely re-usable system
+services.
 
-The contexts within a group define the behavioral variations at
-hand. For example, the software must behave differently depending on
-whether the base-station is reachable.  The contexts in a group are
-tied with explicit \emph{transitions}, labeled with the conditions
-triggering the context change. For example, within the
+The contexts within a group define the individual behavioral
+variations. For example, the software must behave differently
+depending on whether the base-station is reachable.  The contexts in a
+group are tied with explicit \emph{transitions}, labeled with the
+conditions triggering the context change. For example, within the
 ``Base-station'' group, the system transitions from context
 ``Reachable'' to ``Unreachable'' whenever no beacons are received from
 the base-station within a specific timeout. This entails a node is out
-of the base-station communication range and the software must adapt
+of the base-station radio range and the software must adapt
 accordingly; for example, by locally storing the contact logs instead
 of sending them over the radio.
 
 The specific software adaptation is encapsulated in the individual
 contexts. In the latter, it is useful to distinguish \emph{one-time
-operations} executed at the time of entering or existing a context,
+  operations} executed at the time of entering or existing a context,
 from \emph{continuous activities} that occur as long as a context is
-active. For example, whenever entering ``Reachable'', the software
+active. For example, on entering context ``Reachable'', the software
 dumps on the base-station the contact logs locally accumulated while
-the latter was unreachable. Similarly, when in the latter situation, the
-software must log the contacts locally as long as ``Base-station
-unreachable'' persists, as shown in Figure~\ref{fig:design}.
+the latter was unreachable. Similarly, when in the latter situation,
+the software must log the contacts locally as long as the
+``Unreachable'' context persists, as shown in Figure~\ref{fig:design}.
 
 The required adaptation functionality may span multiple context
 groups. To this end, developers can bind context activations across
 groups. An example is in the ``Reachable'' context within the
-``Base-station'' group: when entering, ``Not Moving'' must also
-consequently activate. As base-stations are typically deployed at
-known locations, and yet their radio range is very limited,
-continuously sampling the GPS is likely a waste of energy, and we can
-avoid waiting for the next sample before deciding that we can stop
+``Base-station'' group: on entering, context ``Not Moving'' should
+also consequently activate. As base-stations are typically deployed at
+known locations, and yet their radio range is very limited, continuing
+to sample the GPS sensor is likely a waste of energy, as a node's
+locations can be approximated with the base-station one. Hence we can
+avoid waiting for the next GPS sample before deciding to stop
 sampling until an acceleration is detected.
 
 Developers may also make context transitions subject to the activation
 of other contexts, which is useful to check for design errors at
-run-time. An example is when activating ``Diseased'' in the ``Health
-conditions'' group. Besides an abnormal body temperature that may
-reveal a disease, the adaptation process must check that either
-``Resting'' or ``Not Moving'' in the ``Animal activity'' group is
-currently active. Indeed, if an animal is diseased, it is probably not
-very active. Should that not be the case, developers might have not
-correctly captured how contexts evolve, potentially indicating a
+run-time. An example is when activating the ``Diseased'' context in
+the ``Health conditions'' group. Besides an abnormal body temperature
+that may reveal a disease, the adaptation process must check that
+either ``Resting'' or ``Not Moving'' in the ``Animal activity'' group
+is currently active. Indeed, if an animal is diseased, it is probably
+not very active. Should that not be the case, developers might have
+not correctly captured how contexts evolve, potentially indicating a
 design error.
 
 The concepts we define provide design-time support to reason on the

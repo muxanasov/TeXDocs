@@ -7,31 +7,31 @@ the real world. Because of the intimate interactions between the
 CPS software is eminently required to self-adapt against the many and
 unpredictable environment dynamics. This is difficult to achieve in
 general~\cite{cheng:adaptive}, and even more so when developers are to
-battle against the resource limitations inherent in many existing CPS
+battle against the resource limitations of many existing CPS
 platforms.
 
 \fakepar{Example} Consider a wireless sensor network application for
 wildlife monitoring~\cite{pasztor10:selective}.  Sensor nodes are
-embedded in collars attached to animals,e.g., badgers, to study their
+embedded in collars attached to animals, e.g., badgers, to study their
 social interactions. The nodes are equipped with sensors to track an
-animal's movement, e.g., using GPS, and to detect its health
-conditions, e.g., based on body temperature.  A low-power short-range
-radio allows the nodes to discover each other based on periodic radio
-beaconing.  A node logs the radio contacts to track an animal's
-encounters with other animals. The radio is also used to off-load the
-contact traces when in reach of a base-station. 
+animal's movement, e.g., using GPS and accelerometers, and to detect
+its health conditions, e.g., based on body temperature.  A low-power
+short-range radio allows the nodes to discover each other based on
+periodic radio beaconing.  A node logs the radio contacts to track an
+animal's encounters with other animals. The radio is also used to
+off-load the contact traces when in reach of a fixed base-station.
 
 The nodes run on batteries, making energy a precious resource that
-developers may trade against the system's functionality, depending on
-the situation. For example, sensor sampling consumes non-negligible
-energy, especially for devices such as the GPS. Depending on the
-desired granularity and on the difference between consecutive GPS
-readings---the latter taken as indication of the pace of
-movement---developers may tune the GPS sampling frequency
+developers may need to trade against the system's functionality,
+depending on the situation. For example, sensor sampling consumes
+non-negligible energy, especially for devices such as the
+GPS. Depending on the desired granularity and on the difference
+between consecutive GPS readings---the latter taken as indication of
+the pace of movement---developers may tune the GPS sampling frequency
 accordingly. The contact traces can be sent directly to the
 base-station whenever in reach, but they need to be stored locally on
 a node otherwise.  When the battery is running low, developers may
-turn off the GPS sensor to make the node survive until the next
+turn the GPS sensor off to make the node survive until the next
 encounter with a base-station, not to lose the collected contact
 traces.
 
@@ -39,18 +39,18 @@ traces.
 possible situation in the design of CPS software is a
 challenge. Critically, \emph{multiple combined aspects} concurrently
 determine how the software should adapt its operation, e.g., battery
-levels and physical location in our example application. Although the
-existing literature already investigates similar problems at a
-conceptual level~\cite{cheng:adaptive}, a principled approach at
-tackling them in the design and implementation of CPS software for
-extremely resource-constrained platforms is lacking. As a result,
-existing implementations are very entangled, and thus difficult to
-debug and to maintain~\cite{Picco:2010:SEW:1882362.1882421}.
+levels and physical locations in our example application. Although the
+existing literature already investigates similar
+problems~\cite{cheng:adaptive}, a principled approach at tackling them
+in the design and implementation of CPS software for extremely
+resource-constrained platforms is lacking. As a result, existing
+implementations are very entangled, and thus difficult to debug and to
+maintain~\cite{Picco:2010:SEW:1882362.1882421}.
 
 We address this issue by presenting context-oriented design concepts
 and a corresponding programming model expressly conceived for
 resource-constrained CPS platforms. To this end, we define in
-Section~\ref{sec:design} a dedicated notion of \emph{context} and
+Section~\ref{sec:design} a specific notion of \emph{context} and
 \emph{context group}, useful to conceptually organize the different
 situations the system may find itself in, and their combinations. This
 provides support during the design phases. We reflect these notions in
@@ -64,15 +64,15 @@ Section~\ref{sec:eval} illustrates early results indicating that our
 approach results in better structured implementations, where
 components are increasingly decoupled and thus simpler to test and to
 maintain. We further demonstrate that accounting for changing
-requirements is likely easier in our approach. These results,
-nevertheless, come at a limited increase in resource consumption,
-which does not impact the feasibility of our approach on the target
-platforms. For example, we observe a mere 3\% increase in program
-memory, whereas the energy overhead is immaterial.
+requirements is likely easier in our approach. These results come at a
+negligible increase in resource consumption, which does not impact the
+feasibility of our approach on the target platforms. For example, we
+observe a mere 3\% increase in program memory, whereas the energy
+overhead is immaterial.
 
 We conclude the paper with a brief account of related efforts in
-Section~\ref{sec:related}, and with directions for future work and
-concluding remarks in Section~\ref{sec:ending}.
+Section~\ref{sec:related}, and with concluding remarks in
+Section~\ref{sec:ending}.
 
 % \hrule
 
