@@ -2,14 +2,14 @@
 \label{sec:design}
 
 Our approach to support the design of self-adaptive CPS software is
-intentionally simple. However, the lack of a principled approach in
-this domain is currently hampering the field at
+intentionally simple. However, the lack of a principled approach is
+currently hampering the field at
 large~\cite{Picco:2010:SEW:1882362.1882421}. % Key in our
 % approach is the combination of design-time support and programming
 % model. We illustrate the latter in Section~\ref{sec:conesc}.
 
 We define two key design concepts: \emph{i)} individual
-\emph{contexts}; and \emph{ii)} \emph{context groups}, along with the
+\emph{contexts}, and \emph{ii)} \emph{context groups}, along with the
 notions necessary to weave these concepts into a complete design.
 Contexts represent the different environmental situations the system
 may encounter, and correspond to behavioral variations associated to a
@@ -65,7 +65,7 @@ groups. To this end, developers can bind context activations across
 groups. An example is in the ``Reachable'' context within the
 ``Base-station'' group: on entering, context ``NotMoving'' should
 also consequently activate. As base-stations are typically deployed at
-known locations, and yet their radio range is very limited, continuing
+known locations and their radio range is very limited, continuing
 to sample the GPS sensor is likely a waste of energy, as a node's
 locations can be approximated with the base-station one. Hence we can
 avoid waiting for the next GPS sample before deciding to stop

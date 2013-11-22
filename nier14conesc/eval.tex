@@ -12,7 +12,7 @@ domain-specific model-checking techniques.
 Using the translator, we compare an implementation of the wildlife
 monitoring application against a functionally-equivalent nesC
 implementation that would arguably result from current
-practice~\cite{pasztor10:selective,mottola10:survey}. Our comparison
+practice~\cite{mottola10:survey,pasztor10:selective}. Our comparison
 addresses three key dimensions, as described next.
 
 % First, we
@@ -42,7 +42,7 @@ ConesC-based &
 \hline
 \end{tabular}
 \caption{Coupling comparison.}
-\vspace{-5mm}
+\vspace{-2mm}
 \label{fig:coupres}
 \end{figure}
 
@@ -94,9 +94,8 @@ Using our approach, this is as simple as changing 5~lines of code in
 the \conesc implementation, besides the functionality needed in the
 new \code{Carrier} context.  Based on current practice, the same
 modification would crucially require adding at least two global
-states.  This adds the burden of explicitly managing their
-transitions and is further detrimental to maintainability and ease
-of testing.
+states.  This adds the burden of explicitly managing their transitions
+and is further detrimental to ease of testing and maintainability.
 
 \fakepar{3.\ System overhead} The advantages above come at the price
 of a negligible system overhead. On the widespread TMote Sky sensor
@@ -108,7 +107,7 @@ a TMote Sky. The energy consumed by the additional CPU cycles is
 hence immaterial. As for memory consumption, we measure a mere 3\%
 increase in both RAM and program memory. These figures demonstrate
 that the price to pay for obtaining significant advantages in the
-quality of the resulting implementations is modest, and hence our
+quality of the implementations is modest, and hence our
 approach is ultimately feasible even on extremely resource-constrained
 platforms.
 

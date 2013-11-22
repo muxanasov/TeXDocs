@@ -23,33 +23,15 @@ Component \emph{configurations} specify the wirings among
 components. % Configurations are component themselves, so they can offer
 % interfaces and be wired to other components.
 
-nesC well exemplifies the limitations dictated by the target
-platforms, and hence the reasons why existing COP approaches cannot be
-directly ported. Because of the limited memory available, for example,
+nesC exemplifies the limitations dictated by the target platforms, and
+hence the reasons why existing COP approaches cannot be directly
+ported. Because of the limited memory available, for example,
 components cannot be instantiated at run-time. They are rather
-in-lined at compile time so the compiler can reduce the size of the
-executable binary~\cite{gay03nesc}, which would hardly fit in the available
+in-lined at compile time so to reduce the size of the executable
+binary~\cite{gay03nesc}, which would hardly fit in the available
 program memory otherwise.  The use of dynamically-allocated memory is
 also discouraged: the MCUs provide no memory protection, so bugs in
-memory handling may have disastrous effects, and yet be very difficult
-to nail down.
-
-\begin{figure}[!tb]
-\begin{lstlisting}[style=conescframe]
-context group BaseStationG {
-*\lstnote{cg:layered}* layered command void report(contact_t contact);
-}implementation {
-*\lstnote{cg:ctx}* contexts Reachable, 
-*\lstnote{cg:def}*          Unreachable is default,
-*\lstnote{cg:error}*          ErrorC is error;
- // Standard nesC component wirings...
-}
-\end{lstlisting}
-\vspace{-4mm}
-\caption{Context group in \conesc.}
-  \label{fig:configuration}
-\vspace{-2mm}
-\end{figure}
+memory handling may have disastrous effects.
 
 \fakepar{\conesc} Notwithstanding the above constraints, we design a
 context-oriented extension to nesC, called \conesc, that incorporates
@@ -59,18 +41,33 @@ At the core of \conesc is a notion of \emph{layered
   function}~\cite{Hirschfeld08}. These are functions whose behavior
 depends on the currently active context, and are hence the primary
 means to implement the behavioral variations necessary for
-self-adaptation. A \emph{context group} in \conesc extends the
-standard nesC configurations by specifying, in addition to wirings
-between components, the contexts included in the group and the layered
-functions that such contexts provide. The individual contexts extend
-the standard notion of nesC component, and provide the individual
+self-adaptation. A \emph{context group} in \conesc extends standard
+nesC configurations by also specifying the contexts included in the
+group and the layered functions that such contexts provide. The
+individual contexts extend the nesC component providing the
 context-dependent implementations of layered functions.
+
+\begin{figure}[!tb]
+\begin{lstlisting}[style=conescframe]
+context group BaseStationG {
+*\lstnote{cg:layered}* layered command void report(contact_t contact);
+}implementation {
+*\lstnote{cg:ctx}* contexts Reachable, 
+*\lstnote{cg:def}*          Unreachable is default,
+*\lstnote{cg:error}*          ErrorC is error;
+ // Standard nesC component wirings... }
+\end{lstlisting}
+\vspace{-5mm}
+\caption{Context group in \conesc.}
+  \label{fig:configuration}
+\vspace{-3mm}
+\end{figure}
 
 Figure~\ref{fig:configuration} depicts a snippet of \conesc code to
 implement the ``Base Station'' group in Figure~\ref{fig:design}. In
 this example, the \code{report()} command on
 line~\lstref{cg:layered}---used to report a contact with another animal
-to the end-use---changes the behavior depending on whether the
+to the end-user---changes the behavior depending on whether the
 base-station is \code{Reachable} or \code{Unreachable}. The latter are
 the contexts included in this group, specified on line~\lstref{cg:ctx}
 after the keyword \code{contexts} with optional modifiers: \code{is
@@ -78,7 +75,7 @@ after the keyword \code{contexts} with optional modifiers: \code{is
 start-up, and \code{is error} (line~\lstref{cg:error}) indicates an
 error context. The latter is automatically activated should there be
 violations to constraints defined over context transitions, e.g., the
-fact that ``Resting'' or ``Not Moving'' must be active when
+fact that ``Resting'' or ``NotMoving'' must be active when
 transitioning from ``Healthy'' to ``Diseased'', as shown in
 Figure~\ref{fig:design}.
 
@@ -94,10 +91,10 @@ context Reachable {
 *\lstnote{ct:activate}* event void activated(){// Dump logs on base-station }
 *\lstnote{ct:deactivate}* event void deactivated(){ // Radio clean-up }
 \end{lstlisting}
-\vspace{-4mm}
+\vspace{-5mm}
 \caption{Individual context in \conesc.}
   \label{fig:context}
-\vspace{-4mm}
+\vspace{-5mm}
 \end{figure}
 
 Figure~\ref{fig:context} shows the \conesc specification of the
