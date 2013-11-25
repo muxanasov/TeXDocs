@@ -348,6 +348,7 @@
 \usepackage{paralist}
 \usepackage{listings}
 \usepackage{xcolor}
+
 \lstdefinelanguage{conesc}
 {
  morekeywords={components, is, error, default, context, group, layered, command, implementation, contexts, event, call, void, uses, transitions, iff, activate},
@@ -389,6 +390,33 @@
 }
 % -end- //nice in-code glyphs routine
 
+% -begin- // figures template
+\usepackage{xkeyval}
+\usepackage{realboxes}
+\makeatletter
+\define@key{putfigure}{caption}{\def\pf@caption{#1}}
+\define@key{putfigure}{label}{\def\pf@label{#1}}
+\newcommand*\putfigure[2]{
+ \setkeys{putfigure}{#1}
+ \begin{figure}[!tb]
+  #2
+  \vspace{-4mm}
+  \caption{\pf@caption}
+  \label{\pf@label}
+  \vspace{-2mm}
+ \end{figure}
+}
+\define@key{putsnippet}{code}{\def\ps@source{\csname box#1\endcsname}}
+\define@key{putsnippet}{caption}{\def\ps@caption{#1}}
+\define@key{putsnippet}{label}{\def\ps@label{#1}}
+\newcommand*\putsnippet[2]{
+ \setkeys{putsnippet}{#1}
+ \putfigure{caption=\ps@caption,label=\ps@label}{
+    \usebox{\ps@source}
+ }
+}
+\makeatother
+% -end- // figures template
 
 % correct bad hyphenation here
 \hyphenation{op-tical net-works semi-conduc-tor}

@@ -1,3 +1,4 @@
+\input{snippets}
 \section{Context Oriented nesC (ConesC)} 
 
 The main benefit of ConesC is a possibility to alternate the behavior of a software at
@@ -54,12 +55,10 @@ ConesC reflects this design by using new types of components, such as
 Instances of new types, however, can also be used as standard nesC components,
 e.g. they can provide or use interfaces as well as be declared in the same way.
 
-\begin{figure}[!h]
-\centering
-\includegraphics[width=\columnwidth]{pdf/wildlifetracking}
-\caption{Wildlife tracking diagram.}
-\label{fig:wtd}
-\end{figure}
+\putfigure{caption=Wildlife tracking diagram.,label=fig:wtd}{
+ \centering
+ \includegraphics[width=\columnwidth]{pdf/wildlifetracking}
+}
 
 \subsection{Contexts and Context Groups}\label{subsec:components}
 
@@ -73,7 +72,11 @@ context~\emph{Error} as an~\emph{error} context, which is used to handle errors 
 during the execution. If an~\emph{error} context is not declared, it will be generated automatically.
 We discuss the use of this context in section~\ref{subsec:rules}.
 
-\input{cc_snippet}
+\putsnippet{
+ caption=Context configuration component.,
+ label=fig:ccc,
+ code=cc
+}{}
 
 Figures~\ref{fig:cc} and~\ref{fig:irc} displays a~\emph{Context} component, main
 purpose of which is an implementation of layered function declared in context configuration. 
@@ -92,7 +95,11 @@ deactivation. To this end ConesC provides events \emph{activated()} and
 lines~\lstref{activated} and~\lstref{deactivated} in Fig.~\ref{fig:cc}. The implementation of
 these events, however, is not obligatory.
 
-\input{c_snippet}
+\putsnippet{
+ caption=Context component.,
+ label=fig:cc,
+ code=c
+}{}
 
 \subsection{Usage}
 
@@ -107,7 +114,11 @@ to change a behavior of the application at run-time. Fig.~\ref{fig:mc} depicts t
 configuration, where the base station group is declared on the line~\lstref{declaration} and wired
 as a standard component afterwards on the line~\lstref{wiring}.
 
-\input{mc_snippet}
+\putsnippet{
+ caption=Main configuration.,
+ label=fig:mc,
+ code=mc
+}{}
 
 In the main module, which is displayed in Fig.~\ref{fig:mm}, it is necessary to declare
 explicitly that the context group \emph{BaseStationG} is used, as shown on the line~\lstref{cgdecl}.
@@ -123,9 +134,17 @@ Activation of a context initiates by using the key-word
 beacon from the base station is received. But should timeout occur, context
 \emph{OutRange} is activated on the line~\lstref{actNoBS}.
 
-\input{mm_snippet}
+\putsnippet{
+ caption=Main module.,
+ label=fig:mm,
+ code=mm
+}{}
 
-\input{bscm_snippet}
+\putsnippet{
+ caption=Base station context manager.,
+ label=fig:bscm,
+ code=bscm
+}{}
 
 Every time the context changed, an event~\emph{contextChanged()} is fired. This event can be
 caught and handled, as it is shown on the line~\lstref{eventCC} in Fig.~\ref{fig:mm},
@@ -144,12 +163,10 @@ canceling the transition or to activation of the~\emph{Error} context. The latte
 automatically unless declared in a~\emph{context group} by using the key-word~\emph{is error},
 as shown in Fig.~\ref{fig:ccc} on the line~\ref{iserror}.
 
-\begin{figure}[!h]
-\centering
-\includegraphics[width=\columnwidth]{pdf/activation_diagram}
-\caption{Activation diagram.}
-\label{fig:ad}
-\end{figure}
+\putfigure{ caption=Activation diagram.,label=fig:ad}{
+ \centering
+ \includegraphics[width=\columnwidth]{pdf/activation_diagram}
+}
 
 In our scenario, which is displayed on a figure~\ref{fig:wtd}, within \emph{Activity} group a
 transition from \emph{Not Moving} to \emph{Resting} is only possible, and it is checked
@@ -160,7 +177,11 @@ indicates the contexts a transition can be performed to. An attempt to initiate
 a transition to the context, which is not declared in a given active context, leads to an error context
 activation, since this kind of transitions is not possible.
 
-\input{nmc_snippet}
+\putsnippet{
+ caption=NotMoving context.,
+ label=fig:nmc,
+ code=nmc
+}{}
 
 Despite the application's  functionality is split into isolated pieces by~\emph{context groups},
 there may exist relations among them. For example, within the 
@@ -188,7 +209,11 @@ a context is not activated and a system remains in the previous state.
 This approach allows one not to think about conditions a transition taking
 place in, but foresee possible inconsistencies.
 
-\input{irc_snippet}
+\putsnippet{
+ caption=InRange context.,
+ label=fig:irc,
+ code=irc
+}{}
 
 Other types of inter-group relations imply automatic triggering of context
 transition. Considering \emph{Battery} group in our example, we can notice that
@@ -198,4 +223,8 @@ for further energy saving developers may want to trigger a transition to
 \emph{triggers} section, as shown on the line~\lstref{triggers} in Fig.~\ref{fig:lc}.
 The same checks apply to automatic transitions.
 
-\input{lc_snippet}
+\putsnippet{
+ caption=Low context.,
+ label=fig:lc,
+ code=lc
+}{}
