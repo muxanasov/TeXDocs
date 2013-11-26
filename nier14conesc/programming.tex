@@ -87,9 +87,9 @@ context Reachable {
  uses interface Radio;
 } implementation {
 *\lstnote{ct:layer}* layered command void report(contact_t contact){
-  call Radio.send(contact);}}
+  call Radio.send(contact);}
 *\lstnote{ct:activate}* event void activated(){// Dump logs on base-station }
-*\lstnote{ct:deactivate}* event void deactivated(){ // Radio clean-up }
+*\lstnote{ct:deactivate}* event void deactivated(){ // Radio clean-up }}
 \end{lstlisting}
 \vspace{-5mm}
 \caption{Individual context in \conesc.}
