@@ -75,8 +75,8 @@ We discuss the use of this context in section~\ref{subsec:rules}.
 \putsnippet{
  caption=Context configuration component.,
  label=fig:ccc,
- code=cc
-}{}
+ boxname=boxcc
+}
 
 Figures~\ref{fig:cc} and~\ref{fig:irc} displays a~\emph{Context} component, main
 purpose of which is an implementation of layered function declared in context configuration. 
@@ -98,8 +98,8 @@ these events, however, is not obligatory.
 \putsnippet{
  caption=Context component.,
  label=fig:cc,
- code=c
-}{}
+ boxname=boxc
+}
 
 \subsection{Usage}
 
@@ -117,8 +117,8 @@ as a standard component afterwards on the line~\lstref{wiring}.
 \putsnippet{
  caption=Main configuration.,
  label=fig:mc,
- code=mc
-}{}
+ boxname=boxmc
+}
 
 In the main module, which is displayed in Fig.~\ref{fig:mm}, it is necessary to declare
 explicitly that the context group \emph{BaseStationG} is used, as shown on the line~\lstref{cgdecl}.
@@ -137,14 +137,14 @@ beacon from the base station is received. But should timeout occur, context
 \putsnippet{
  caption=Main module.,
  label=fig:mm,
- code=mm
-}{}
+ boxname=boxmm
+}
 
 \putsnippet{
  caption=Base station context manager.,
  label=fig:bscm,
- code=bscm
-}{}
+ boxname=boxbscm
+}
 
 Every time the context changed, an event~\emph{contextChanged()} is fired. This event can be
 caught and handled, as it is shown on the line~\lstref{eventCC} in Fig.~\ref{fig:mm},
@@ -180,8 +180,8 @@ activation, since this kind of transitions is not possible.
 \putsnippet{
  caption=NotMoving context.,
  label=fig:nmc,
- code=nmc
-}{}
+ boxname=boxnmc
+}
 
 Despite the application's  functionality is split into isolated pieces by~\emph{context groups},
 there may exist relations among them. For example, within the 
@@ -212,8 +212,8 @@ place in, but foresee possible inconsistencies.
 \putsnippet{
  caption=InRange context.,
  label=fig:irc,
- code=irc
-}{}
+ boxname=boxirc
+}
 
 Other types of inter-group relations imply automatic triggering of context
 transition. Considering \emph{Battery} group in our example, we can notice that
@@ -226,5 +226,5 @@ The same checks apply to automatic transitions.
 \putsnippet{
  caption=Low context.,
  label=fig:lc,
- code=lc
-}{}
+ boxname=boxlc
+}
