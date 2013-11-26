@@ -4,15 +4,15 @@
 \begin{minipage}[l]{\columnwidth}
 \begin{lstlisting}[style=conescframe]
 context group BaseStationG {
-*\lstnote{layereddef}*  layered command void report(msg_t msg);
+*\lstnote{layereddef}* layered command void report(msg_t msg);
 }implementation {
-*\lstnote{contexts}*  contexts InRange,
-*\lstnote{isdefault}*    OutRange is default,
-*\lstnote{iserror}*    ErrorC is error;
+*\lstnote{contexts}* contexts Reachable,
+*\lstnote{isdefault}*          Unreachable is default,
+*\lstnote{iserror}*          ErrorC is error;
  components Routing, Logging, LedsC;
- InRange.Collection -> Routing;
- OutRange.DataStore -> Logging;
- Error.Leds -> LedsC;}
+ Reachable.Collection -> Routing;
+ Unreachable.DataStore -> Logging;
+ ErrorC.Leds -> LedsC;}
 \end{lstlisting}
 \end{minipage}
 }
@@ -23,15 +23,13 @@ context group BaseStationG {
 \begin{minipage}[l]{\columnwidth}
 \begin{lstlisting}[style=conescframe]
 module BaseStationContextManager {
-*\lstnote{cgdecl}*  uses context group BaseStationG;
-   //...
+*\lstnote{cgdecl}* uses context group BaseStationG;
 }implementation {
-   //...
-   event msg_t Radio.receive(msg_t msg) {
-*\lstnote{actBS}*    activate BaseStationG.InRange;
-    call BSReset.startOneShot(INTERVAL);}
-   event void BSReset.fired() {
-*\lstnote{actNoBS}*    activate BaseStationG.OutRange;}
+ event msg_t Radio.receive(msg_t msg) {
+*\lstnote{actBS}*  activate BaseStationG.Reachable;
+  call BSReset.startOneShot(INTERVAL);}
+ event void BSReset.fired() {
+*\lstnote{actNoBS}*  activate BaseStationG.Unreachable;}}
 \end{lstlisting}
 \end{minipage}
 }
@@ -41,16 +39,14 @@ module BaseStationContextManager {
 \hspace{-0.25cm}
 \begin{minipage}[l]{\columnwidth}
 \begin{lstlisting}[style=conescframe]
-context OutRange {
-*\lstnote{dependence}*  transitions InRange iff ActivityG.Running;
-  uses interface DataStore;
+context Unreachable {
+*\lstnote{dependence}* transitions InRange iff ActivityG.Running;
+ uses interface DataStore;
 }implementation {
-*\lstnote{activated}*  event void activate(){
-  //...}
-*\lstnote{deactivated}*  event void deactivate(){
-  //...}
-*\lstnote{layeredimp}*  layered command void report(msg_t msg){
-    call DataStore.deposit(msg);}}
+*\lstnote{activated}* event void activate(){//...}
+*\lstnote{deactivated}* event void deactivate(){//...}
+*\lstnote{layeredimp}* layered command void report(msg_t msg){
+  call DataStore.deposit(msg);}}
 \end{lstlisting}
 \end{minipage}
 }
@@ -60,14 +56,14 @@ context OutRange {
 \hspace{-0.25cm}
 \begin{minipage}[l]{\columnwidth}
 \begin{lstlisting}[style=conescframe]
-context InRange {
-  uses interface Collection;
-  uses context group BatteryG; 
+context Reachable {
+ uses interface Collection;
+ uses context group BatteryG; 
 }implementation {
-*\lstnote{check}*  command bool check(){
-    return BatteryG.getContext() == BatteryG.Normal;}
-*\lstnote{layeredimp2}*  layered command void report(msg_t msg){
-    call Collection.send(msg);}}
+*\lstnote{check}* command bool check(){
+  return BatteryG.getContext() == BatteryG.Normal;}
+*\lstnote{layeredimp2}* layered command void report(msg_t msg){
+  call Collection.send(msg);}}
 \end{lstlisting}
 \end{minipage}
 }
@@ -78,9 +74,8 @@ context InRange {
 \begin{minipage}[l]{\columnwidth}
 \begin{lstlisting}[style=conescframe]
 context Low {
-*\lstnote{triggers}*  triggers BaseStationG.OutRange;
-}implementation {
- //..}
+*\lstnote{triggers}* triggers BaseStationG.OutRange;
+}implementation {//...}
 \end{lstlisting}
 \end{minipage}
 }
@@ -92,9 +87,9 @@ context Low {
 \begin{lstlisting}[style=conescframe]
 configuration ApplicationC {
 }implementation {
-*\lstnote{declaration}*  components BaseStationG, Application;
-   //...
-*\lstnote{wiring}*    Application.BaseStationG -> BaseStationG;}
+*\lstnote{declaration}* components BaseStationG, Application;
+ //...
+*\lstnote{wiring}* Application.BaseStationG -> BaseStationG;}
 \end{lstlisting}
 \end{minipage}
 }
@@ -105,15 +100,13 @@ configuration ApplicationC {
 \begin{minipage}[l]{\columnwidth}
 \begin{lstlisting}[style=conescframe]
 module Application {
-*\lstnote{cgdecl}*  uses context group BaseStationG;
-   //...
+*\lstnote{cgdecl}* uses context group BaseStationG;
 }implementation {
-   //...
-   event void Timer.fired() {
-*\lstnote{calling}* call BaseStationG.report(msg);}
+ event void Timer.fired() {
+*\lstnote{calling}*  call BaseStationG.report(msg);}
 *\lstnote{eventCC}* event void BaseStationG.contextChanged(context_t con) {
-*\lstnote{concheck}* if(con == BaseStationG.InRange)
-      dbg("Debug", "Base station is within the range!");}}
+*\lstnote{concheck}*  if(con == BaseStationG.InRange)
+   dbg("Debug", "Base station is within the range!");}}
 \end{lstlisting}
 \end{minipage}
 }
@@ -124,9 +117,8 @@ module Application {
 \begin{minipage}[l]{\columnwidth}
 \begin{lstlisting}[style=conescframe]
 context NotMoving {
-*\lstnote{transitions}*  transitions Resting;
-}implementation {
- //..}
+*\lstnote{transitions}* transitions Resting;
+}implementation {//...}
 \end{lstlisting}
 \end{minipage}
 }
