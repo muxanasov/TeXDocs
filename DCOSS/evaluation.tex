@@ -1,7 +1,40 @@
 \section{Evaluation}\label{sec:eval}
 
-In this section we show the evaluation of our approach. To this end, we compare
-implementations of wildlife tracking application using nesC against its ConesC-written analog.
+In this section we show the evaluation of our approach. To this end, we
+developed several scenarios for WSNs and compare nesC implementations against
+its ConesC-written analogs. In addition to the main motivating example described
+in Sec.~\ref{sec:appdesign}, we describe two more applications for WSNs.
+
+\subsection{Scenarios}\label{sec:scenarios}
+
+The diagram on Fig.~\ref{fig:shd} displays the possible application of a
+Smart-Home scenario, where each room is supplied with one node. The latter
+detects a \emph{Light Intensity} and \emph{Climate} by using corresponding
+sensors. The node uses actuators to adjusts the luminosity and climate according
+to thresholds given by current \emph{Preferences}. The latter depends on the
+time of the day and on the day of the week. On the other hand, the system
+provides safety by exploiting camera, accelerometer, fire and smoke sensors.
+Should the node detects a significant movement, it enables GPRS and sends alert
+messages with camera images to the Police. In case of \emph{Fire}, the node
+calls the Fire service and communicates with other nodes to allow a householder
+to leave the house safely.
+
+\putfigure{caption=Smart-home diagram.,label=fig:shd}{
+ \centering
+ \includegraphics[width=\columnwidth]{pdf/smarthome}
+}
+
+Another scenario - a system-level adaptation - is shown on Fig.~\ref{fig:sld}.
+If the network is static, it is feasible to use a \emph{Collection Tree
+Protocol}. In mobile network, however, a \emph{Gossip}-based protocol shows
+better results. Orthogonally to the \emph{Protocol type}, developer may want to
+adjust the \emph{Protocol parameters} to enhance a link quality between nodes,
+increase the lifetime of the network or use the bandwidth more effectively.
+
+\putfigure{caption=Smart-home diagram.,label=fig:sld}{
+ \centering
+ \includegraphics[width=\columnwidth]{pdf/system-level}
+}
 
 \subsection{Coupling}\label{sec:evalcomp}
 
