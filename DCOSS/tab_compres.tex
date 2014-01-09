@@ -1,7 +1,9 @@
 \centering
-\begin{tabular}{|l|c|c|c|c|c|c|}
+\begin{tabular}{|l|@{\hspace{0.1em}}c@{\hspace{0.1em}}|
+@{\hspace{0.3em}}c@{\hspace{0.3em}}|@{\hspace{0.3em}}c@{\hspace{0.3em}}|@{\hspace{0.3em}}c@{\hspace{0.3em}}|@{\hspace{0.3em}}c@{\hspace{0.3em}}|@{\hspace{0.3em}}c@{\hspace{0.3em}}|}
 \hline
-&&&& \multicolumn{3}{|c|}{\bfseries Average per-module}\\[0.1in]
+&&&& \multicolumn{3}{@{\hspace{0.3em}}c@{\hspace{0.3em}}|}
+{\bfseries Average per-module}\\[0.1in]
 \bfseries Application & \rotatebox{90}{\bfseries LOC} 
 & \rotatebox{90}{\pbox{0in}{\bfseries Variable\\declarations}} 
 & \rotatebox{90}{\bfseries Functions} & \rotatebox{90}{\bfseries LOC}
@@ -13,9 +15,20 @@ Wildlife tracking -- nesC&456&17&19&48&6&8\\
 \hline
 Wildlife tracking -- ConesC&+28\%&+0\%&+56\%&-45\%&-50\%&-75\%\\
 \hline
+Wildlife tracking -- generated&+357\%&--&--&--&--&--\\
+\hline
 \hline
 Smart-home -- nesC&360&24&28&28&2&2\\
 \hline
-Smart-home -- conesC&+6\%&+0\%&+50\%&-50\%&-50\%&-10\%\\
+Smart-home -- ConesC&+6\%(-25\%)&+0\%&+50\%&-50\%&-50\%&-10\%\\
+\hline
+Smart-home -- generated&+343\%&--&--&--&--&--\\
+\hline
+\hline
+Healthcare -- nesC&150&10&13&38&2,5&3,25\\
+\hline
+Healthcare -- ConesC&+21\%(-2\%)&-50\%&+38\%&-60\%&-80\%&-51\%\\
+\hline
+Healthcare -- generated&+424\%&--&--&--&--&--\\
 \hline
 \end{tabular}
