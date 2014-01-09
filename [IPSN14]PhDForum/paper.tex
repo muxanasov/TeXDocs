@@ -1,0 +1,145 @@
+\documentclass{sig-alternate}
+
+\usepackage{xspace}
+\usepackage{graphicx}
+% \DeclareGraphicsExtensions{.pdf,.jpeg,.png}
+% \usepackage{url}
+%\usepackage[procnames]{listings}
+\usepackage{paralist}
+\usepackage{listings}
+\usepackage{xcolor}
+
+% No space between bibliography items:
+\let\oldthebibliography=\thebibliography
+  \let\endoldthebibliography=\endthebibliography
+  \renewenvironment{thebibliography}[1]{%
+    \begin{oldthebibliography}{#1}%
+      \setlength{\parskip}{0ex}%
+      \setlength{\itemsep}{0ex}%
+  }%
+  {%
+    \end{oldthebibliography}%
+  }
+
+\renewcommand{\ttdefault}{pcr} % to fix non-bold key-words in listings
+\lstdefinelanguage{conesc}
+{
+ morekeywords={components, triggers, is, error, default, context, group, layered, command, implementation, contexts, event, call, void, uses, transitions, iff, activate, interface},
+ morecomment=[s]{/*}{*/},
+ sensitive=false,
+ escapeinside={*}{*}
+ \setcounter{lstNoteCounter}{0}
+}
+
+\lstset{
+  basicstyle=\scriptsize\ttfamily,
+  keywordstyle=\bfseries,
+  showstringspaces=false,
+  emphstyle=\bfseries,
+}
+
+\definecolor{Lemon}{HTML}{FFFACD}
+\lstdefinestyle{conescframe}{
+  language=conesc,
+  frame=lines,%single,
+  xleftmargin=4mm,
+  framexleftmargin=4mm,
+  numbers=left,
+  numberstyle=\scriptsize,
+  numbersep=4pt,
+  backgroundcolor=\color{Lemon}
+}
+
+% -begin- //nice in-code glyphs routine
+\usepackage{tikz}
+% for the pretty dark-circle-enclosed numbers
+\newcommand*\circled[2]{\tikz[baseline=(char.base)]{
+            \node[shape=circle,fill,inner sep=0.1pt, text=white,font=#2] (char) {#1};}}
+
+\newcounter{lstNoteCounter}
+\newcommand{\lstref}[1]{\circled{\ref{#1}}{\normalsize}}
+\newcommand{\lstnote}[1] {
+  \label{#1}\hbox to -8.5pt{\llap{{\circled{\ref{#1}}{\scriptsize\rmfamily}}\hskip 0.98em}}
+}
+% -end- //nice in-code glyphs routine
+
+% correct bad hyphenation here
+\newcommand{\lm}[1]{\footnote{{\bf Luca: #1}}}
+\newcommand{\ma}[1]{\footnote{{\bf Mikhail: #1}}}
+
+\newcommand{\conesc}{{\textsc{ConesC}}\xspace}
+\newcommand{\code}[1]{{\bfseries\texttt{#1}}}
+
+\newcommand{\fakepar}[1]{\vspace{0.4mm}\noindent\textbf{#1.}}
+\newcommand{\wrt}{w.r.t.\ }
+
+%\linespread{0.97}
+
+\begin{document}
+
+\title{A Context-oriented Approach to Self-adaptive Software\\ in Resource-constrained Cyberphysical Systems}
+
+% Author names and affiliations
+% use a multiple column layout for up to two different
+% affiliations
+
+\numberofauthors{3} 
+\author{
+% You can go ahead and credit any number of authors here,
+% e.g. one 'row of three' or two rows (consisting of one row of three
+% and a second row of one, two or three).
+%
+% The command \alignauthor (no curly braces needed) should
+% precede each author name, affiliation/snail-mail address and
+% e-mail address. Additionally, tag each line of
+% affiliation/address with \affaddr, and tag the
+% e-mail address with \email.
+%
+% 1st. author
+\alignauthor
+Mikhail Afanasov \\
+       \affaddr{Politecnico di Milano, Italy}\\
+       \email{afanasov@elet.polimi.it}
+}
+
+% \author{ 
+% \alignauthor 
+% %
+% M.~Afanasov$*$, L. Mottola$*\dagger$ and C.~Ghezzi$*$\\
+% %
+% \affaddr{$*$Politecnico di Milano (Italy), $\dagger$SICS Swedish ICT} \\
+% }
+
+% make the title area
+\maketitle
+
+\begin{abstract}
+Abstract goes here
+\end{abstract}
+
+\section{Introduction}
+Here we show a motivation example and emphasise main challenges. (shorten
+version from NIER)
+
+\section{Design concepts and language support}
+Our main concepts are introduced here. Then we show how these concepts are
+mapped to the language level. (shorten version from NIER)
+
+\section{Evaluation and future work}
+We can use evaluation I have done for DCOSS paper. (shorten version)
+Future work may include some thoughts about model verification of our approach.
+
+\section{Related work}
+Shorten version of NIER paper.
+
+\section{Biography}
+% acknowledgements
+
+% {\small
+%\bibliographystyle{plain}      % 
+%\bibliography{bibl}   % name your BibTeX data base
+% }
+
+\end{document}
+
+
