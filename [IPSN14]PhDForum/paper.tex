@@ -8,6 +8,8 @@
 \usepackage{paralist}
 \usepackage{listings}
 \usepackage{xcolor}
+\usepackage{pbox}
+\usepackage{subfig}
 
 % No space between bibliography items:
 \let\oldthebibliography=\thebibliography
@@ -83,7 +85,7 @@
 % use a multiple column layout for up to two different
 % affiliations
 
-\numberofauthors{3} 
+\numberofauthors{1} 
 \author{
 % You can go ahead and credit any number of authors here,
 % e.g. one 'row of three' or two rows (consisting of one row of three
@@ -117,33 +119,24 @@ Mikhail Afanasov \\
 Abstract goes here
 \end{abstract}
 
-\section{Introduction}
+\input{intro}
 Here we show a motivation example and emphasise main challenges. (shorten
 version from NIER)
 spare a pragraph for related work
 
-\section{Design concepts and language support}
-Our main concepts are introduced here. Then we show how these concepts are
-mapped to the language level. (shorten version from NIER)
-divide into two subsections
+\input{concepts}
 
-\section{Evaluation}
-We can use evaluation I have done for DCOSS paper. (shorten version)
+\input{eval}
 
-\section{Future work}
-Speculate a bit more than in NIER paper.
-Future work may include some thoughts about model verification of our approach.
+\input{future}
 
-\section{Related work}
-Shorten version of NIER paper.
-
-\section{Biography}
+\input{bio}
 % acknowledgements
 
-% {\small
-%\bibliographystyle{plain}      % 
-%\bibliography{bibl}   % name your BibTeX data base
-% }
+{\small
+\bibliographystyle{plain}      % 
+\bibliography{bibl}   % name your BibTeX data base
+}
 
 \end{document}
 
