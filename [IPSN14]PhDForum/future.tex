@@ -1,18 +1,18 @@
 \section{Future work}
 
 This work is a first step to provide a design-time support for creating
-self-adaptive applications. Our evaluations show that our approach results in
+self-adaptive applications for resource restricted CPSs. Our approach results in
 effectively structured self-adaptive applications, while costs are negligible.
 
 Since there were neither design-time support nor developing environment for
-developing self-adaptive applications for CPSs, the next step of our research
-could be implementation of the latter. On the current stage of our research we
-generate nesC code based on programmer notations in \conesc, what increases of
-LOC, since developer needs to declare bindings and transitions akin those
-displayed in Figure~\ref{fig:design}. To reduce the latter, we are intended to
-develop a boilerplate code generator, which could decrease amount of LOC
+self-adaptive applications for CPSs, the next step of our research
+could be implementation of the latter. On the current stage we
+generate nesC code based on programmer notations in \conesc. It increases the
+number of LOC, since developer needs to declare components, wiring and
+transitions akin those displayed in Figure~\ref{fig:design}. We are intended to
+develop a skeleton code generator, which could decrease the amount of source code
 developer needs to write, as it was shown in Section~\ref{sec:eval}.
 
 Another open problems of our research are possible conflicts and nontrivial
-logical errors of context-oriented model of the application. To leverage this
-problem, we put a domain-specific model checking in our research agenda.
+logical errors of context-oriented model of the application. To leverage it, we
+put a domain-specific model checking in our research agenda.
