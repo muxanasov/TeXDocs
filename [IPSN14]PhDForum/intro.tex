@@ -1,30 +1,27 @@
 \section{Introduction}
 Cyberphysical systems (CPSs) are usually used to gather data form and take
 actions on the real world. Because of environment dynamics, CPS software is
-required to self-adapt to different situations. It is hard to achieve having
-limited resources.
+required to self-adapt to different situations having limited resources.
 
 {\bfseries Example.} In wildlife tracking application~\cite{Pasztor10} sensor
 nodes are attached to animals to study their movements, social interactions and
 health conditions. The fact that the nodes are running on batteries makes the
 energy precious resource, which should be used carefully. To this end, such
-devices as GPS and high-power radio should be disabled when not needed.
+devices as GPS and radio should be disabled when not needed.
 
-{\bfseries Challenges.} The combination of multiple accepts, the developer has
-to take care of, determines the main challenge in implementation of such
-software. In our example, the software behavior depends on physical location,
-battery level etc., what is even more difficult to implement under resource
-limitation.
+{\bfseries Challenges.} The combination of multiple aspects, the developer has
+to take care of, determines the complexity of such software. In our example, the
+software behavior depends on physical location, battery level etc., what is even
+more difficult to implement under resource limitation.
 
 {\bfseries Related work.} There are many contributions related to self-adaptive
 embedded systems~\cite{Zimmerling12,Bourdenas11}, they are, however, very
-problem specific. A more general approach includes COP
-paradigm~\cite{Hirschfeld08}, which is implemented in several high-level
-languages~\cite{Bardram05,Ghezzi10,Kamina11,Salvaneschi12,Sehic11}. Most of them
-are not applicable for the embedded systems, because of resource limitations. In
-this area CPSs are usually seen as sources of raw data~\cite{Sehic11}.
+problem specific. A more general approach -- context-oriented programming (COP)~\cite{Hirschfeld08} -- is implemented in several high-level
+languages~\cite{Bardram05,Ghezzi10,Kamina11,Salvaneschi12,Sehic11}, most of them
+are not applicable for the embedded systems, because of resource limitations. Moreover, CPSs are usually seen as sources of raw data~\cite{Sehic11} in
+this area.
 
 Our approach targets the applications where complexity arises form the
 combination of the environmental dimensions. By borrowing COP concepts and
 bringing them down to he low-level software, we aim to provide a programming
-support to enable self-adaptive behavior at design-time.
+support to enable self-adaptive behavior.
