@@ -1,18 +1,15 @@
 \section{Evaluation}\label{sec:eval}
 
-For evaluation purposes, in addition to the main motivation example, we
-implemented two more applications: Smart-home and Adaptive protocol. For each we
-compare nesC implementation against its \conesc counterpart.
+For evaluation purposes, we implemented three applications. For each we compare
+nesC implementation against its \conesc counterpart.
 
 {\bf Complexity} is estimated by using such metrics as the number of lines of
 code (LOC), the number of variables declared and functions
 defined~\cite{Pressman01}. Despite our results show 30\% increase of average
 complexity, there is significant reduction in average per-module complexity --
 -54\%. We believe that in larger applications the number of the similar lines of
-code will be bigger. Moreover, the complexity could be reduced even more (-9\%)
-by having a tool to generate a boilerplate code from the diagram, similar to the
-one displayed in Fig.~\ref{fig:design}. \conesc-written applicaton is more than
-3 times smaller than generated code, what makes \conesc an effective tool for
+code will be bigger. Nevertheless, \conesc-written applicaton is more than 3
+times smaller than generated code, what makes \conesc an effective tool for
 context-oriented programming.
 
 {\bf Overhead} in terms of memory is lesser than
