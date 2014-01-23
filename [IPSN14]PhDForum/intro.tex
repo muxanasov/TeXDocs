@@ -1,23 +1,26 @@
 \section{Introduction}
-Cyberphysical systems (CPSs) are usually used to gather data form and take
-actions on the real world. Because of environment dynamics, CPS software is
-required to self-adapt to different situations having limited resources.
 
-{\bfseries Example.} In wildlife tracking application~\cite{pasztor10:selective} sensor
-nodes are attached to animals to study their movements, social interactions and
-health conditions. Nodes are running on batteries, what makes the
-energy precious resource. To save it, such
-devices as GPS and radio should be disabled when not needed.
+Cyberphysical systems (CPSs) are usually used to ga-ther data form and take
+actions on the real world. CPS software is required to self-adapt to
+environmental dynamics under limited resources.
 
-{\bfseries Challenges.} The combination of multiple aspects, the developer has
-to take care of, determines the complexity of such software. In our example, the
-software must behave depending on physical location, battery level etc. under resource limitation.
+In wildlife tracking application~\cite{pasztor10:selective} sensor nodes are
+attached to animals to study their movements, social interactions, and health
+conditions. Nodes are running on batteries, which makes the energy a precious
+resource. To save it, such devices as GPS and radio should be disabled when not
+needed.
 
-{\bfseries Related work.} There are many contributions related to self-adaptive
-embedded systems~\cite{Zimmerling12,Bourdenas11}, they are, however, very
-problem specific. A more general approach -- context-oriented programming (COP)~\cite{Hirschfeld08} -- is implemented in several high-level
-languages~\cite{Bardram05,Ghezzi10,Kamina11,Salvaneschi12,Sehic11}, most of them
-are not applicable for the embedded systems, because of resource limitations.
+The combination of multiple aspects the developer has to take care of determines
+the complexity of such software. In our example, the software must behave
+depending on physical location, battery level etc.
 
-By borrowing COP concepts and bringing them down to he low-level software, we
-aim to provide a design-time support to enable self-adaptive behavior.
+Many works exist in the area of self-adaptive embedded
+systems~\cite{Zimmerling12,Bourdenas11}, which are very problem-specific. A more
+general approach -- context-oriented programming (COP)~\cite{Hirschfeld08} -- is
+implemented in several high-level
+languages~\cite{Ghezzi10,Salvaneschi12,Sehic11}. Most of them are not applicable
+to the embedded systems, because of resource limitations.
+
+By borrowing COP concepts and bringing them down to low-level software, we
+provide a design-time and programming support to enable self-adaptive
+behavior.

@@ -1,15 +1,12 @@
 \section{Concepts and language support}
 
-To provide a design-time support for building adaptive software that change its
-behavior depending on the situation, we introduce two main notions:
-\emph{i)} individual \emph{context} and \emph{ii) context group}, whose along
-with a number of secondary notions form a complete design. The latter helps to
-to identify the common functionality, orthogonal aspects and mutual constraints.
-Context represents an environmental situation the system may find itself in, and
-defines a behavioral variation. The software adapts to the
-environmental dynamics by \emph{activating} the corresponding context. Context
-groups represent the collections of contexts and combines the
-variations of the same functionality.
+We introduce two main notions: \emph{i)} individual \emph{context} and \emph{ii)
+context group}, whose along with a number of secondary notions form a complete
+design. Context represents an environmental situation the system may find itself
+in, and defines a behavioral variation. The software adapts to the environmental
+dynamics by \emph{activating} the corresponding context. Context groups
+represent the collections of contexts, combine the variations of the same
+functionality, and identify orthogonal aspects and mutual constraints.
 
 \begin{figure}
 \begin{center}
@@ -21,29 +18,19 @@ variations of the same functionality.
 \end{center}
 \end{figure}
 
-{\bf \conesc.} To be more concrete in our design, we render the concepts above
-in a set of language constructs, according to a context-oriented programming
-(COP)~\cite{Hirschfeld08}. Our target language nesC -- one of the most popular
-for programming for WSNs derived from C -- exemplifies the restrictions of CPSs
-such as limited memory and CPU performance as well as absence of memory
-protection. Applications in nesC are built from \emph{components} interconnected
-by \emph{configurations} and interacted by \emph{using} and \emph{providing}
-interfaces. The latter define two types of functions: \emph{commands} and
-\emph{events}. Our context-oriented extension of nesC, called \conesc, overcome
-the restrictions and COP for programming for CPSs.
+{\bf \conesc.} We render the concepts above in a set of COP-oriented language
+constructs. Our target language nesC -- one of the most popular for programming
+for WSNs derived from C -- exemplifies the restrictions of CPSs such as limited
+memory and CPU performance, as well as absence of memory protection. Our
+context-oriented extension of nesC, called \conesc, overcome the restrictions
+and COP for programming for CPSs.
 
 The context-oriented design of our example is displayed in
 Fig.~\ref{fig:design}. Context groups describe a behavioral variation
 corresponding to battery level, base-station availability, health conditions and
-activity of an animal. Notion of \emph{context group} allows us to separate
-re-usable system services from application-specific functionality. In \conesc
-\emph{context group} extends a standard nesC configuration and declares layered
-functions -- the core notion of COP~\cite{Hirschfeld08} meant to implement a
-behavioral variation -- by key-word \code{layered}. Included contexts are
-declared by key-word \code{contexts} with optional modifiers \code{is default}
-to define the active context at start-up, and optional modifier \code{is error}
-to specify an \emph{error} context discussed later in this section. Explicit
-context activation can be initiated anywhere in the code:
+activity of an animal. In \conesc \emph{context group} extends a standard nesC
+configuration and declares layered functions. (add a reference to the tech.
+report) Explicit context activation can be initiated anywhere in the code:
 
 \vspace{-1mm}
 \begin{lstlisting}[language=conesc]
@@ -52,26 +39,27 @@ activate BaseStationG.Unreachable;
 \vspace{-1.5mm}
 
 The context corresponds to the behavioral variation for a given situation. For
-example, software behaves differently, depending on whether the base-station is
-reachable or not. An implementation of behavioral variation -- layered function
--- of "Reachable'' context is shown on line~\lstref{ct:layer} in
-Figure~\ref{fig:context}. This function represents \emph{continuous activity},
-such as logging contacts locally as long as "Unreachable'' context is active.
+example, the software behaves differently depending on whether the base-station
+is reachable. An implementation of layered function -- the core notion of COP
+[4] meant to implement a behavioral variation -- in "Reachable'' context is
+shown on line~\lstref{ct:layer} in Figure~\ref{fig:context}. This function
+represents \emph{continuous activity}, such as logging contacts locally as long
+as "Unreachable'' context is active.
 
 Opposite to \emph{continuous activities}, there are also \emph{on-time
-operations}, such as log dumping on the base-station on entering the context
-"Ureachable''. In \conesc these operations can be implemented by using
+operations}, such as dumping the logs on the base-station on entering the
+context "Ureachable''. In \conesc, these operations can be implemented by using
 predefined events \code{activated()} and \code{deactivated()}, shown on
 lines~\lstref{ct:activate} and~\lstref{ct:deactivate}. They are automatically
 signaled when entering or leaving the contexts.
 
 The contexts transitions within the group are governed by rules. For example,
-within "Base-station'' group, the system initiates the transition from
-"Reachable'' to "Unreachable'' whenever there are no beacons are received within
-a specific timeout. Contexts indicated after the key-word \code{transitions} on
+within the "Base-station'' group, the system initiates the transition from
+"Reachable'' to "Unreachable'' whenever no beacons are received within a
+specific timeout. Contexts indicated after the key-word \code{transitions} on
 line \lstref{ct:tr} represents possible outgoing transitions. They are also
 possibly followed by a key-word \code{iff} to state constraints on the
-transitions, as in
+transitions:
 
 \vspace{-1mm}
 \begin{lstlisting}[language=conesc]
@@ -79,21 +67,21 @@ transitions Diseased iff Resting || NotMoving;
 \end{lstlisting}
 \vspace{-1.5mm}
 
-The example is in "Health conditions'' group: when activating "Diseased''
+The example is in "Health conditions'' group: when activating the "Diseased''
 context based on body temperature, the software should also check that either
 "NotMoving'' or "Resting'' in "Activity group'' is currently active. Should the
-constraints be violated, the \emph{error} context defined in the corresponding context
-group is activated. Indeed, a diseased animal is probably not very active.
-Otherwise, developers might have not correctly catch the contexts
+constraints be violated, the "Error'' context defined in the corresponding
+context group is activated. Indeed, a diseased animal is probably not very
+active. Otherwise, developers might have not correctly caught the contexts
 evolution.
 
-The required adaptation may affect several context groups. For example, along
-with the base-station is "Reachable'', context "NotMoving'' should be also
-activated. The latter saves energy by disabling GPS-sensor, since the
-base-station is static and deployed in the known location. To this end,
-the keyword \code{triggers} on line~\lstref{ct:trigger} binds the activation
-across the groups. For example, the context "NotMoving'' is activated on
-entering the "Reachable'', as specified in Figure~\ref{fig:design}.
+The required adaptation may affect several context groups. For example, whenever
+the base-station is "Reachable'', context "NotMoving'' should be also activated.
+The latter saves energy by disabling the GPS-sensor, since the base-station is
+static and deployed in a known location. To this end, the keyword
+\code{triggers} on line~\lstref{ct:trigger} binds the activation across the
+groups. For example, the context "NotMoving'' is activated on entering the
+"Reachable'' context, as specified in Figure~\ref{fig:design}.
 
 
 \begin{figure}[!tb]
