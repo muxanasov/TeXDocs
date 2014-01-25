@@ -22,8 +22,8 @@ functionality, and identify orthogonal aspects and mutual constraints.
 constructs. Our target language nesC -- one of the most popular for programming
 for WSNs derived from C -- exemplifies the restrictions of CPSs such as limited
 memory and CPU performance, as well as absence of memory protection. Our
-context-oriented extension of nesC, called \conesc, overcome the restrictions
-and COP for programming for CPSs.
+context-oriented extension of nesC, called \conesc, overcomes the restrictions
+and brings COP for CPSs by extending nesC modules.
 
 The context-oriented design of our example is displayed in
 Fig.~\ref{fig:design}. Context groups describe a behavioral variation
@@ -48,7 +48,7 @@ as "Unreachable'' context is active.
 
 Opposite to \emph{continuous activities}, there are also \emph{on-time
 operations}, such as dumping the logs on the base-station on entering the
-context "Ureachable''. In \conesc, these operations can be implemented by using
+context "Unreachable''. In \conesc, these operations can be implemented by using
 predefined events \code{activated()} and \code{deactivated()}, shown on
 lines~\lstref{ct:activate} and~\lstref{ct:deactivate}. They are automatically
 signaled when entering or leaving the contexts.
