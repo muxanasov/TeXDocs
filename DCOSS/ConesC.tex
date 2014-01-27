@@ -1,54 +1,54 @@
 \input{snippets}
-\section{Context Oriented nesC (ConesC)} 
+\section{Context Oriented nesC (ConesC)}
 
-The main benefit of ConesC is a possibility to alternate the behavior of a software at
-run-time. It implies also a run-time errors catching and handling. Our approach
-provides a deep modularization as well. Thus, behavioral variations are encapsulated
-into different modules. The latter, as we show in Sec.~\ref{sec:evalcomp},
-are highly decoupled, which enhances code readability and re-usability as well as debugging
-and developing processes. The behavioral variation can be achieved by calling a
-layered function, since the contextual dependent logic is encapsulated by an isolated module, or
-by catching and handling an error event, which can be invoked at run-time.
+\conesc provides a design-time support for developing a self-adaptive software,
+which alternates its behavior at run-time including catching and handling
+errors. Along with this, our approach provides a deep modularization, since
+behavioral variations are encapsulated into different modules. The latter, as we
+show in Sec.~\ref{sec:evalcomp}, are highly decoupled, which enhances code
+readability and re-usability as well as debugging and developing processes.
 
-Programming in ConesC is tightly coupled with environment-dependent behavior of
+Programming in \conesc is intimately tied with environment-dependent behavior of
 the application and exploits two main concepts: \emph{i)} individual contexts
 and their transitions and \emph{ii)} context groups. The former represent
 different environment situations where a system may find itself. Each context
 maps to a separate state of the device or environment a system operates in. As
 the environment conditions change, a programmer initiates a context transition
-by \emph{activating} the corresponding context. A context group is a set of contexts
-sharing common characteristics. Thus, whenever a transition between involved
-contexts occurs, it is determined by changes in one or more physical quantities.
+by \emph{activating} the corresponding context. A context group is a set of
+contexts sharing common characteristics and variations of the same
+functionality. Thus, whenever a transition between involved contexts occurs, it
+is determined by changes in one or more physical quantities.
 
 \subsection{Application design}\label{sec:appdesign}
 
-The diagram on Fig.~\ref{fig:wtd} shows how these concepts are used in application's design.
-By using a body temperature sensor system detects if an animal is \emph{Diseased}
-and builds an alert beacon or a normal beacon otherwise. Here contexts \emph{Healthy}
-and \emph{Deiseased} are based on a physical quantity -- the body temperature of
-an animal -- and reflect variations of the same functionality, such as building a beacon,
-so they can be joined into a group -- \emph{Health conditions}.
+The diagram on Fig.~\ref{fig:wtd} shows how these concepts are used in the
+design of application. By using a body temperature sensor system detects if an
+animal is \emph{Diseased} and builds an alert beacon or a normal beacon
+otherwise. Here contexts \emph{Healthy} and \emph{Deiseased} are based on a
+physical quantity -- the body temperature of an animal -- and reflect variations
+of the same functionality, such as building a beacon, so they can be joined into
+a group \emph{Health conditions}.
 
-Depending on GPS readings developers may want to vary a sampling rate to use energy
-more effective. For example, there is no need to track a location if an animal
-is \emph{NotMoving}, but should accelerometer detect any
-significant movement, a periodic sampling should be initiated. Increased
-difference between two location readings indicates that an animal is
-\emph{Running}, and location sampling should occurs more often.
+Depending on GPS readings developers may want to vary a sampling rate to use
+energy more effective. For example, there is no need to track a location if an
+animal is \emph{NotMoving}, but should accelerometer detect any significant
+movement, a periodic sampling should be initiated. Increased difference between
+two location readings indicates that an animal is \emph{Running}, and location
+sampling should occurs more often.
 
-Orthogonal to application-level functionality, the system should transmit data to
-the Base Station (BS) or save readings locally depending on the BS availability.
-Whenever the latter is \emph{Unreachable}, a node logs data in internal memory,
-but should it receive a BS-beacon, the data is dumped to the BS. Crucially, the
-node runs on a battery, so the system
-should be aware of a battery status and disable GPS-module, which is power
-consuming, if the battery level is \emph{Low}.
+Orthogonal to application-level functionality, the system should transmit data
+to the Base Station (BS) or save readings locally depending on the BS
+availability. Whenever the latter is \emph{Unreachable}, a node logs data in
+internal memory, but should it receive a BS-beacon, the data is dumped to the
+BS. Crucially, the node runs on a battery, so the system should be aware of a
+battery status and disable GPS-module, which is power consuming, if the battery
+level is \emph{Low}.
 
-ConesC reflects this design by using new types of components, such as
-\emph{context} and \emph{context group}, which are extensions of \emph{module} and
-\emph{configuration} correspondingly, and a set of new key-words.
-Instances of new types, however, can also be used as standard nesC components,
-e.g. they can provide or use interfaces as well as be declared in the same way.
+\conesc reflects this design by using new types of components, such as
+\emph{context} and \emph{context group} -- extensions of \emph{module} and
+\emph{configuration} correspondingly -- and a set of new key-words. Instances of
+new types, however, can also be used as standard nesC components, e.g. they can
+provide or use interfaces as well as be declared in the same way.
 
 \putfigure{caption=Wildlife tracking diagram.,label=fig:wtd}{
  \centering
@@ -57,15 +57,17 @@ e.g. they can provide or use interfaces as well as be declared in the same way.
 
 \subsection{Contexts and Context Groups}\label{subsec:components}
 
-A \emph{Context group} component is displayed on Fig.~\ref{fig:ccc} and used to declare layered
-functions as well as the included contexts. The former is declared on line~\lstref{layereddef}
-by using the key-word \emph{layered}, while the declaration of the latter starts from the
-key-word \emph{contexts} on line~\lstref{contexts}. It is mandatory to declare
-the \emph{default} context, as shown on line~\lstref{isdefault}, which will be
-activated at the beginning of the execution. The next line~\lstref{iserror} declares the
-context \emph{ErrorC} as an \emph{error} context, which is used to handle errors occurred
-during the execution. If an \emph{error} context is not declared, it will be generated automatically.
-We discuss the use of this context in section~\ref{subsec:rules}.
+The \emph{Context group} component is displayed on Fig.~\ref{fig:ccc} and used
+to declare layered functions and the contexts included. The former is declared
+on line~\lstref{layereddef} by using the key-word \emph{layered}, while the
+declaration of the latter starts from the key-word \emph{contexts} on
+line~\lstref{contexts}. The mandatory modifier \emph{is default} indicates an
+active at start-up context, as shown on line~\lstref{isdefault}. Another
+modifier on the the next line~\lstref{iserror} declares the context
+\emph{ErrorC} as an \emph{error} context, which is used to handle errors
+occurred during the execution, it is optional though. If an \emph{error} context
+is not declared, it will be generated automatically. We discuss the use of this
+context in section~\ref{subsec:rules}.
 
 \putsnippet{
  caption=Context configuration component.,
