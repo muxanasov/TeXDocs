@@ -14,7 +14,7 @@ functionality, and identify orthogonal aspects and mutual constraints.
 \vspace{-1mm}
 \caption{Wildlife monitoring application design.}
   \label{fig:design}
-\vspace{-9mm}
+\vspace{-7mm}
 \end{center}
 \end{figure}
 
@@ -25,12 +25,33 @@ memory and CPU performance, as well as absence of memory protection. Our
 context-oriented extension of nesC, called \conesc, overcomes the restrictions
 and brings COP for CPSs by extending nesC modules.
 
+\begin{figure}[!tb]
+\begin{lstlisting}[style=conescframe]
+context group BaseStationG {
+*\lstnote{cg:layered}* layered command void report(contact_t contact);
+}implementation {
+*\lstnote{cg:ctx}* contexts Reachable, 
+*\lstnote{cg:def}*          Unreachable is default,
+*\lstnote{cg:error}*          ErrorC is error;
+ // Standard nesC component wirings... }
+\end{lstlisting}
+\vspace{-3mm}
+\caption{Context group in \conesc.}
+  \label{fig:configuration}
+\vspace{-7mm}
+\end{figure}
+
 The context-oriented design of our example is displayed in
 Fig.~\ref{fig:design}. Context groups describe a behavioral variation
 corresponding to battery level, base-station availability, health conditions and
 activity of an animal. In \conesc \emph{context group} extends a standard nesC
-configuration and declares layered functions. (add a reference to the tech.
-report) Explicit context activation can be initiated anywhere in the code:
+configuration and declares layered functions -- the core notion of
+COP~\cite{Hirschfeld08} meant to implement a behavioral variation -- by key-word
+\code{layered}. Included contexts are declared by key-word \code{contexts} with
+optional modifiers \code{is default} to define the active context at start-up,
+and optional modifier \code{is error} to specify an \emph{error} context
+discussed later in this section. Explicit context activation can be initiated
+anywhere in the code:
 
 \vspace{-1mm}
 \begin{lstlisting}[language=conesc]
@@ -57,7 +78,7 @@ The contexts transitions within the group are governed by rules. For example,
 within the "Base-station'' group, the system initiates the transition from
 "Reachable'' to "Unreachable'' whenever no beacons are received within a
 specific timeout. Contexts indicated after the key-word \code{transitions} on
-line \lstref{ct:tr} represents possible outgoing transitions. They are also
+line \lstref{ct:tr} represent possible outgoing transitions. They are also
 possibly followed by a key-word \code{iff} to state constraints on the
 transitions:
 
@@ -96,7 +117,8 @@ context Reachable {
 *\lstnote{ct:activate}* event void activated(){// Dump logs on base-station }
 *\lstnote{ct:deactivate}* event void deactivated(){ // Radio clean-up }}
 \end{lstlisting}
+\vspace{-3mm}
 \caption{Individual context in \conesc.}
   \label{fig:context}
-\vspace{-5mm}
+\vspace{-7mm}
 \end{figure}
