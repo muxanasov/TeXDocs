@@ -1,16 +1,66 @@
 \begin{abstract}
 
-Wireless sensor networks (WSNs) take a significant role to gather data from, and
-possibly take actions on the real world. Therefore they are intimately tied to
-the environment they operate in. Because of unpredicted dynamics of the
-environment, there are many situations the software for WSNs needs to self-adapt
-to. The complexity of such software is high in general and even higher under
-limited resources. This work is a first step to provide a design-time support
-for developing self-adaptive software for WSN. To achieve this against severe
-resource constraints, we borrow notions from context-oriented programming (COP)
-and bring them down to low-level software. As we show in this work, along with
-bringing COP, our concepts -- when implemented in a language -- make software
-components much more organized and decoupled, and, hence, less complex. The
-price to be payed is negligible though.
+  We present design-time support and programming abstractions specific
+  to implementing adaptive Wireless Sensor Network (WSN) software. The
+  need for adaptability arises in WSNs because of unpredictable
+  environment dynamics, changing requirements, and resource
+  scarcity. However, after about a decade of research in WSN
+  programming, developers are still left with no dedicated support for
+  designing, implementing, and maintaining adaptive code. To address
+  this issue, we borrow concepts from context-oriented programming
+  (COP) and bring them down to resource-constrained WSN devices. In
+  our solution, context information drive adaptation decisions. We
+  provide design concepts to organize the different WSN operating
+  modes as a function of context. Based on these, programmers use a
+  notion of \emph{layered function} to implement context-dependent
+  behavioral variations of WSN code. Our language implementation,
+  called \conesc, extends nesC with COP constructs, and efficiently
+  runs on mainstream WSN devices. Based on three representative
+  applications, we demonstrate that \conesc greatly simplifies the
+  resulting code and yields increasingly decoupled implementations
+  compared to nesC, easing debugging and maintenance. In our tests,
+  this comes at the price of a maximum 2.5\% (4.5\%) overhead in
+  program (data) memory.
+
+% Wireless sensor networks (WSNs) take a significant role to gather data from, and
+% possibly take actions on the real world. Therefore they are intimately tied to
+% the environment they operate in. Because of unpredicted dynamics of the
+% environment, there are many situations the software for WSNs needs to self-adapt
+% to. The complexity of such software is high in general and even higher under
+% limited resources. This work is a first step to provide a design-time support
+% for developing self-adaptive software for WSN. To achieve this against severe
+% resource constraints, we borrow notions from context-oriented programming (COP)
+% and bring them down to low-level software. As we show in this work, along with
+% bringing COP, our concepts -- when implemented in a language -- make software
+% components much more organized and decoupled, and, hence, less complex. The
+% price to be payed is negligible though.
 
 \end{abstract}
+
+% Notes from Luca:
+
+% - the abstract could be more precise and to the point, it sounded very
+% high-level and generic before; for example, I mentioned explicitly
+% ConesC and layered functions
+
+% - never ever say ``this is a first step...'' in a conference/journal
+% abstract, it's the best way to make the reviewer say ``come back
+% when you have taken more steps''... :) ``First steps'' are more for
+% workshops...
+
+% - it's a matter of taste, but personally I like when the abstract
+% starts off with a single, crisp sentence stating what the work is
+% about, so the reader imediately raises the attention level
+
+% - an abstract should ideally conclude with some quantitative
+% indication of advanatges and disadvatanges of the presented
+% solution; you have numbers, so we can use them! :)
+
+% - for DOCSS, you don't need to really re-state what WSNs are good for,
+% the whole conference is about WSNs and people know it
+
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "bare_conf"
+%%% End: 
