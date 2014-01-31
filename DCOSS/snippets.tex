@@ -43,8 +43,8 @@ context Unreachable {
 *\lstnote{dependence}* transitions InRange iff ActivityG.Running;
  uses interface DataStore;
 }implementation {
-*\lstnote{activated}* event void activate(){//...}
-*\lstnote{deactivated}* event void deactivate(){//...}
+*\lstnote{activated}* event void activated(){//...}
+*\lstnote{deactivated}* event void deactivated(){//...}
 *\lstnote{layeredimp}* layered command void report(msg_t msg){
   call DataStore.deposit(msg);}}
 \end{lstlisting}
@@ -61,7 +61,7 @@ context Reachable {
  uses context group BatteryG; 
 }implementation {
 *\lstnote{check}* command bool check(){
-  return BatteryG.getContext() == BatteryG.Normal;}
+  return call BatteryG.getContext() == BatteryG.Normal;}
 *\lstnote{layeredimp2}* layered command void report(msg_t msg){
   call Collection.send(msg);}}
 \end{lstlisting}
@@ -105,8 +105,8 @@ module Application {
  event void Timer.fired() {
 *\lstnote{calling}*  call BaseStationG.report(msg);}
 *\lstnote{eventCC}* event void BaseStationG.contextChanged(context_t con) {
-*\lstnote{concheck}*  if(con == BaseStationG.InRange)
-   dbg("Debug", "Base station is within the range!");}}
+*\lstnote{concheck}*  if(con == BaseStationG.Reachable)
+   dbg("Debug", "Base station is reachable!");}}
 \end{lstlisting}
 \end{minipage}
 }
