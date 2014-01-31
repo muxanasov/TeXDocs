@@ -197,8 +197,8 @@ which does not affect the execution of a program. For example, context~\emph{Run
 activated if the difference between two GPS readings is relatively large, but it may be due to noise.
 To make sure false positives are avoided, developers may want to check
 readings of an accelerometer. Another example includes an energy saving scenario,
-when a programmer may want to activate~\emph{In Range} context only if a battery is
-in~\emph{Normal} state, as shown in Fig.~\ref{fig:wtd}.\footnote{Check this}
+when a programmer may want to activate~\emph{Reachable} context only if a battery is
+in~\emph{Normal} state, as shown in Fig.~\ref{fig:wtd}.
 Violation of mentioned rules is a common situation and should not lead to an error state.
 To this end, ConesC provides a \emph{check()} command, sample implementation of which is
 displayed on the line~\lstref{check} in Fig.~\ref{fig:irc}. It is not mandatory to implement this
@@ -208,7 +208,7 @@ This approach allows one not to think about conditions a transition taking
 place in, but foresee possible inconsistencies.
 
 \putsnippet{
- caption=InRange context.,
+ caption=Reachable context.,
  label=fig:irc,
  boxname=boxirc
 }
@@ -216,10 +216,10 @@ place in, but foresee possible inconsistencies.
 Other types of inter-group relations imply automatic triggering of context
 transition. Considering \emph{Battery} group in our example, we can notice that
 for further energy saving developers may want to trigger a transition to
-\emph{Out Range} context within the \emph{Base Station} group as long as
+\emph{Unreachable} context within the \emph{Base Station} group as long as
 \emph{Low} context is active. Our design allows one to do that by declaring a
 \emph{triggers} section, as shown on the line~\lstref{triggers} in Fig.~\ref{fig:lc}.
-The same checks apply to automatic transitions.\footnote{Check this}
+The same checks apply to automatic transitions.
 
 \putsnippet{
  caption=Low context.,
