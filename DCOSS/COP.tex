@@ -1,2 +1,25 @@
 \section{Context Oriented Programming}
 To mention: definition of Context, definition of COP, main ingredients of COP.
+
+Recently introduced Context-oriented programming (COP)~\cite{Hirschfeld08} has
+proven its effectiveness in creating context-aware software, such as graphical
+user interface~\cite{Keays03}, text editor~\cite{Kamina11}, and even software for wireless
+sensor networks~\cite{Sehic11}, in high-level though. COP paradigm has been
+implemented in different languages~\cite{Salvaneschi12} by modifying them both
+syntactically and semantically. Practically, COP brings a language-level abstraction 
+to enable the expression of behavioral variation in the host language.
+
+To provide context-oriented adaptation, language should satisfy certain requirements, such as
+possibility to define behavioral variations, group and activate them at
+run-time. Despite there are different methods to satisfy these
+requirements~\cite{Salvaneschi12}, the main ingredients are \emph{context} and
+\emph{layered functions}. The latter -- the implementations of behavioral
+variations -- depend on the \emph{context} -- the information which is
+computationally accessible.
+
+We adopt notions and adaptation techniques used in existing COP implementations,
+and bring them down to low-level programming for WSNs. Our language \conesc --
+which is discussed in the next section in details -- is based on nesC and extend
+it by adding context-oriented notions. Basically, we extend the syntax to
+specify the behavioral variation of the software, group them into modules and
+activate them at run-time.
