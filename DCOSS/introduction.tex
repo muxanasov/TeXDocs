@@ -1,18 +1,20 @@
-\section{Introduction} To mention: The main goal of Wireless Sensor Networks
-(WSNs) is to monitor the environment, thus WSNs are inherently environment
-dependent. It leads to a number of situations and combinations of situations,
-which programmer should be care of, and because of that applications for WSNs
-are usually very complex. It is hard to read, reuse, debug and maintain this
-kind of applications.
+\section{Introduction}
 
-We are claiming that the notion of Context in a low-level software will
-significantly improve these aspects (readability and re-usability of the code
-as well as debugging and maintaining of the application).
+Wireless Sensor Networks are the core of communication between the world and
+machine. They are used to monitor the environment and gather data from it, what
+makes them inherently environment dependent. Due to unpredicted dynamics in
+different dimensions, software for WSNs should adapt to it at run-time. Without
+proper language support the implementation of this kind of software is quite
+complex and cumbersome. The adaptation, thus, would be achieved by using
+conditional statements, what leads to the software that is tangled to the
+possible adaptation.
 
-Since WSNs are usually built on embedded platforms, there are CPU, memory,
-energy consumption and even language restrictions.
-
-...
+We are claiming that the notion of \emph{context} in a low-level software will
+significantly improve readability and re-usability of the code, as well as
+debugging and maintaining of the application. We also believe this notion will
+allow a developer to represent any dynamic variability. Moreover, our approach
+supports combinations of adaptation, which are usually taking a place in the
+real world.
 
 Consider for example a sensor network for wildlife tracking~\cite{pasztor10},
 which is intended to track animals' movements, social interactions and health
@@ -22,4 +24,11 @@ to monitor health conditions, and low-power short-range radio to perform a
 periodic beaconing. The latter allows the nodes to discover each other and then
 log the radio contacts to study an animal's social interactions.
 
-To mention: structure of the paper.
+The way to create this kind of self-adaptive software is described in
+Sec.~\ref{sec:cop}, but the development would be difficult not only because of
+several adaptation dimensions, but also due to extreme resource limitations --
+the main challenge in WSNs. By addressing to these issues we introduce \conesc
+-- a context oriented extension of nesC language described in
+Sec.~\ref{sec:conesc}. To test our approach we developed a tool described in
+Sec.~\ref{sec:translator} to translate \conesc sources into nesC language. We
+discuss then our evaluation results in Sec.~\ref{sec:eval} in details.
