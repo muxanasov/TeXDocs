@@ -1,9 +1,9 @@
-\section{Concepts and language support}
+\section{Concepts and language support}\label{sec:concepts}
 
 We introduce two main notions: \emph{i)} individual \emph{context} and \emph{ii)
 context group}, whose along with a number of secondary notions form a complete
 design. Context represents an environmental situation the system may find itself
-in, and defines a behavioral variation. The software adapts to the environmental
+in, and defines a behavioral pivot points. The software adapts to the environmental
 dynamics by \emph{activating} the corresponding context. Context groups
 represent the collections of contexts, combine the variations of the same
 functionality, and identify orthogonal aspects and mutual constraints.
@@ -42,7 +42,7 @@ context group BaseStationG {
 \end{figure}
 
 The context-oriented design of our example is displayed in
-Fig.~\ref{fig:design}. Context groups describe a behavioral variation
+Fig.~\ref{fig:design}. Context groups describe possible dynamics
 corresponding to battery level, base-station availability, health conditions and
 activity of an animal. In \conesc \emph{context group} extends a standard nesC
 configuration and declares layered functions -- the core notion of
@@ -59,24 +59,27 @@ activate BaseStationG.Unreachable;
 \end{lstlisting}
 \vspace{-1.5mm}
 
-The context corresponds to the behavioral variation for a given situation. For
-example, the software behaves differently depending on whether the base-station
-is reachable. An implementation of layered function -- the core notion of COP
-[4] meant to implement a behavioral variation -- in "Reachable'' context is
-shown on line~\lstref{ct:layer} in Figure~\ref{fig:context}. This function
-represents \emph{continuous activity}, such as logging contacts locally as long
-as "Unreachable'' context is active.
+The context corresponds to the separate environmental situation. For example,
+two different situations of the reachability of base-station would correspond to
+different behavior of the software. Activated context is a pivot point, where
+the software changes its execution flow according to the implementation of
+layered function -- the core notion of COP [4] meant to implement a behavioral
+variation. For example, in ``Reachable'' context, as shown on
+line~\lstref{ct:layer} in Figure~\ref{fig:context}, function~\code{report()}
+sends the contacts via radio. This function represents \emph{continuous
+activity}, as well as logging contacts locally as long as ``Unreachable'' context
+is active.
 
 Opposite to \emph{continuous activities}, there are also \emph{on-time
 operations}, such as dumping the logs on the base-station on entering the
-context "Unreachable''. In \conesc, these operations can be implemented by using
+context ``Unreachable''. In \conesc, these operations can be implemented by using
 predefined events \code{activated()} and \code{deactivated()}, shown on
 lines~\lstref{ct:activate} and~\lstref{ct:deactivate}. They are automatically
 signaled when entering or leaving the contexts.
 
 The contexts transitions within the group are governed by rules. For example,
-within the "Base-station'' group, the system initiates the transition from
-"Reachable'' to "Unreachable'' whenever no beacons are received within a
+within the ``Base-station'' group, the system initiates the transition from
+``Reachable'' to ``Unreachable'' whenever no beacons are received within a
 specific timeout. Contexts indicated after the key-word \code{transitions} on
 line \lstref{ct:tr} represent possible outgoing transitions. They are also
 possibly followed by a key-word \code{iff} to state constraints on the
@@ -88,21 +91,21 @@ transitions Diseased iff Resting || NotMoving;
 \end{lstlisting}
 \vspace{-1.5mm}
 
-The example is in "Health conditions'' group: when activating the "Diseased''
+The example is in ``Health conditions'' group: when activating the ``Diseased''
 context based on body temperature, the software should also check that either
-"NotMoving'' or "Resting'' in "Activity group'' is currently active. Should the
-constraints be violated, the "Error'' context defined in the corresponding
+``NotMoving'' or ``Resting'' in ``Activity group'' is currently active. Should the
+constraints be violated, the ``Error'' context defined in the corresponding
 context group is activated. Indeed, a diseased animal is probably not very
 active. Otherwise, developers might have not correctly caught the contexts
 evolution.
 
 The required adaptation may affect several context groups. For example, whenever
-the base-station is "Reachable'', context "NotMoving'' should be also activated.
+the base-station is ``Reachable'', context ``NotMoving'' should be also activated.
 The latter saves energy by disabling the GPS-sensor, since the base-station is
 static and deployed in a known location. To this end, the keyword
 \code{triggers} on line~\lstref{ct:trigger} binds the activation across the
 groups. For example, the context "NotMoving'' is activated on entering the
-"Reachable'' context, as specified in Figure~\ref{fig:design}.
+``Reachable'' context, as specified in Figure~\ref{fig:design}.
 
 
 \begin{figure}[!tb]
