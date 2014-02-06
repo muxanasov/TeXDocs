@@ -63,12 +63,11 @@ The context corresponds to the separate environmental situation. For example,
 two different situations of the reachability of base-station would correspond to
 different behavior of the software. Activated context is a pivot point, where
 the software changes its execution flow according to the implementation of
-layered function -- the core notion of COP [4] meant to implement a behavioral
-variation. For example, in ``Reachable'' context, as shown on
-line~\lstref{ct:layer} in Figure~\ref{fig:context}, function~\code{report()}
-sends the contacts via radio. This function represents \emph{continuous
-activity}, as well as logging contacts locally as long as ``Unreachable'' context
-is active.
+layered function -- e.g. the behavioral variation. For example, in ``Reachable''
+context, as shown on line~\lstref{ct:layer} in Figure~\ref{fig:context},
+function~\code{report()} sends the contacts via radio. This function represents
+\emph{continuous activity}, as well as logging contacts locally as long as
+``Unreachable'' context is active.
 
 Opposite to \emph{continuous activities}, there are also \emph{on-time
 operations}, such as dumping the logs on the base-station on entering the
@@ -91,13 +90,13 @@ transitions Diseased iff Resting || NotMoving;
 \end{lstlisting}
 \vspace{-1.5mm}
 
-The example is in ``Health conditions'' group: when activating the ``Diseased''
-context based on body temperature, the software should also check that either
-``NotMoving'' or ``Resting'' in ``Activity group'' is currently active. Should the
-constraints be violated, the ``Error'' context defined in the corresponding
-context group is activated. Indeed, a diseased animal is probably not very
-active. Otherwise, developers might have not correctly caught the contexts
-evolution.
+The example is in Fig.~\ref{fig:design} in ``Health conditions'' group: when
+activating the ``Diseased'' context based on body temperature, the software
+should also check that either ``NotMoving'' or ``Resting'' in ``Activity group''
+is currently active. Should the constraints be violated, the ``Error'' context
+defined in the corresponding context group is activated. Indeed, a diseased
+animal is probably not very active. Otherwise, developers might have not
+correctly caught the contexts evolution.
 
 The required adaptation may affect several context groups. For example, whenever
 the base-station is ``Reachable'', context ``NotMoving'' should be also activated.
