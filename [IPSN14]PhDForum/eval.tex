@@ -1,21 +1,20 @@
 \section{Evaluation}\label{sec:eval}
 
 We implemented three representative applications in scenarios of wildlife
-monitoring, smart-home, and adaptive protocol selection. For each we compare
-the nesC implementation against its \conesc counterpart.
+monitoring, smart-home, and adaptive protocol selection. For each of them we
+compare the nesC implementation against its \conesc counterpart.
 
 We estimated complexity by using such metrics as the number of lines of code
-(LOC), the number of variables declared and functions defined~\cite{Pressman01}.
-Despite our results show increase of the number of LOC and declared functions --
-17\% and 50\% correspondingly -- the average number of LOC and functions
-per-module is decreased by 50\% and 44\%. The modules in \conesc are smaller
-and more decoupled, thus, developing, debugging and supporting processes are
-much easier. \conesc-written applicaton is more than 3 times smaller than
-generated code, what makes \conesc an effective tool for COP.
+(LOC), the number of variables declared, and the number of functions
+defined~\cite{Pressman01}. Despite our results show an increase of the number of
+LOC and declared functions -- 17\% and 50\% correspondingly -- the average
+number of LOC and functions per-module is decreased by 50\% and 44\%. The
+modules in \conesc are smaller and more decoupled, thus, developing, debugging,
+and supporting individual functionality is much easier.
 
-The memory overhead is less than 2,5\% for binary size and less than
-5\% for RAM. The average CPU overhead for layered function calls oscillates
-from 2 to 5 CPU cycles depending on application, which is negligible in terms of
-energy consumption, since the simplest operation in TinyOS -- turn on/off LEDs
--- consumes 8 CPU cycles. The context transitions overhead is bigger -- from 16
-to 28 CPU cycles -- but remains in the same order of magnitude.
+The memory overhead is less than 2,5\% for binary size and less than 5\% for
+RAM. The average CPU overhead for layered function calls oscillates from 2 to 5
+CPU cycles depending on the application, which is negligible in terms of energy
+consumption, since the simplest operation in TinyOS -- turning on/off LEDs --
+consumes 8 CPU cycles. The context transitions overhead is bigger -- from 16 to
+28 CPU cycles -- but remains in the same order of magnitude.

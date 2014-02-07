@@ -1,11 +1,11 @@
 \section{Concepts and language support}\label{sec:concepts}
 
 We introduce two main notions: \emph{i)} individual \emph{context} and \emph{ii)
-context group}, whose along with a number of secondary notions form a complete
+context group}, which along with a number of secondary notions form a complete
 design. Context represents an environmental situation the system may find itself
-in, and defines a behavioral pivot points. The software adapts to the environmental
-dynamics by \emph{activating} the corresponding context. Context groups
-represent the collections of contexts, combine the variations of the same
+in, and defines a behavioral pivot point. The software adapts to the
+environmental dynamics by \emph{activating} the corresponding context. Context
+groups represent collections of contexts, combine the variations of the same
 functionality, and identify orthogonal aspects and mutual constraints.
 
 \begin{figure}
@@ -20,10 +20,10 @@ functionality, and identify orthogonal aspects and mutual constraints.
 
 {\bf \conesc.} We render the concepts above in a set of COP-oriented language
 constructs. Our target language nesC -- one of the most popular for programming
-for WSNs derived from C -- exemplifies the restrictions of CPSs such as limited
-memory and CPU performance, as well as absence of memory protection. Our
-context-oriented extension of nesC, called \conesc, overcomes the restrictions
-and brings COP for CPSs by extending nesC modules.
+WSNs -- exemplifies the restrictions of CPSs such as limited memory and CPU
+performance, as well as absence of memory protection. Our context-oriented
+extension of nesC, called \conesc, overcomes the restrictions and brings COP to
+CPSs by extending nesC modules and configurations.
 
 \begin{figure}[!tb]
 \begin{lstlisting}[style=conescframe]
@@ -41,17 +41,18 @@ context group BaseStationG {
 \vspace{-7mm}
 \end{figure}
 
-The context-oriented design of our example is displayed in
-Fig.~\ref{fig:design}. Context groups describe possible dynamics
+The context-oriented design of an example wildlife tracking application is
+displayed in Fig.~\ref{fig:design}. Context groups describe possible dynamics
 corresponding to battery level, base-station availability, health conditions and
 activity of an animal. In \conesc \emph{context group} extends a standard nesC
 configuration and declares layered functions -- the core notion of
-COP~\cite{Hirschfeld08} meant to implement a behavioral variation -- by key-word
-\code{layered}. Included contexts are declared by key-word \code{contexts} with
-optional modifiers \code{is default} to define the active context at start-up,
-and optional modifier \code{is error} to specify an \emph{error} context
-discussed later in this section. Explicit context activation can be initiated
-anywhere in the code:
+COP~\cite{Hirschfeld08} meant to implement a behavioral variation -- by using
+the key-word \code{layered}, as shown in Fig.~\ref{fig:configuration}. Included
+contexts are declared by using the key-word \code{contexts} with optional
+modifiers \code{is default} to define the active context at start-up, and
+optional modifier \code{is error} to specify an \emph{error} context discussed
+later in this section. Explicit context activation can be initiated anywhere in
+the code, as:
 
 \vspace{-1mm}
 \begin{lstlisting}[language=conesc]
@@ -59,30 +60,30 @@ activate BaseStationG.Unreachable;
 \end{lstlisting}
 \vspace{-1.5mm}
 
-The context corresponds to the separate environmental situation. For example,
-two different situations of the reachability of base-station would correspond to
-different behavior of the software. Activated context is a pivot point, where
-the software changes its execution flow according to the implementation of
-layered function -- e.g. the behavioral variation. For example, in ``Reachable''
-context, as shown on line~\lstref{ct:layer} in Figure~\ref{fig:context},
+Contexts correspond to the separate environmental situations. For example, two
+different reachability of the base-station would correspond to different
+behaviors of the software. Activated context is a pivot point, where the
+software changes its execution flow according to the implementation of a layered
+function -- e.g. a behavioral variation. For example, in ``Reachable'' context,
+as shown on line~\lstref{ct:layer} in Figure~\ref{fig:context},
 function~\code{report()} sends the contacts via radio. This function represents
-\emph{continuous activity}, as well as logging contacts locally as long as
+\emph{continuous activities}, as well as logging contacts locally as long as
 ``Unreachable'' context is active.
 
-Opposite to \emph{continuous activities}, there are also \emph{on-time
+Opposite to \emph{continuous activities}, there are also \emph{one-time
 operations}, such as dumping the logs on the base-station on entering the
-context ``Unreachable''. In \conesc, these operations can be implemented by using
-predefined events \code{activated()} and \code{deactivated()}, shown on
-lines~\lstref{ct:activate} and~\lstref{ct:deactivate}. They are automatically
-signaled when entering or leaving the contexts.
+context ``Unreachable''. In \conesc, these operations can be implemented by
+using predefined events \code{activated()} and \code{deactivated()}, which are
+shown on lines~\lstref{ct:activate} and~\lstref{ct:deactivate}. They are
+automatically signaled when entering or leaving contexts.
 
 The contexts transitions within the group are governed by rules. For example,
 within the ``Base-station'' group, the system initiates the transition from
-``Reachable'' to ``Unreachable'' whenever no beacons are received within a
-specific timeout. Contexts indicated after the key-word \code{transitions} on
-line \lstref{ct:tr} represent possible outgoing transitions. They are also
-possibly followed by a key-word \code{iff} to state constraints on the
-transitions:
+``Reachable'' to ``Unreachable'' whenever no beacons from the base-station are
+received within a specific timeout. Contexts indicated after the key-word
+\code{transitions} on line \lstref{ct:tr} represent possible outgoing
+transitions. They are also possibly followed by a key-word \code{iff} to state
+constraints on the transitions:
 
 \vspace{-1mm}
 \begin{lstlisting}[language=conesc]
@@ -90,16 +91,16 @@ transitions Diseased iff Resting || NotMoving;
 \end{lstlisting}
 \vspace{-1.5mm}
 
-The example is in Fig.~\ref{fig:design} in ``Health conditions'' group: when
+The example is in Fig.~\ref{fig:design} in the ``Health conditions'' group: when
 activating the ``Diseased'' context based on body temperature, the software
 should also check that either ``NotMoving'' or ``Resting'' in ``Activity group''
 is currently active. Should the constraints be violated, the ``Error'' context
 defined in the corresponding context group is activated. Indeed, a diseased
 animal is probably not very active. Otherwise, developers might have not
-correctly caught the contexts evolution.
+correctly caught the contexts' evolution.
 
 The required adaptation may affect several context groups. For example, whenever
-the base-station is ``Reachable'', context ``NotMoving'' should be also activated.
+the base-station is ``Reachable'', context ``NotMoving'' should also be activated.
 The latter saves energy by disabling the GPS-sensor, since the base-station is
 static and deployed in a known location. To this end, the keyword
 \code{triggers} on line~\lstref{ct:trigger} binds the activation across the
