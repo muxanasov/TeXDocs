@@ -1,5 +1,5 @@
 \input{snippets}
-\section{Context Oriented nesC (ConesC)}
+\section{Context Oriented nesC (ConesC)}\label{sec:conesc}
 
 \conesc provides a design-time support for developing a self-adaptive software,
 which alternates its behavior at run-time including catching and handling
@@ -158,7 +158,7 @@ Fig.~\ref{fig:ad}, such as: possibility of the transition, dependencies check an
 check. The successful check allows to continue a transition, while the failure leads either to
 the canceling of the transition or to activation of the \emph{error} context. The latter is generated
 automatically unless declared in a \emph{context group} by using the key-word \emph{is error},
-as shown in Fig.~\ref{fig:ccc} on line~\ref{iserror}.
+as shown in Fig.~\ref{fig:ccc} on line~\lstref{iserror}.
 
 \putfigure{ caption=Activation diagram.,label=fig:ad}{
  \centering

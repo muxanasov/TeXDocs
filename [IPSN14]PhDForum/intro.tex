@@ -1,26 +1,35 @@
 \section{Introduction}
 
-Cyberphysical systems (CPSs) are usually used to gather data form and take
-actions on the real world. CPS software is required to self-adapt to
-environmental dynamics under limited resources.
+Cyberphysical systems (CPSs) gather data from and take actions on the real
+world. The environmental dynamics determines the requirement for CPS software to
+be adaptable. Moreover, adaptation should occur simultaneously along diferent
+dimensions. In wildlife tracking applications~\cite{pasztor10:selective}, for
+example, sensor nodes are attached to animals to study their movements, social
+interactions, and health conditions. Nodes are running on batteries, which makes
+the energy a precious resource. To save it, such devices as GPS and radio should
+be disabled when not needed. Orthogonally, the node should send the data to the
+base-station, if it is reachable, or save it locally otherwise.
 
-In wildlife tracking application~\cite{pasztor10:selective} sensor nodes are
-attached to animals to study their movements, social interactions, and health
-conditions. Nodes are running on batteries, which makes the energy a precious
-resource. To save it, such devices as GPS and radio should be disabled when not
-needed.
+In the absence of design-time support for self-adaptive software, the adaptation
+described above would be achieved by ad-hoc
+code~\cite{Zimmerling12,Bourdenas11}, that makes the application cumbersome to
+design, and difficult to understand, debug, and maintain. A more general
+approach -- context-oriented programming (COP)~\cite{Hirschfeld08} -- addresses
+these issues by providing a design-time abstractions for adaptations. There are
+many implementations of COP in high-level
+languages~\cite{Ghezzi10,Salvaneschi12,Sehic11}, most of which are not
+applicable to embedded systems, because of resource limitations.
 
-The combination of multiple aspects the developer has to take care of determines
-the complexity of such software. In our example, the software must behave
-depending on physical location, battery level etc.
+%Many works exist in the area of self-adaptive embedded
+%systems~\cite{Zimmerling12,Bourdenas11}, which illustrates a problem-specific
+%approach dedicated code. A more general approach -- context-oriented
+%programming (COP)~\cite{Hirschfeld08} -- is implemented in several high-level
+%languages~\cite{Ghezzi10,Salvaneschi12,Sehic11}. Most of them are not
+%applicable to the embedded systems, because of resource limitations.
 
-Many works exist in the area of self-adaptive embedded
-systems~\cite{Zimmerling12,Bourdenas11}, which are very problem-specific. A more
-general approach -- context-oriented programming (COP)~\cite{Hirschfeld08} -- is
-implemented in several high-level
-languages~\cite{Ghezzi10,Salvaneschi12,Sehic11}. Most of them are not applicable
-to the embedded systems, because of resource limitations.
-
-By borrowing COP concepts and bringing them down to low-level software, we
-provide a design-time and programming support to enable self-adaptive
-behavior.
+By borrowing COP concepts and bringing them down to low-level CPS software, we
+provide a design-time and programming support to enable self-adaptive behavior.
+As a result, we introduce \conesc -- a context-oriented extension of nesC
+language -- in Sec.~\ref{sec:concepts}, where we also describe the concepts the
+language was build upon. We discuss our preliminary evaluations in
+Sec.~\ref{sec:eval}, and open problems in Sec.~\ref{sec:future}.
