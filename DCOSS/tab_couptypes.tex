@@ -3,7 +3,7 @@
 \hline
 \bfseries Type & \bfseries Description\\
 \hline
-Content (tight) & One module relies on the internal working of another. Chang- ing one module requires changes in the other as well.\\
+Content (tightest) & One module relies on the internal working of another. Chang- ing one module requires changes in the other as well.\\
 \hline
 Common & Two or more modules share some global state, e.g., a variable.\\
 \hline
@@ -15,6 +15,6 @@ Stamp & Two or more modules share a common data format, but each of them uses a 
 \hline
 Data & Two or more modules share data through a typed interface, e.g., a function call.\\
 \hline
-Message (loose) & Two or more modules share data through an untyped inter- face, e.g., via message passing.\\
+Message (loosest) & Two or more modules share data through an untyped inter- face, e.g., via message passing.\\
 \hline
 \end{tabular}
