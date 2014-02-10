@@ -1,104 +1,88 @@
 \input{snippets}
-\section{Context Oriented nesC (ConesC)}\label{sec:conesc}
+\section{ConesC}\label{sec:conesc}
 
-\conesc provides a design-time support for developing a self-adaptive software,
-which alternates its behavior at run-time including catching and handling
-errors. Along with this, our approach provides a deep modularization, since
-behavioral variations are encapsulated into different modules. The latter, as we
-show in Sec.~\ref{sec:evalcomp}, are highly decoupled, which enhances code
-readability and re-usability as well as debugging and developing processes.
+% \conesc provides a design-time support for developing a self-adaptive software,
+% which alternates its behavior at run-time including catching and handling
+% errors. Along with this, our approach provides a deep modularization, since
+% behavioral variations are encapsulated into different modules. The latter, as we
+% show in Sec.~\ref{sec:evalcomp}, are highly decoupled, which enhances code
+% readability and re-usability as well as debugging and developing processes.
 
-Programming in \conesc is intimately tied with environment-dependent behavior of
-the application and exploits two main concepts: \emph{i)} individual contexts
-and their transitions and \emph{ii)} context groups. The former represent
-different environment situations where a system may find itself. Each context
-maps to a separate state of the device or environment a system operates in. As
-the environment conditions change, a programmer initiates a context transition
-by \emph{activating} the corresponding context. A context group is a set of
-contexts sharing common characteristics and variations of the same
-functionality. Thus, whenever a transition between involved contexts occurs, it
-is determined by changes in one or more physical quantities.
-
-\subsection{Application design}\label{sec:appdesign}
-
-The diagram on Fig.~\ref{fig:wtd} shows how these concepts are used in the
-design of application. By using a body temperature sensor system detects if an
-animal is \emph{Diseased} and builds an alert beacon or a normal beacon
-otherwise. Here contexts \emph{Healthy} and \emph{Deiseased} are based on a
-physical quantity -- the body temperature of an animal -- and reflect variations
-of the same functionality, such as building a beacon, so they can be joined into
-a group \emph{Health conditions}.
-
-Depending on GPS readings developers may want to vary a sampling rate to use
-energy more effective. For example, there is no need to track a location if an
-animal is \emph{NotMoving}, but should accelerometer detect any significant
-movement, a periodic sampling should be initiated. Increased difference between
-two location readings indicates that an animal is \emph{Running}, and location
-sampling should occurs more often.
-
-Orthogonal to application-level functionality, the system should transmit data
-to the Base Station (BS) or save readings locally depending on the BS
-availability. Whenever the latter is \emph{Unreachable}, a node logs data in
-internal memory, but should it receive a BS-beacon, the data is dumped to the
-BS. Crucially, the node runs on a battery, so the system should be aware of a
-battery status and disable GPS-module, which is power consuming, if the battery
-level is \emph{Low}.
-
-\conesc reflects this design by using new types of components, such as
-\emph{context} and \emph{context group} -- extensions of \emph{module} and
-\emph{configuration} correspondingly -- and a set of new key-words. Instances of
-new types, however, can also be used as standard nesC components, e.g. they can
-provide or use interfaces as well as be declared in the same way.
-
-\putfigure{caption=Wildlife tracking diagram.,label=fig:wtd}{
- \centering
- \includegraphics[width=\columnwidth]{pdf/wildlifetracking}
-}
+We illustrate how we render the concepts in
+Section~\ref{sec:appdesign} within \conesc: our own context-oriented
+extension to nesC.  We describe a notion of context module and
+configuration in Section~\ref{subsec:components}, and discuss in
+Section~\ref{subsec:usage} how programmers use these constructs to
+specify an application's adaptive behavior.
+Section~\ref{subsec:usage} describes how \conesc programmers may deal
+with unforeseen context evolutions.
 
 \subsection{Contexts and Context Groups}\label{subsec:components}
 
-The \emph{Context group} component is displayed on Fig.~\ref{fig:ccc} and used
-to declare layered functions and the contexts included. The former is declared
-on line~\lstref{layereddef} by using the key-word \emph{layered}, while the
-declaration of the latter starts from the key-word \emph{contexts} on
-line~\lstref{contexts}. The mandatory modifier \emph{is default} indicates an
-active at start-up context, as shown on line~\lstref{isdefault}. Another
-modifier on the the next line~\lstref{iserror} declares the context
-\emph{ErrorC} as an \emph{error} context, which is used to handle errors
-occurred during the execution, it is optional though. If an \emph{error} context
-is not declared, it will be generated automatically. We discuss the use of this
-context in section~\ref{subsec:rules}.
-
 \putsnippet{
- caption=Context configuration component.,
+ caption=Context group in \conesc.,
  label=fig:ccc,
  boxname=boxcc
 }
 
-Figures~\ref{fig:cc} and~\ref{fig:irc} display \emph{Context} components, main
-purpose of which is an implementation of layered function declared in context configuration. 
-This approach enables a behavioral variation, since the implementation of a layered function is
-context-specific, and only one context within the group can be active at a time. Thus, in our
-example, a behavior of the function \emph{report()} depends on the activated context and
-deposits a message in local memory, while \emph{Unreachable} context
-is active (figure~\ref{fig:cc}, line~\lstref{layeredimp}),
-or sends it directly to the BS otherwise (figure~\ref{fig:irc}, line~\lstref{layeredimp2}).
-Developer may want to add some instructions after
-context activation such as initialization of variables or enabling/disabling
-modules, as in our example in Fig.~\ref{fig:wtd} we enable GPS-sensor on entering
-in \emph{Unreachable} context. Or it may be necessary to reset component's state before context
-deactivation. To this end ConesC provides events \emph{activated()} and
-\emph{deactivated()} correspondingly, whose stub implementation is shown on
-lines~\lstref{activated} and~\lstref{deactivated} in Fig.~\ref{fig:cc}. The implementation of
-these events, however, is not obligatory.
+Context groups in \conesc extend the standard nesC
+configurations. Programmers use context groups to to declare layered
+functions and the contexts providing the corresponding behavioral
+variations depending on the situation. 
+
+Fig.~\ref{fig:ccc} shows an example for the \emph{Base-station}
+group. A layered \code{report} function is declared on
+line~\lstref{layereddef} by using the keyword \code{layered}. The
+contexts providing the necessary behavioral variations are specified
+following the keyword \code{contexts} on line~\lstref{contexts}. In
+this case, programmers define two such contexts, depending on
+base-station reachability. The \code{is default} modifier, shown on
+line~\lstref{isdefault} indicates what context is active at
+startup. The next \code{is error} modifier on line~\lstref{iserror}
+declares context \code{ErrorC} as an \emph{error} context, which
+programmers may optionally use to handle errors during the execution,
+as we discuss in Section~\ref{subsec:rules}. If an error context is
+not declared, it is generated automatically.
 
 \putsnippet{
- caption=Context component.,
+ caption=\emph{Reachable} context.,
+ label=fig:irc,
+ boxname=boxirc
+}
+
+\putsnippet{
+ caption=\emph{Unreachable} context.,
  label=fig:cc,
  boxname=boxc
 }
 
-\subsection{Usage}
+The individual contexts in \conesc extend the standard nesC modules by
+providing context-dependent implementations of layered function
+declared in context groups. Only one context at a time can be
+\emph{active} in a group, meaning only one context at a time can
+provide the implementation of a given layered function.
+
+
+For example, Fig.~\ref{fig:irc} and~\ref{fig:cc} show fragments of the
+\emph{Reachable} and \emph{Unreachable} contexts referenced in
+Fig.~\ref{fig:ccc}. In this example, the behavior of function
+\code{report} depends on the activated context and deposits a message
+in local memory, while \emph{Unreachable} context is active
+(figure~\ref{fig:cc}, line~\lstref{layeredimp}), or sends it directly
+to the BS otherwise (figure~\ref{fig:irc}, line~\lstref{layeredimp2}).
+
+Developer may want to add some instructions after context activation
+such as initialization of variables or enabling/disabling modules, as
+in our example in Fig.~\ref{fig:wtd} we enable GPS-sensor on entering
+in \emph{Unreachable} context. Or it may be necessary to reset
+component's state before context deactivation. To this end ConesC
+provides events \emph{activated()} and \emph{deactivated()}
+correspondingly, whose stub implementation is shown on
+lines~\lstref{activated} and~\lstref{deactivated} in
+Fig.~\ref{fig:cc}. The implementation of these events, however, is not
+obligatory.
+
+\subsection{Usage}\label{subsec:usage}
 
 This section shows how ConesC can be used to invoke a behavioral
 variation. Here we describe one aspect of an application's behavioral variation,
@@ -207,12 +191,6 @@ a context is not activated and a system remains in the previous state.
 This approach allows one not to think about conditions a transition taking
 place in, but foresee possible inconsistencies.
 
-\putsnippet{
- caption=Reachable context.,
- label=fig:irc,
- boxname=boxirc
-}
-
 Other types of inter-group relations imply automatic triggering of context
 transition. Considering \emph{Battery} group in our example, we can notice that
 for further energy saving developers may want to trigger a transition to
@@ -226,3 +204,10 @@ The same checks apply to automatic transitions.
  label=fig:lc,
  boxname=boxlc
 }
+
+
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "bare_conf"
+%%% End: 
