@@ -381,6 +381,7 @@
 \newcommand{\conesc}{{\textsc{ConesC}}\xspace}
 \newcommand{\code}[1]{{\bfseries\texttt{#1}}}
 \newcommand{\lm}[1]{\footnote{{\bf Luca: #1}}}
+\newcommand{\fakepar}[1]{\vspace{1mm}\noindent\textbf{#1.}}
 
 % -begin- //nice in-code glyphs routine
 \usepackage{tikz}
@@ -396,8 +397,6 @@
 % -end- //nice in-code glyphs routine
 
 % -begin- // figures template
-\newcommand{\fakepar}[1]{\vspace{1mm}\noindent\textbf{#1.}}
-
 \usepackage{subfig}
 \usepackage{xkeyval}
 \usepackage{realboxes}
@@ -434,28 +433,34 @@
 %
 % paper title
 % can use linebreaks \\ within to get better formatting as desired
-\title{Bare Demo of IEEEtran.cls for Conferences}
+%\title{Language support for Adaptive\\Wireless Sensor Network Software}
+%\title{Wireless Sensor Networks Software in Context-Oriented Perspective}
+%\title{Context-Oriented Programming for Adaptive\\Wireless Sensor Network Software}
+\title{Adaptivity in Low-Level Software for Wireless Sensor Network in Context-Oriented Perspective}
+%Design-Time Support
+%Low-Level Software
+%Wireless Sensor Networks
+%Software
+%Context-Oriented Programming
+
 
 
 % author names and affiliations
 % use a multiple column layout for up to three different
 % affiliations
-\author{\IEEEauthorblockN{Michael Shell}
-\IEEEauthorblockA{School of Electrical and\\Computer Engineering\\
-Georgia Institute of Technology\\
-Atlanta, Georgia 30332--0250\\
-Email: http://www.michaelshell.org/contact.html}
+\author{
+\IEEEauthorblockN{Luca Mottola}
+\IEEEauthorblockA{Politecnico di Milano,\\
+Swedish Institute of Computer Science\\
+luca.mottola@polimi.it}
 \and
-\IEEEauthorblockN{Homer Simpson}
-\IEEEauthorblockA{Twentieth Century Fox\\
-Springfield, USA\\
-Email: homer@thesimpsons.com}
+\IEEEauthorblockN{Mikhail Afanasov}
+\IEEEauthorblockA{Politecnico di Milano\\
+afanasov@elet.polimi.it}
 \and
-\IEEEauthorblockN{James Kirk\\ and Montgomery Scott}
-\IEEEauthorblockA{Starfleet Academy\\
-San Francisco, California 96678-2391\\
-Telephone: (800) 555--1212\\
-Fax: (888) 555--1212}}
+\IEEEauthorblockN{Carlo Ghezzi}
+\IEEEauthorblockA{Politecnico di Milano\\
+carlo.ghezzi@polimi.it}}
 
 % conference papers do not typically use \thanks and this command
 % is locked out in conference mode. If really needed, such as for
@@ -521,7 +526,9 @@ Fax: (888) 555--1212}}
 \input{translator}
 \input{evaluation}
 \input{conclusion}
-\input{bibliography}
+
+\bibliographystyle{plain}      % 
+\bibliography{bibl}   % name your BibTeX data base
 
 
 % that's all folks
