@@ -14,8 +14,8 @@ extension to nesC.  We describe a notion of context module and
 configuration in Section~\ref{subsec:components}, and discuss in
 Section~\ref{subsec:usage} how programmers use these constructs to
 specify an application's adaptive behavior.
-Section~\ref{subsec:usage} describes how \conesc programmers may deal
-with unforeseen context evolutions.
+Section~\ref{subsec:usage} describes how \conesc programmers deal with
+context transitions and their relations.
 
 \subsection{Contexts and Context Groups}\label{subsec:components}
 
@@ -38,7 +38,7 @@ following the keyword \code{contexts} on line~\lstref{contexts}. In
 this case, programmers define two such contexts, depending on
 base-station reachability. The \code{is default} modifier, shown on
 line~\lstref{isdefault} indicates what context is active at
-startup. The next \code{is error} modifier on line~\lstref{iserror}
+start-up. The next \code{is error} modifier on line~\lstref{iserror}
 declares context \code{ErrorC} as an \emph{error} context, which
 programmers may optionally use to handle errors during the execution,
 as we discuss in Section~\ref{subsec:rules}. If an error context is
@@ -65,7 +65,7 @@ provide the implementation of a given layered function.
 For example, Fig.~\ref{fig:irc} and~\ref{fig:cc} show \conesc snippets
 for the \emph{Reachable} and \emph{Unreachable} contexts referenced in
 Fig.~\ref{fig:ccc}. They provide different implementations for
-\code{report} dependsing on the situation. If the base-station is
+\code{report} depending on the situation. If the base-station is
 \emph{Reachable}, this the corresponding context is active, the code
 transmits the message to the base-station, as in
 line~\lstref{layeredimp2} of Fig~\ref{fig:irc}. Differently, the code
@@ -108,7 +108,7 @@ followed by a full context name. In this fragment of code, the
 as a beacon from the base station is received. Should the timeout
 expire with no more beacons received, context \emph{Unreachable} is
 activated on line~\lstref{actNoBS}. Either context change results in a
-different context-dependent implemenation of \code{report} to be
+different context-dependent implementation of \code{report} to be
 activated.
 
 \putsnippet{
@@ -118,27 +118,27 @@ activated.
 }
 
 Modules using layered functions perform function calls transparently
-w.r.t. the available contexts and, most importantly, independently of
+w.r.t.\ the available contexts and, most importantly, independently of
 what context is active at a given moment. Fig.~\ref{fig:mm} shows one
 such example where no explicit references appear to which and how many
-behavrioal variations exist for function \code{report()}. Following
-the indication that context group \emph{BaseStationG} is used, as
-specified on line~\lstref{cgdecl}, the call to function \code{report}
-on line~\lstref{calling} refers to the context group and not to the
-individual contexts. The net advatnage is that the use of
-context-dependent functionality and the functionality to manage
-context detection and activation are fully decoupled and can thus live
-separate, even in a different modules.
+behavioral variations exist for function \code{report}. Following the
+indication that context group \emph{BaseStationG} is used, as
+specified on line~\lstref{cgdecl}, the call to the layered function
+\code{report} on line~\lstref{calling} refers to the context group and
+not to the individual contexts. The net advantage is that the use of
+context-dependent functionality, and context detection and activation
+are fully decoupled. the two may be implemented even in different
+modules.
 
 
-Nevertheless, should the programmers of user module need to find out
+Nevertheless, should programmers of user modules need to find out
 about context changes, a predefined event~\code{contextChanged} is
-fired corresponding to every context change, as shown on line~\lstref{eventCC} in
-Fig.~\ref{fig:mm}. % This event can be caught
+fired corresponding to every context change, as shown on
+line~\lstref{eventCC} in Fig.~\ref{fig:mm}. % This event can be caught
 % and handled, as it is shown on the line~\lstref{eventCC} in
 % Fig.~\ref{fig:mm}, but it is not mandatory though.
-Within the event handler, programmers can access costant values in a
-context group that our translator automatically egnerates, as
+Within the event handler, programmers can access constant values in a
+context group that our translator automatically generates, as
 described in Section~\ref{sec:translator}, to find out what context
 was activated and to react accordingly, as shown on
 line~\lstref{concheck}.
@@ -163,73 +163,98 @@ line~\lstref{concheck}.
 
 \subsection{Transition Rules}\label{subsec:rules}
 
-In ConesC every context transition implies several checking stages, which are displayed in
-Fig.~\ref{fig:ad}, such as: possibility of the transition, dependencies check and conditions
-check. The successful check allows to continue a transition, while the failure leads either to
-the canceling of the transition or to activation of the \emph{error} context. The latter is generated
-automatically unless declared in a \emph{context group} by using the key-word \emph{is error},
-as shown in Fig.~\ref{fig:ccc} on line~\lstref{iserror}.
-
-\putfigure{ caption=Activation diagram.,label=fig:ad}{
+\putfigure{caption=Context activation checks.,label=fig:ad}{
  \centering
  \includegraphics[width=\columnwidth]{pdf/activation_diagram}
 }
 
-In our scenario, which is displayed on a figure~\ref{fig:wtd}, within \emph{Activity} group a
-transition from \emph{NotMoving} to \emph{Resting} is only possible, and it is checked
-by the first conditional chose displayed on a figure~\ref{fig:ad}.
-Since each transition is governed by a separate rule, it is declared in a context component as shown
-on line~\lstref{transitions} in figure~\ref{fig:nmc}. Here key-word \emph{transitions}
-indicates the contexts a transition can be performed to. An attempt to initiate
-a transition to the context, which is not declared in a given active context, leads to an error context
-activation, since this kind of transitions is not possible.
+In general, programmers need to take significant care of context
+transitions, in that the latter may drastically change an
+application's behavior. To better support programmers in doing so,
+every context transition in \conesc entails several checking stages,
+as shown in Fig.~\ref{fig:ad}. A successful check allows the
+transition to continue, while the failure leads either to the
+canceling of the transition or to activation of the \emph{Error}
+context. Our translator automatically generates this context unless
+explicitly declared in a context group by using the keyword \code{is
+  error}, as shown on line~\lstref{iserror} in Fig.~\ref{fig:ccc}.
 
 \putsnippet{
- caption=NotMoving context.,
+ caption=\emph{NotMoving} context.,
  label=fig:nmc,
  boxname=boxnmc
 }
 
-Despite the application's  functionality is split into isolated pieces by \emph{context groups},
-there may exist relations among them. For example, within the 
-\emph{Health conditions} group a transition from \emph{Healthy} to \emph{Diseased} is only
-make sense if an animal is \emph{Resting} or \emph{NotMoving}. These inter-group
-relations are covered in our context-oriented language by context dependencies,
-which are checked in the second conditional chose on a figure~\ref{fig:ad}. In
-ConesC dependencies are declared as it is shown on the line~\lstref{dependence}
-in Fig.~\ref{fig:cc}. In \emph{transitions} section a context name followed by a
-key-word \emph{iff} and a full name of another context means that
-the transition will only be executed if the latter context is active. Should the
-rule with dependency be violated, a transition to an error context will be triggered.
+The first check in Fig.~\ref{fig:ad} looks at feasible transitions. In
+the context diagram of Fig.~\ref{fig:wtd}, within the \emph{Activity}
+group, it is only possible to transition from \emph{NotMoving} to
+\emph{Resting}. Feasible transitions are specified within the
+individual contexts using the keyword \code{transitions} as in
+line~\lstref{transitions} of Fig.~\ref{fig:nmc}. An attempt to
+initiate a transition from a given context to one that is not
+explicitly listed in the former leads to the activation of the
+\emph{Error} context. Indeed, such occurrences typically represent a
+significant design or implementation flaw requiring special handling
+at run-time, which programmers implement within the \emph{Error} context.
 
-The last conditional chose displayed on a figure~\ref{fig:ad} is used for soft rules, violation of
-which does not affect the execution of a program. For example, context~\emph{Running} is
-activated if the difference between two GPS readings is relatively large, but it may be due to noise.
-To make sure false positives are avoided, developers may want to check
-readings of an accelerometer. Another example includes an energy saving scenario,
-when a programmer may want to activate~\emph{Reachable} context only if a battery is
-in~\emph{Normal} state, as shown in Fig.~\ref{fig:wtd}.
-Violation of mentioned rules is a common situation and should not lead to an error state.
-To this end, ConesC provides a \emph{check()} command, sample implementation of which is
-displayed on the line~\lstref{check} in Fig.~\ref{fig:irc}. It is not mandatory to implement this
-command, but should it return \emph{FALSE}, an initiated context transition does not occur,
-a context is not activated and a system remains in the previous state.
-This approach allows one not to think about conditions a transition taking
-place in, but foresee possible inconsistencies.
+There also may exist relations across context groups. For example,
+within the \emph{Base-station} group, a transition from
+\emph{Unreachable} to \emph{Reachable} is likely only meaningful if
+context \emph{Running} within the \emph{Activity} group is active,
+indicating the animal was actually moving when the node gained
+base-station connectivity. These inter-group relations are covered in
+our design by context dependencies, declared as shown on
+line~\lstref{dependence} in Fig.~\ref{fig:cc}. Within the
+\code{transitions} clause, the keyword \code{iff} is optionally
+employed to indicate the full name of another context whose activation
+is required to perform the given transition. The second check in
+Fig.~\ref{fig:ad} verifies this rule, again leading to the
+\emph{Error} context in case of violations to give programmers an
+explicit chance to handle the situation.
 
-Other types of inter-group relations imply automatic triggering of context
-transition. Considering \emph{Battery} group in our example, we can notice that
-for further energy saving developers may want to trigger a transition to
-\emph{Unreachable} context within the \emph{Base Station} group as long as
-\emph{Low} context is active. Our design allows one to do that by declaring a
-\emph{triggers} section, as shown on the line~\lstref{triggers} in Fig.~\ref{fig:lc}.
-The same checks apply to automatic transitions.
+The last check in Fig.~\ref{fig:ad} considers violations to ``soft''
+requirements that do not necessarily indicate a design or
+implementation flaw. Rather, such requirements may be simply needed
+for efficiently executing the functionality in a context. For example,
+before activating the \emph{Reachable} context, programmers may want
+to check that sufficient energy is available to invest in radio
+communications to the base-station. Should this not be the case, they
+may defer the activation of the \emph{Reachable} context until the
+solar panels gather sufficient energy. To implement such processing,
+\conesc programmers specify the proper conditions in the body of a
+predefined \code{check} command, as shown in line~\lstref{check} of
+Fig.~\ref{fig:irc}. If \code{check} returns false, the initiated
+context transition does not occur, and the system remains in the
+previous context.
 
 \putsnippet{
- caption=Low context.,
+ caption=\emph{Low} context.,
  label=fig:lc,
  boxname=boxlc
 }
+
+Dually, programmers may need to proactively initiate context
+transitions as the result of other contexts being activated. The
+scenario is symmetric to the previous one: if the base-station is
+\emph{Reachable}, but a context transition is initiated to context
+\emph{Low} in the \emph{Battery} group of Fig.~\ref{fig:wtd}, the
+available energy is running low and it is probably better to refrain
+from radio communications even though the base-station is within the
+communication range. This makes sure the node does not completely turn
+off before the solar panels re-gain energy. Our design allows
+programmers to express this processing by using the \code{triggers}
+keyword, as shown on line~\lstref{triggers} in Fig.~\ref{fig:lc}. The
+\code{triggers} keyword references a context that is to be activated
+as the result of the enclosing context being activated. The same
+checks shown in Fig.~\ref{fig:ad} apply to this type of transitions as
+well.
+
+
+% Other types of inter-group relations imply automatic triggering of
+% context transition. Considering \emph{Battery} group in our example,
+% we can notice that for further energy saving developers may want to
+% trigger a transition to \emph{Unreachable} context within the
+% \emph{Base Station} group as long as \emph{Low} context is active.
 
 
 
