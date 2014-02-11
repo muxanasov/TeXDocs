@@ -62,80 +62,106 @@ declared in context groups. Only one context at a time can be
 \emph{active} in a group, meaning only one context at a time can
 provide the implementation of a given layered function.
 
+For example, Fig.~\ref{fig:irc} and~\ref{fig:cc} show \conesc snippets
+for the \emph{Reachable} and \emph{Unreachable} contexts referenced in
+Fig.~\ref{fig:ccc}. They provide different implementations for
+\code{report} dependsing on the situation. If the base-station is
+\emph{Reachable}, this the corresponding context is active, the code
+transmits the message to the base-station, as in
+line~\lstref{layeredimp2} of Fig~\ref{fig:irc}. Differently, the code
+deposits a message in local memory as in line~\lstref{layeredimp} of
+Fig.~\ref{fig:cc}.
 
-For example, Fig.~\ref{fig:irc} and~\ref{fig:cc} show fragments of the
-\emph{Reachable} and \emph{Unreachable} contexts referenced in
-Fig.~\ref{fig:ccc}. In this example, the behavior of function
-\code{report} depends on the activated context and deposits a message
-in local memory, while \emph{Unreachable} context is active
-(figure~\ref{fig:cc}, line~\lstref{layeredimp}), or sends it directly
-to the BS otherwise (figure~\ref{fig:irc}, line~\lstref{layeredimp2}).
+Developer may need to specify operations upon activating a context,
+such as initialization of variables or enabling/disabling hardware
+modules. For example, on entering the \emph{Reachable} context,
+programmers may decide to disable the GPS sensor, as location
+information can be inferred from the (static)
+base-station. Programmers specify this functionality within the body
+of a predefined \code{activated} event, as in
+line~\lstref{activatedUnreachable} of Fig.~\ref{fig:irc}. Similarly,
+programmers may specify clean-up operations within \code{deactivated}
+events, as in line~\lstref{deactivatedUnreachable} of
+Fig.~\ref{fig:irc}.  Providing an implementation for these events,
+however, is not mandatory.
 
-Developer may want to add some instructions after context activation
-such as initialization of variables or enabling/disabling modules, as
-in our example in Fig.~\ref{fig:wtd} we enable GPS-sensor on entering
-in \emph{Unreachable} context. Or it may be necessary to reset
-component's state before context deactivation. To this end ConesC
-provides events \emph{activated()} and \emph{deactivated()}
-correspondingly, whose stub implementation is shown on
-lines~\lstref{activated} and~\lstref{deactivated} in
-Fig.~\ref{fig:cc}. The implementation of these events, however, is not
-obligatory.
+\subsection{Execution}\label{subsec:usage}
 
-\subsection{Usage}\label{subsec:usage}
-
-This section shows how ConesC can be used to invoke a behavioral
-variation. Here we describe one aspect of an application's behavioral variation,
-which is related to the Base Station availability. As it was mentioned before,
-if a node receives a beacon from the Base Station it activates the \emph{Reachable}
-context, and the \emph{Unreachable} context in case of timeout.
-Since the behavioral variation is encapsulated in a context group \emph{BaseStationG},
-a developer may not care about the context implementation and use a context group
-to change a behavior of the application at run-time. Fig.~\ref{fig:mc} depicts the main
-configuration, where the base station group is declared on line~\lstref{declaration} and wired
-as a standard component afterward on the line~\lstref{wiring}.
+% Context groups encaspulate behavioral variations sharing some common
+% characteristic or related to the same funcitonality. Within the
+% \emph{Base-station} group of Fig.~\ref{fig:ccc}, for example,
+% programmers activate different behavioral variations for function
+% \code{report} depending on base-station reachability. 
 
 \putsnippet{
- caption=Main configuration.,
- label=fig:mc,
- boxname=boxmc
-}
-
-In the main module, which is displayed in Fig.~\ref{fig:mm}, it is necessary to declare
-explicitly that the context group \emph{BaseStationG} is used, as shown on the line~\lstref{cgdecl}.
-At run-time, however, developers should not care about the base station availability, while
-reporting measured data, since the behavior of layered function
-\emph{BaseStationG.report()} -- on the line~\lstref{calling} -- depends on activated
-context, i.e. the base station availability. The benefit of
-this approach is that layered function can be called independently, and activating code
-can be kept isolated, even in a separate module, which is displayed in Fig.~\ref{fig:bscm}.
-Activation of a context initiates by using the key-word
-\emph{activate} which is followed by a full context name. Thus,
-\emph{Reachable} context is activated on the line~\lstref{actBS} as soon as a
-beacon from the base station is received. But should timeout occur, context
-\emph{Unreachable} is activated on the line~\lstref{actNoBS}.
-
-\putsnippet{
- caption=Main module.,
- label=fig:mm,
- boxname=boxmm
-}
-
-\putsnippet{
- caption=Base station context manager.,
+ caption=Base-station context manager.,
  label=fig:bscm,
  boxname=boxbscm
 }
 
-Every time the context changed, an event~\emph{contextChanged()} is fired. This event can be
-caught and handled, as it is shown on the line~\lstref{eventCC} in Fig.~\ref{fig:mm},
-but it is not mandatory though. Context in this scope is considered as a constant,
-whose name consists of two parts, joined by a dot: a name of a group and a name
-of a context. Thus, in function \emph{BaseStationG.contextChanged()} we can use
-a passed parameter \emph{con} to find out what context has been activated, as
-shown on the line~\lstref{concheck}.
+Fig.~\ref{fig:bscm} shows an sample snippet of code to detect and to
+activate the proper context in the base-station example. Programmers
+can, anywhere in the code, trigger explicit changes between contexts
+in a group. This is as simple as using the \code{activate} keyword
+followed by a full context name. In this fragment of code, the
+\emph{Reachable} context is activated on line~\lstref{actBS} as soon
+as a beacon from the base station is received. Should the timeout
+expire with no more beacons received, context \emph{Unreachable} is
+activated on line~\lstref{actNoBS}. Either context change results in a
+different context-dependent implemenation of \code{report} to be
+activated.
 
-\subsection{Transition rules}\label{subsec:rules}
+\putsnippet{
+ caption=User module.,
+ label=fig:mm,
+ boxname=boxmm
+}
+
+Modules using layered functions perform function calls transparently
+w.r.t. the available contexts and, most importantly, independently of
+what context is active at a given moment. Fig.~\ref{fig:mm} shows one
+such example where no explicit references appear to which and how many
+behavrioal variations exist for function \code{report()}. Following
+the indication that context group \emph{BaseStationG} is used, as
+specified on line~\lstref{cgdecl}, the call to function \code{report}
+on line~\lstref{calling} refers to the context group and not to the
+individual contexts. The net advatnage is that the use of
+context-dependent functionality and the functionality to manage
+context detection and activation are fully decoupled and can thus live
+separate, even in a different modules.
+
+
+Nevertheless, should the programmers of user module need to find out
+about context changes, a predefined event~\code{contextChanged} is
+fired corresponding to every context change, as shown on line~\lstref{eventCC} in
+Fig.~\ref{fig:mm}. % This event can be caught
+% and handled, as it is shown on the line~\lstref{eventCC} in
+% Fig.~\ref{fig:mm}, but it is not mandatory though.
+Within the event handler, programmers can access costant values in a
+context group that our translator automatically egnerates, as
+described in Section~\ref{sec:translator}, to find out what context
+was activated and to react accordingly, as shown on
+line~\lstref{concheck}.
+
+
+% This section shows how ConesC can be used to invoke a behavioral
+% variation. Here we describe one aspect of an application's behavioral variation,
+% which is related to the Base Station availability. As it was mentioned before,
+% if a node receives a beacon from the Base Station it activates the \emph{Reachable}
+% context, and the \emph{Unreachable} context in case of timeout.
+% Since the behavioral variation is encapsulated in a context group \emph{BaseStationG},
+% a developer may not care about the context implementation and use a context group
+% Tiny fix.to change a behavior of the application at run-time. Fig.~\ref{fig:mc} depicts the main
+% configuration, where the base station group is declared on line~\lstref{declaration} and wired
+% as a standard component afterward on the line~\lstref{wiring}.
+
+% \putsnippet{
+%  caption=Main configuration.,
+%  label=fig:mc,
+%  boxname=boxmc
+% }
+
+\subsection{Transition Rules}\label{subsec:rules}
 
 In ConesC every context transition implies several checking stages, which are displayed in
 Fig.~\ref{fig:ad}, such as: possibility of the transition, dependencies check and conditions
