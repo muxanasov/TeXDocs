@@ -387,13 +387,18 @@
 % -begin- //nice in-code glyphs routine
 \usepackage{tikz}
 % for the pretty dark-circle-enclosed numbers
-\newcommand*\circled[2]{\tikz[baseline=(char.base)]{
-            \node[shape=circle,fill,inner sep=0.1pt, text=white,font=#2] (char) {#1};}}
+\newcommand*\circled[2]{
+  \resizebox{14.5pt}{!}{
+    \tikz[baseline=(char.base)]{
+      \node[shape=circle,fill,inner sep=0.1pt, text=white,font=#2] (char) {#1};
+    }
+  }
+}
 
 \newcounter{lstNoteCounter}
-\newcommand{\lstref}[1]{\circled{\ref{#1}}{\normalsize}}
+\newcommand{\lstref}[1]{\hspace{-5pt}\hbox to 14.5pt{\circled{\ref{#1}}{\normalsize}}}
 \newcommand{\lstnote}[1] {
-  \label{#1}\hbox to -8.5pt{\llap{{\circled{\ref{#1}}{\scriptsize\rmfamily}}\hskip 0.98em}}
+  \label{#1}\hbox to -8.5pt{\llap{{\circled{\ref{#1}}{\scriptsize\rmfamily}}}}
 }
 % -end- //nice in-code glyphs routine
 
