@@ -1,0 +1,36 @@
+\newsavebox{\boxnescEX}
+\Savebox{\boxnescEX}{
+\hspace{-0.25cm}
+\begin{minipage}[l]{\columnwidth}
+\begin{lstlisting}[style=conescframe]
+module ReportLogs {
+  uses interface Collection;
+  uses interface DataStore;  
+}implementation {
+ int base_station_reachable = 0; 
+*\lstnote{detect1}* event msg_t Beacon.receive(msg_t msg) {
+*\lstnote{check1}*  if (!acceleromenter_detects_activity()) 
+    return;
+  if (call Battery.energy() <= THRESHOLD)
+*\lstnote{check2}*    return; 
+  base_station_reachable = 1;
+  call GPS.stop()
+  call BaseStationReset.stop(); 
+  call BaseStationReset.startOneShot(TIMEOUT);}
+ event void BaseStationReset.fired() {
+*\lstnote{detect2}*  base_station_reachable = 0;}
+*\lstnote{adapt1}* event void ReportPeriod.fired() {
+  switch (base_station_reachable){
+   case 0:
+    call DataStore.deposit(msg);
+   case 1:
+*\lstnote{adapt2}*    call Collection.send(msg);}}}
+\end{lstlisting}
+\end{minipage}
+}
+
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "bare_conf"
+%%% End: 
