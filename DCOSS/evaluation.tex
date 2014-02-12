@@ -238,6 +238,40 @@ size of the input code, intuitively demonstrating that our
 abstractions do capture a significant portion of processing in a few
 simple concepts.
 
+\subsection{Evolving the software}\label{sec:evlove}
+
+WSN software needs to constantly evolve due to changes in requirements and
+unpredicted environmental dynamics. It is know that the more application is
+modularized, the easier is the modification, since the changes in the internal
+logic are minor. For each scenario we estimated and compared the efforts
+developer needs to spend by modifying the \conesc software against its nesC
+conterpart. To this end, we performed three different types of modification:
+removing a context, adding a new context, and adding a new context group.
+
+To estimate efforts for removing context we extended the scenario for adaptive
+protocol stack. Say, for example, developer wants to get rid of one of the
+parameter sets after testing, since the set has been proven ineffective. So
+there are only two sets remained. In wildlife tracking application it might be
+necessary to monitor the spread of disease. To do this developer may want to add
+a new context ``Carrier'' to the exiting contexts in ``Health conditions'' group
+to mark the animal, who was in contact with diseased one, but shows no symptoms
+yet. By elaborating the smart-home software, developer may want to monitor the
+state of the node and notify the user about the failure. To this end he adds the
+whole context group ``Status'' with two contexts ``Normal'' and
+``Failure''.
+
+\fakepar{Results} Our analysis shows that removing the context in \conesc leads
+to the modification of 3 lines of code and deleting of one component -- i.e.
+context. Meanwhile, to remove unnecessary functionality in nesC, developer must
+modify 11 lines of code scattered throughout the main module. As concerns adding
+new context in wildlife application, along with adding new component --
+``Carrier'' context -- in \conesc it is necessary to modify 5 lines of code. By
+adding the same functionality in nesC, developer have to modify 8 lines of code
+along with adding two new global states. The extension by the new context group
+in \conesc requires the modification of 40 lines of code along with 3 new
+components -- ``Status'' group, ``Normal'' and ``Failure'' contexts. The same
+lines of code would be changed in its nesC counterpart along with adding two
+global states, however.
 
 % as shown on Table~\ref{tab:compres}, we notice that the
 % program written in context-oriented style using plane nesC is more
