@@ -26,8 +26,8 @@ module BaseStationContextManager {
 }implementation {
  event msg_t Radio.receive(msg_t msg) {
 *\lstnote{actBS}*  activate BaseStationG.Reachable;
- call BSReset.stop(); 
- call BSReset.startOneShot(TIMEOUT);}
+  call BSReset.stop(); 
+  call BSReset.startOneShot(TIMEOUT);}
  event void BSReset.fired() {
 *\lstnote{actNoBS}*  activate BaseStationG.Unreachable;}}
 \end{lstlisting}
