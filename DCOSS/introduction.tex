@@ -47,7 +47,7 @@ application. Using available approaches, this typically results in
 entangled implementations that are difficult to debug, to maintain,
 and to evolve.  As the number of dimensions affecting the execution
 (and their combinations) grows, the implementations quickly turn into
-``spaghetti code''~\cite{niclas}.
+``spaghetti code''~\cite{finne10improving}.
 
 \putsnippet{
  caption=Example nesC implementation of adaptive functionality: several orthogonal functionality are entangled and need to share global data.,
@@ -56,7 +56,7 @@ and to evolve.  As the number of dimensions affecting the execution
 }
 
 Fig.~\ref{fig:nesc} shows an intuitive, yet greatly simplified
-example, using nesC~\cite{}. The code implements the behavior needed
+example, using nesC~\cite{gay03nesc}. The code implements the behavior needed
 in wildlife tracking to send contact logs to the base-station whenever
 reachable, or to store them locally otherwise. Several orthogonal
 concerns become intertwined and dependent on each other. For example,
@@ -79,10 +79,10 @@ implementations is going to be difficult. Modifying the code in one
 place would likely require changes in several others. Alternative nesC
 implementations of the functionality in Fig.~\ref{fig:nesc} are of
 course possible to partly ameliorate the problem. However, qualitative
-evidence gathered by looking at publicly available
-implementations~\cite{tinyos} and our own experience with real
-deployments~\cite{torre,tunnel, squirrel} indicate that similar
-implementation patterns are indeed very common.
+evidence gathered by looking at publicly available implementations,
+e.g., within the TinyOS codebase~\cite{tinyos}, and our own experience
+with real deployments~\cite{ceriotti11:light,ceriotti09:monitoring}
+indicate that similar implementation patterns are indeed very common.
 
 % \fakepar{Context-oriented programming (COP)}
 
