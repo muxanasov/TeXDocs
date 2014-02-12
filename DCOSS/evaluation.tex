@@ -118,7 +118,7 @@ implementations.
 
 \begin{table}[!tb]
 \renewcommand{\arraystretch}{1.3}
-\caption{Coupling comparison.}
+\caption{Coupling comparison: \emph{\conesc implementations save most types of coupling that are unavoidable in nesC.}}
 \label{tab:coupres}
 \input{tab_coupres}
 \end{table}
@@ -190,7 +190,7 @@ SATABS, e.g., hardware drivers.
 
 \begin{table}[!tb]
 \renewcommand{\arraystretch}{1.3}
-\caption{Complexity comparison.}
+\caption{Complexity comparison: \emph{\conesc yields simpler implementations that are easier to debug and to reason about.}}
 \label{tab:compres}
 \input{tab_compres}
 \end{table}
@@ -244,7 +244,7 @@ simple concepts.
 % than 3 times bigger than its ConesC counterpart. Our approach makes
 % context-oriented programming as simple as plain nesC programming.
 
-\subsection{CPU and memory overhead}\label{sec:overhead}
+\subsection{MCU and memory overhead}\label{sec:overhead}
 
 The advantages brought to programmers come at the cost of additional
 system overhead. To assess this, we measure the MCU overhead for
@@ -272,9 +272,9 @@ measuring a worst-case 2.5\% penalty for the size of the program
 binary and a worst-case 4.5\% penalty for RAM usage.\lm{Do we have an
   explanation as to why the adaptive protocol case is the smallest?}
 
-\putfigure{caption=CPU and memory overhead.,label=fig:cmo}{
+\putfigure{caption=MCU and memory overhead: \emph{the resource usage penalty for using \conesc is almost negligible.},label=fig:cmo}{
 \centering
-\subfloat[CPU overhead.]{
+\subfloat[MCU overhead.]{
   \includegraphics[width =0.5\columnwidth]{pdf/cpu_overhead}
   \label{fig:cpuo}
 }
