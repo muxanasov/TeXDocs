@@ -8,7 +8,7 @@ context group BaseStationG {
 }implementation {
 *\lstnote{contexts}* contexts Reachable,
 *\lstnote{isdefault}*          Unreachable is default,
-*\lstnote{iserror}*          ErrorC is error;
+*\lstnote{iserror}*          MyErrorC is error;
  components Routing, Logging, LedsC;
  Reachable.Collection -> Routing;
  Unreachable.DataStore -> Logging;
@@ -22,11 +22,12 @@ context group BaseStationG {
 \begin{minipage}[l]{\columnwidth}
 \begin{lstlisting}[style=conescframe]
 module BaseStationContextManager {
-*\lstnote{cgdecl}* uses context group BaseStationG;
+ uses context group BaseStationG;
 }implementation {
  event msg_t Radio.receive(msg_t msg) {
 *\lstnote{actBS}*  activate BaseStationG.Reachable;
-  call BSReset.startOneShot(INTERVAL);}
+ call BSReset.stop(); 
+ call BSReset.startOneShot(TIMEOUT);}
  event void BSReset.fired() {
 *\lstnote{actNoBS}*  activate BaseStationG.Unreachable;}}
 \end{lstlisting}
@@ -38,11 +39,12 @@ module BaseStationContextManager {
 \begin{minipage}[l]{\columnwidth}
 \begin{lstlisting}[style=conescframe]
 context Unreachable {
-*\lstnote{dependence}* transitions InRange iff ActivityG.Running;
+*\lstnote{dependence}* transitions Reachable iff ActivityG.Running;
  uses interface DataStore;
 }implementation {
-*\lstnote{activated}* event void activated(){//...}
-*\lstnote{deactivated}* event void deactivated(){//...}
+*\lstnote{activatedUnreachable}* event void activated(){//...}
+*\lstnote{deactivatedUnreachable}* event void deactivated(){//...}
+*\lstnote{checkUnreachable}* command bool check(){//...}
 *\lstnote{layeredimp}* layered command void report(msg_t msg){
   call DataStore.deposit(msg);}}
 \end{lstlisting}
@@ -57,6 +59,9 @@ context Reachable {
  uses interface Collection;
  uses context group BatteryG; 
 }implementation {
+*\lstnote{activated}* event void activated(){ 
+  call GPS.stop();}
+*\lstnote{deactivated}* event void deactivated(){//...}
 *\lstnote{check}* command bool check(){
   return call BatteryG.getContext() == BatteryG.Normal;}
 *\lstnote{layeredimp2}* layered command void report(msg_t msg){
@@ -93,14 +98,13 @@ configuration ApplicationC {
 \hspace{-0.25cm}
 \begin{minipage}[l]{\columnwidth}
 \begin{lstlisting}[style=conescframe]
-module Application {
+module User {
 *\lstnote{cgdecl}* uses context group BaseStationG;
 }implementation {
  event void Timer.fired() {
 *\lstnote{calling}*  call BaseStationG.report(msg);}
 *\lstnote{eventCC}* event void BaseStationG.contextChanged(context_t con) {
-*\lstnote{concheck}*  if(con == BaseStationG.Reachable)
-   dbg("Debug", "Base station is reachable!");}}
+*\lstnote{concheck}*  if(con == BaseStationG.Reachable) // DO SOMETHING...}}
 \end{lstlisting}
 \end{minipage}
 }
