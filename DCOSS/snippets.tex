@@ -24,7 +24,7 @@ context group BaseStationG {
 module BaseStationContextManager {
  uses context group BaseStationG;
 }implementation {
- event msg_t Radio.receive(msg_t msg) {
+ event msg_t Beacon.receive(msg_t msg) {
 *\lstnote{actBS}*  activate BaseStationG.Reachable;
   call BSReset.stop(); 
   call BSReset.startOneShot(TIMEOUT);}
