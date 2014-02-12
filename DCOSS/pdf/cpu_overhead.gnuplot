@@ -1,6 +1,7 @@
 set grid ytics
 
 #set boxwidth 0.9
+set size 1.2, 0.5
 set style data histogram
 set style fill pattern border -1
 set style histogram cluster gap 1
