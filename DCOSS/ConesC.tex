@@ -175,9 +175,10 @@ every context transition in \conesc entails several checking stages,
 as shown in Fig.~\ref{fig:ad}. A successful check allows the
 transition to continue, while the failure leads either to the
 canceling of the transition or to activation of the \emph{Error}
-context. Our translator automatically generates this context unless
-explicitly declared in a context group by using the keyword \code{is
-  error}, as shown on line~\lstref{iserror} in Fig.~\ref{fig:ccc}.
+context. Our translator automatically generates this context unless a
+programmer-provided one is explicitly declared in a context group by
+using the keyword \code{is error}, as shown on line~\lstref{iserror}
+in Fig.~\ref{fig:ccc}.
 
 \putsnippet{
  caption=\emph{NotMoving} context.,
@@ -197,7 +198,7 @@ explicitly listed in the former leads to the activation of the
 significant design or implementation flaw requiring special handling
 at run-time, which programmers implement within the \emph{Error} context.
 
-There also may exist relations across context groups. For example,
+There may also exist relations across context groups. For example,
 within the \emph{Base-station} group, a transition from
 \emph{Unreachable} to \emph{Reachable} is likely only meaningful if
 context \emph{Running} within the \emph{Activity} group is active,
@@ -217,12 +218,12 @@ requirements that do not necessarily indicate a design or
 implementation flaw. Rather, such requirements may be simply needed
 for efficiently executing the functionality in a context. For example,
 before activating the \emph{Reachable} context, programmers may want
-to check that sufficient energy is available to invest in radio
-communications to the base-station. Should this not be the case, they
-may defer the activation of the \emph{Reachable} context until the
-solar panels gather sufficient energy. To implement such processing,
-\conesc programmers specify the proper conditions in the body of a
-predefined \code{check} command, as shown in line~\lstref{check} of
+to check that sufficient energy is available to invest in bulk data
+transfers to the base-station. Should this not be the case, they may
+defer the activation of the \emph{Reachable} context until the solar
+panels gather sufficient energy. To implement such processing, \conesc
+programmers specify the proper conditions in the body of a predefined
+\code{check} command, as shown in line~\lstref{check} of
 Fig.~\ref{fig:irc}. If \code{check} returns false, the initiated
 context transition does not occur, and the system remains in the
 previous context.
