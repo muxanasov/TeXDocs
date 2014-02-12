@@ -1,39 +1,174 @@
+\input{snippetsIntro}
 \section{Introduction} 
 
-Wireless Sensor Networks are the core of communication between the world and
-machine. They are used to monitor the environment and gather data from it, what
-makes them inherently environment dependent. Due to unpredicted dynamics in
-different dimensions, software for WSNs should adapt to it at run-time. Without
-proper language support the implementation of this kind of software is quite
-complex and cumbersome. The adaptation, thus, would be achieved by using
-conditional statements, what leads to the software that is tangled to the
-possible adaptation.
+Programmers design and implement Wireless Sensor Networks (WSN)
+software to enable interactions with the real world at unprecedented
+granularity and scale. As such, WSN software is continuously confronted
+with a range of largely unpredictable environment dynamics and
+changing requirements, besides the obvious resource constraints. Such
+state of affairs demands WSN software to \emph{adapt} to a range of
+different situations. Notwithstanding the advances in WSN
+programming~\cite{mottola11survey}, however, programmers are sorely
+missing dedicated support to realize adaptive WSN
+software.
 
-We are claiming that the notion of \emph{context} in a low-level software will
-significantly improve readability and re-usability of the code, as well as
-debugging and maintaining of the application. We also believe this notion will
-allow a developer to represent any dynamic variability. Moreover, our approach
-supports combinations of adaptation, which are usually taking a place in the
-real world.
+\fakepar{Example application} Consider a wildlife tracking
+application~\cite{pasztor10:selective}. Sensor nodes are embedded in
+collars attached to animals to study their social interactions. The
+nodes are equipped with sensors to track an animal's movement, e.g.,
+using GPS and accelerometers, and to detect its health conditions,
+e.g., based on body temperature. Small solar panels harvest energy
+from the environment to prolong a node's lifetime. A low-power
+short-range radio allows the nodes to discover each other based on
+periodic radio beaconing.  A node logs the radio contacts to track an
+animal's encounters with other animals. The radio is also used to
+off-load the contact traces when in reach of a fixed base-station.
 
-Consider for example a sensor network for wildlife tracking~\cite{pasztor10},
-which is intended to track animals' movements, social interactions and health
-conditions. To this end, nodes are attached to collars of animals and equipped
-with GPS and accelerometer sensors to track the movements, temperature sensor
-to monitor health conditions, and low-power short-range radio to perform a
-periodic beaconing. The latter allows the nodes to discover each other and then
-log the radio contacts to study an animal's social interactions.
+The nodes run on batteries, making energy a precious resource that
+developers may need to trade against the system's functionality,
+depending on the situation. For example, sensor sampling consumes
+non-negligible energy, especially for devices such as the
+GPS. Depending on the desired granularity and on the difference
+between consecutive GPS readings---the latter taken as indication of
+the pace of movement---developers may tune the GPS sampling frequency
+accordingly. The contact traces can be sent directly to the
+base-station whenever in reach, but they need to be stored locally
+otherwise.  When the battery is running low, developers may turn the
+GPS sensor off to make the node survive until the next encounter with
+a base-station, not to lose the collected contact traces\lm{Changes to
+  the pic required.}.
 
-The way to create this kind of self-adaptive software is described in
-Sec.~\ref{sec:cop}, but the development would be difficult not only because of
-several adaptation dimensions, but also due to extreme resource limitations --
-the main challenge in WSNs. By addressing to these issues we introduce \conesc
--- a context oriented extension of nesC language described in
-Sec.~\ref{sec:conesc}. To test our approach we developed a tool described in
-Sec.~\ref{sec:translator} to translate \conesc sources into nesC language. We
-discuss then our evaluation results in Sec.~\ref{sec:eval} in details.
+\fakepar{Problem} Taking into explicit account every possible
+situation in the design and implementation of WSN software is a
+challenge. Critically, \emph{multiple combined dimensions}
+concurrently determine how the software should adapt its operation,
+e.g., battery levels and physical locations in our example
+application. Using available approaches, this typically results in
+entangled implementations that are difficult to debug, to maintain,
+and to evolve.  As the number of dimensions affecting the execution
+(and their combinations) grows, the implementations quickly turn into
+``spaghetti code''~\cite{niclas}.
 
-\hrule In doing so, we advocate that higher levels of abstractions,
-such as macroprogramming ones, do not provide sufficient visibility
-into the system and environment state. Adaptation decisions are local,
-the system rarely adapts as a whole.
+\putsnippet{
+ caption=Example nesC implementation of adaptive functionality: several orthogonal functionality are entangled and need to share global data.,
+ label=fig:nesc,
+ boxname=boxnescEX
+}
+
+Fig.~\ref{fig:nesc} shows an intuitive, yet greatly simplified
+example, using nesC~\cite{}. The code implements the behavior needed
+in wildlife tracking to send contact logs to the base-station whenever
+reachable, or to store them locally otherwise. Several orthogonal
+concerns become intertwined and dependent on each other. For example,
+determining what operating mode to apply---implemented in
+line~\lstref{detect1} to~\lstref{detect2}---rests within the same
+module as the actual adaptive processing---implemented in
+line~\lstref{adapt1} to~\lstref{adapt2}. Indeed, the two codes need to
+share global data, in this case, the \code{base\_station\_reachable}
+flag. Managing such global state rests entirely on the programmers'
+shoulders. Moreover, the checks to apply before changing operating
+mode, such as those on line~\lstref{check1} to~\lstref{check2}, appear
+interleaved with the change of mode itself. Finally, the specific
+implementation of adaptive functionality---being either
+\code{DataStore} or \code{Collection}---is visible from the caller
+module, further coupling the two.\lm{The line numbers are huge when
+  made of 2 digits... :)}
+
+In such a situation, debugging, maintaining, and evolving the
+implementations is going to be difficult. Modifying the code in one
+place would likely require changes in several others. Alternative nesC
+implementations of the functionality in Fig.~\ref{fig:nesc} are of
+course possible to partly ameliorate the problem. However, qualitative
+evidence gathered by looking at publicly available
+implementations~\cite{tinyos} and our own experience with real
+deployments~\cite{torre,tunnel, squirrel} indicate that similar
+implementation patterns are indeed very common.
+
+% \fakepar{Context-oriented programming (COP)}
+
+\fakepar{Contribution and road-map} We aim to redress this state of
+affairs by enabling a notion of Context-Oriented Programming
+(COP)~\cite{} in WSN software. COP fosters a strict separation of
+concerns in implementing adaptive software. This is achieved through
+two key notions: \emph{i)} the different situations the software needs
+to operate in are mapped to different \emph{contexts}, and \emph{ii)}
+the different context-dependent behaviors are encapsulated in so
+called \emph{layered functions}, that is, functions whose behavior
+changes---transparently to the caller---depending on context.
+
+COP already proved its effectiveness in creating context-aware
+mainstream software, such as graphical user interfaces~\cite{Keays03}
+and text editors~\cite{Kamina11}, using COP extensions of popular
+high-level languages~\cite{Salvaneschi12}. At present, however, COP
+remains a far cry from being applicable to WSNs. The severe resource
+constraints that limit the functionality attainable with existing WSN
+programming languages, for example, the inability to create run-time
+instances of components, prevents applying COP in WSN programming as
+is.
+
+To address this issue, we borrow the key concepts of contexts and
+layered functions from COP and design context-oriented programming
+abstractions for WSN software. To this end,
+Section~\ref{sec:appdesign} illustrates design concepts for adaptive
+WSN software conceived to remain independent of a specific programming
+language. In doing so, our goal is to decouple the concepts, that are,
+the abstractions, from their realization in a concrete language, thus
+facilitating their application to multiple WSN languages. One such
+realization is \conesc, our own COP extension to nesC, described in
+Section~\ref{sec:conesc}. We choose nesC as the target language in
+that, besides its widespread adoption, it fosters a node-centric
+view. Indeed, we argue that in most WSN applications, adaptation
+decisions are local, and rarely affect the system as a
+whole. Section~\ref{sec:conesc} demonstrates how \conesc renders the
+processing in Fig.~\ref{fig:nesc} nicely decoupled in different
+modules, and hence easier to debug and to evolve.
+
+We implement a dedicated translator, described in
+Section~\ref{sec:translator}, that converts \conesc code to pure
+nesC. The latter source code is fed as input to the standard nesC
+toolchain to obtain the binary to deploy onto the WSN nodes. Based on
+three representative applications, the results we illustrate in
+Section~\ref{sec:eval} indicate that \conesc implementations are
+increasingly decoupled and distinctively simpler. For example, the
+automatic analysis we perform with a model-checking tool to measure
+the number of per-function states that programmers need to deal with
+shows a 50\% reduction in favor of \conesc, indicating that the latter
+implementations are mot likely easier to debug and to
+maintain. Crucially, these advantages come at a very modest price in
+terms of system overhead: the MCU overhead when performing calls to
+layered functions is negligible, while we measure a a maximum 2.5\%
+(4.5\%) overhead in program (data) memory in our test applications.
+
+We conclude the paper by surveying related efforts in
+Section~\ref{sec:related}, and with brief concluding remarks in
+Section~\ref{sec:ending}.
+
+
+% We are claiming that the notion of \emph{context} in a low-level software will
+% significantly improve readability and re-usability of the code, as well as
+% debugging and maintaining of the application. We also believe this notion will
+% allow a developer to represent any dynamic variability. Moreover, our approach
+% supports combinations of adaptation, which are usually taking a place in the
+% real world.
+
+% Consider for example a sensor network for wildlife tracking~\cite{pasztor10},
+% which is intended to track animals' movements, social interactions and health
+% conditions. To this end, nodes are attached to collars of animals and equipped
+% with GPS and accelerometer sensors to track the movements, temperature sensor
+% to monitor health conditions, and low-power short-range radio to perform a
+% periodic beaconing. The latter allows the nodes to discover each other and then
+% log the radio contacts to study an animal's social interactions.
+
+% The way to create this kind of self-adaptive software is described in
+% Sec.~\ref{sec:cop}, but the development would be difficult not only because of
+% several adaptation dimensions, but also due to extreme resource limitations --
+% the main challenge in WSNs. By addressing to these issues we introduce \conesc
+% -- a context oriented extension of nesC language described in
+% Sec.~\ref{sec:conesc}. To test our approach we developed a tool described in
+% Sec.~\ref{sec:translator} to translate \conesc sources into nesC language. We
+% discuss then our evaluation results in Sec.~\ref{sec:eval} in details.
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "bare_conf"
+%%% End: 
