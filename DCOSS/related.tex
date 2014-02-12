@@ -1,52 +1,85 @@
 \section{Related Work}\label{sec:related}
 
-Over decade many contributions are addressing to the self-adaptivity of WSNs in
-both hardware and software perspectives. Unlike in our work, they are mostly
-focusing on a few environmental dimensions, while the adaptation rarely occurs
-individually. Moreover, the solutions address the actual problem-specific
-adaptation logic, while our approach provides abstractions to design
-self-adaptive software regardless the problem.
+Efforts related to ours are roughly divided in two categories. On one
+hand, as the need for adaptive in WSNs was immediately recognized
+because of the intimate environment interactions, several system-level
+solutions exist to provide adaptive behaviors at different levels in
+the stack. Our work is complementary to these efforts: rather than
+devising problem-specific adaptation mechanisms, we present design
+concepts and programming constructs to facilitate the implementation
+of adaptive functionality. On the other hand, programmer support for
+adaptation, including the application of COP, is vastly studied for
+more traditional computing platforms, missing, however, a dedicated
+port of concepts and abstractions to resource-constrained devices. In
+the following, we briefly survey the literature based on examples
+closer to our work.
 
-The self-organizing architecture for WSNs was proposed in~\cite{Subramanian00},
-where authors defined components necessary for building such an architecture.
-The approach is designed for static WSNs and not applicable for systems with
-high dynamics -- for example, wildlife monitoring -- since the network changes
-badly and rapidly. Nevertheless, the work is focused on the whole network, while
-our approach is node-centric.
+\fakepar{WSN-specific adaptation} Solutions in this category often
+target run-time adaptation of MAC and routing protocols. For example,
+Zimmerling et al.~\cite{Zimmerling12} focus on an adaptation of MAC
+protocol parameters depending on link qualities, topology dynamics,
+and traffic loads. Based on an mathematical formulation of the problem
+at hand, the base-station computes optimized MAC parameters to satisfy
+user-provided performance goals. Another example is that of Bourdenas
+et al.~\cite{Bourdenas11}, who design a routing protocol with
+dedicated adaptive functionality. Using a custom forecasting approach,
+the system can predict the conditions of the network and anticipate
+the changes required in the routing protocol behavior. Our work is
+intended to serve the needs of those needing to implement such
+adaptive functionality, easing the implementation chore.
 
-Other attempt to combine both algorithmic and architecture self-adaptation was
-performed by Diguet et al.~\cite{Diguet11}. In this work authors blur the
-boundaries between software and hardware to gain more flexibility. It leads,
-however, to ad-hoc implementation with sophisticated self-adaptive
-functionality. Contrary, COP concepts allows to build a holistic and easy to
-understand design.
+Closer to our goals are the works on self-organizing WSN
+architectures. For example, Subramanian and Katz~\cite{Subramanian00},
+define a component model to build adaptive WSN architectures. Their
+work, however, is again intended for specific needs for adaptation,
+that is, those arising in static WSNs deployed for large-scale sensing
+tasks. The work is then not applicable in mobile scenarios akin to the
+wildlife tracking application we use as a running example. Diguet et
+al.~\cite{Diguet11} blur the boundaries between software and hardware
+to gain additional flexibility in providing adaptive
+functionality. Their design, however, leads to application-specific
+implementations. Our work aims to be more general than these efforts,
+as we demonstrated by applying \conesc to diverse application
+scenarios, as discussed in Section~\ref{sec:eval}.
 
-The COP model has been implemented in several high-level
-languages~\cite{Bardram05,Ghezzi10,Kamina11,Salvaneschi12,Sehic11}, which are
-not applicable in WSNs due to resource limitations. We borrow a few of these
-concepts, however, and adapt them to the limitations of WSN platforms. Thus, our
-layered functions are the representatives of layer-in-class concept by
-Salvaneschi et al.~\cite{Salvaneschi12}.
 
-WSNs are considered as raw sources of data, so far. For example, Sehic et
-al.~\cite{Sehic11} design a Java-based framework for context-aware applications,
-which are using the input data from WSN. Differenly, we put the notion of
-contexts down to the resource-constrained node, allowing to implement
-context-aware behavior on the device that interacts with the environment
-directly.
+% Over decade many contributions are addressing to the self-adaptivity of WSNs in
+% both hardware and software perspectives. Unlike in our work, they are mostly
+% focusing on a few environmental dimensions, while the adaptation rarely occurs
+% individually. Moreover, the solutions address the actual problem-specific
+% adaptation logic, while our approach provides abstractions to design
+% self-adaptive software regardless the problem.
 
-In the literature there are seen also works towards run-time adaptation of WSNs.
-Zimmerling et al.~\cite{Zimmerling12}, for example, focus on an adaptation of
-the parameters of MAC protocol depending on link, topology, and traffic
-dynamics. The proposed Java-based framework –- pTunes –- calculates the
-parameters, performs decision and sens the parameters to the nodes. In that
-case, to be adaptive, nodes are constantly connected to the base station.
-Another adaptive routing protocol is designed by Bourdenas et
-al.~\cite{Bourdenas11}, where authors proposed forecasting approach to predict
-the parameters and conditions of the network.
+\fakepar{Programmer support for adaptation} Several works explicitly
+provide programmer support for adaptation \emph{outside} the WSN,
+essentially regarding the latter as an application-agnostic source of
+raw data. For example, Sehic et al.~\cite{Sehic11} design a Java-based
+framework for context-aware applications using input data from a
+WSN. Differently, we bring a notion of context down to the
+resource-constrained devices, allowing to implement context-aware
+behavior right on the device that directly interacts with the
+environment. This significantly enlarges the application scope.
 
-These efforts are solving different aspects of the same problem -- effective
-adaptivity of WSNs -- that we address in this work. The complexity of the
-applications we target arises from the different environmental dimensions the
-software should adapt to. We also overcome resource limitations to bring the
-adaptation on the low-level programming platforms.
+A natural way to handle adaptivity at the programming level is to
+embed some notion of COP within an existing language, similar to what
+we do. Indeed, several high-level languages by now features COP
+extensions~\cite{Bardram05,Ghezzi10,Kamina11,Salvaneschi12,Sehic11}.
+Such approaches, however, are way too far from being applicable in
+WSNs, essentially due to specific application requirements and
+resource limitations. In \conesc, we borrow concepts from COP and
+adapt them to the typical requirements arising in WSN applications and
+to the limitations of WSN platforms. For instance, our form of layered
+function is representatives of the layer-in-class
+concept~\cite{Salvaneschi12}.
+
+% These efforts are solving different aspects of the same problem -- effective
+% adaptivity of WSNs -- that we address in this work. The complexity of the
+% applications we target arises from the different environmental dimensions the
+% software should adapt to. We also overcome resource limitations to bring the
+% adaptation on the low-level programming platforms.
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "bare_conf"
+%%% End: 
+
