@@ -141,8 +141,7 @@ translator. Finally, \conesc spares \emph{Control} coupling as
 well. In essence, this comes as a result of allowing, in a sense,
 dynamic binding across modules driven by the context transitions. Such
 functionality, which is not available in nesC, needs to be hand-coded
-in the latter.\lm{There was no explicit explanation for Common and
-  Control... They were not mentioned.}
+in the latter.
 
 
 % Implementation of context components in ConesC, example of which are presented in Fig.~\ref{fig:cc} and~\ref{fig:irc}, do not rely on internal work of each other, so the are not coupled in the sense of~\emph{Content coupling}, as compared to nesC-written application, where all the behavioral variations are encapsulated in one module or function. Since each context represents a separate state of the environment or the device the system operates in, contexts are not intended to share any global states, to control the flow of each other and to pass the information how to execute. Our abstraction toward~\emph{context
@@ -194,9 +193,7 @@ SATABS, e.g., hardware drivers.
 \end{table}
 
 \fakepar{Results} Table~\ref{tab:compres} illustrates our
-results\lm{Now that we have good results for the number of states, I
-  think we can avoid discussing the implementation-wise numbers and
-  LOC.}. On a per-module basis, \conesc shows significant reductions
+results. On a per-module basis, \conesc shows significant reductions
 in both the number of declared variables and defined functions. This
 comes from the ability to dynamically bind a function call to the
 required context-dependent implementation transparently to the
@@ -236,7 +233,7 @@ size of the input code, intuitively demonstrating that our
 abstractions do capture a significant portion of processing in a few
 simple concepts.
 
-\subsection{Evolving the Software}\label{sec:evolve}
+\subsection{Software Evolution}\label{sec:evolve}
 
 WSN software needs to constantly evolve due to changes in requirements and
 unpredicted environmental dynamics. It is known that the more application is
