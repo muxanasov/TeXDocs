@@ -1,20 +1,24 @@
  \section{Evaluation}\label{sec:eval}
 
-We implement three representative applications, as described in
-Section~\ref{sec:scenarios}, using either \conesc or nesC. The implementations
-are functionally equivalent. Based on these, we evaluate our approach along
-four key dimensions. Section~\ref{sec:evalcomp} analyzes the severity of
-different \emph{coupling types} in our implementations. Tighter forms of
-coupling, possibly found in multiple instances, are generally detrimental to
-code maintenance and evolution~\cite{stevens79}. Section~\ref{sec:complexity}
-reports code metrics assessing the \emph{complexity} of the resulting
-implementations, which often impacts a system's reliability and ease of
-debugging~\cite{pressman01}. The efforts required for the software evolution are
-measured in Sec.~\ref{sec:evolve}, where we modified our implementations.
-Finally, Section~\ref{sec:overhead} quantifies the performance overhead, in
-terms of MCU and memory penalty, incurred when using \conesc.\lm{At the
-beginning of a structure evaluation section like this one, it's better to give a
-crisp outline of what's coming next, with pointers to the subsections.}
+ We implement three representative applications, as described in
+ Section~\ref{sec:scenarios}, using either \conesc or nesC. The
+ implementations are functionally equivalent. Based on these, we
+ evaluate our approach along four key
+ dimensions. Section~\ref{sec:evalcomp} analyzes the severity of
+ different \emph{coupling types} in our implementations. Tighter forms
+ of coupling, possibly found in multiple instances, are generally
+ detrimental to code maintenance and
+ evolution~\cite{koopman10:better}. Section~\ref{sec:complexity}
+ reports code metrics assessing the \emph{complexity} of the resulting
+ implementations, which often impacts a system's reliability and ease
+ of debugging~\cite{koopman10:better}. The efforts required for
+ evolving the software are measured in Sec.~\ref{sec:evolve} based on
+ representative case studies.  Finally, Section~\ref{sec:overhead}
+ quantifies the performance overhead, in terms of MCU and memory
+ penalty, incurred when using \conesc.\lm{At the beginning of a
+   structure evaluation section like this one, it's better to give a
+   crisp outline of what's coming next, with pointers to the
+   subsections.}
 
 Overall, our evaluation reveals that:\lm{Whenever space allows, it's
   useful to summarize the major outcomes of an evaluation
@@ -70,18 +74,18 @@ The adaptive protocol stack, whose detailed context diagram we omit
 for brevity, implements a dynamic protocol switching functionality in
 situations where a node may alternative periods of significant
 mobility to periods of static operation. The node roams within a
-network of static nodes running CTP~\cite{CTP}. As long as the node
-remains static, it joins the existing routing tree by running an
+network of static nodes running CTP~\cite{gnawali09}. As long as the
+node remains static, it joins the existing routing tree by running an
 instance of CTP limited to being a leaf. As soon as the on-board
-accelerometer detects a significant movement, it switches to a simpler
-route-less gossip protocol~\cite{gossip}, which allows the node to
-relay data to the static infrastructure
-opportunistically~\cite{smarthop}. In addition, the node may switch
-between three parameter sets for CTP, depending on context information
-that determine whether lifetime, bandwidth, or XXXX\lm{Not sure what
-  ``link quality adaptation'' means on the original diagram.} is to be
-favored, similar to parameter adaptation in existing MAC
-protocols~\cite{zimmerling12}.
+accelerometer detects a significant movement, it switches to a
+route-less gossip protocol, which allows the node to relay data to the
+static infrastructure
+opportunistically~\cite{Fotouhi:2012:SRH:2187181.2187193}. In
+addition, the node may switch between three parameter sets for CTP,
+depending on context information that determine whether lifetime,
+bandwidth, or XXXX\lm{Not sure what ``link quality adaptation'' means
+  on the original diagram.} is to be favored, similar to parameter
+adaptation in existing MAC protocols~\cite{zimmerling12}.
 
 % Another scenario - a system-level adaptation - is shown on Fig.~\ref{fig:apd}.
 % If the network is static, it is feasible to use a \emph{Collection Tree
@@ -164,16 +168,16 @@ interfaces to rely on compiler-time type checking.
 We estimate the complexity of the implementations by measuring the
 number of variable declarations and the number of functions in every
 module. These are generally considered as intuitive indicators of a
-program's complexity~\cite{pressman01}. It is also observed that
+program's complexity~\cite{koopman10:better}. It is also observed that
 complexity is a function of the number of states in which the program
-can find itself~\cite{35}. A state here is any possible assignment of
-values to the program variables. Thus, the number of states must be
-computed by looking at the different combinations of values assumed by
-variables during every possible execution.
+can find itself~\cite{koopman10:better}. A state here is any possible
+assignment of values to the program variables. Thus, the number of
+states must be computed by looking at the different combinations of
+values assumed by variables during every possible execution.
 
-To carry out the latter analysis, we use SATABS~\cite{satabs}, a
+To carry out the latter analysis, we use SATABS~\cite{clarke05:satabs}, a
 model-checking tool for C programs already employed in sensor network
-programming for similar analysis~\cite{mottola11survey}. SATABS is
+programming for similar analysis~\cite{mottola10:survey}. SATABS is
 designed for off-line verification of C programs against user-provided
 assertions. To do so, it searches through the relevant program
 executions to check whether the assertion always holds. At the end of
@@ -221,7 +225,7 @@ this facilitates debugging and maintenance.
 % easier debugging and maintaining processes.
 
 As debatable as it may be for measuring the effectiveness of a
-programming abstraction~\cite{mottolasurvey}, we also measured the
+programming abstraction~\cite{mottola10:survey}, we also measured the
 number of lines of code in both nesC and \conesc implementations. The
 two are roughly comparable. More interestingly, we also measured the
 size of the code generated by our translator, described in
@@ -239,7 +243,7 @@ WSN software needs to constantly evolve due to changes in requirements
 and unpredictable environment dynamics. Generally, the better an
 implementation is modularized, the easier are the modifications, since
 the changes only affect an isolated portion of the
-system~\cite{embeddedSoftwareBook}. For each application hitherto
+system~\cite{koopman10:better}. For each application hitherto
 considered, we estimate the effort required to modify the \conesc
 implementation compared to their nesC counterpart. In doing so, we
 study three types of modification: removing a context, adding a new
