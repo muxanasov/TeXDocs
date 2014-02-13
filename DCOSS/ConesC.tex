@@ -39,7 +39,7 @@ this case, programmers define two such contexts, depending on
 base-station reachability. The \code{is default} modifier, shown on
 line~\lstref{isdefault} indicates what context is active at
 start-up. The next \code{is error} modifier on line~\lstref{iserror}
-declares context \code{ErrorC} as an \emph{error} context, which
+declares context \code{MyErrorC} as an \emph{error} context, which
 programmers may optionally use to handle errors during the execution,
 as we discuss in Section~\ref{subsec:rules}. If an error context is
 not declared, it is generated automatically.
@@ -56,11 +56,10 @@ not declared, it is generated automatically.
  boxname=boxc
 }
 
-The individual contexts in \conesc extend the standard nesC modules by
-providing context-dependent implementations of layered function
-declared in context groups. Only one context at a time can be
-\emph{active} in a group, meaning only one context at a time can
-provide the implementation of a given layered function.
+The individual contexts in \conesc extend the standard nesC modules by providing
+context-dependent implementations of layered function declared in context
+groups. Only one context at a time can be \emph{active} in a group, meaning the sole implementation of a given layered function can be provided at a time by the
+context.
 
 For example, Fig.~\ref{fig:irc} and~\ref{fig:cc} show \conesc snippets
 for the \emph{Reachable} and \emph{Unreachable} contexts referenced in
