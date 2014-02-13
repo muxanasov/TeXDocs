@@ -1,4 +1,4 @@
-\section{Evaluation}\label{sec:eval}
+ \section{Evaluation}\label{sec:eval}
 
 We implement three representative applications, as described in
 Section~\ref{sec:scenarios}, using either \conesc or nesC. The implementations
@@ -79,9 +79,9 @@ relay data to the static infrastructure
 opportunistically~\cite{smarthop}. In addition, the node may switch
 between three parameter sets for CTP, depending on context information
 that determine whether lifetime, bandwidth, or XXXX\lm{Not sure what
-  ``link quality adaptation means on the original diagram.} is to be
-favored, similar to parameter adaptation in existing MAC protocols
-depending on the presence of bursty traffic~\cite{contikiMAC,XMAC}.
+  ``link quality adaptation'' means on the original diagram.} is to be
+favored, similar to parameter adaptation in existing MAC
+protocols~\cite{zimmerling12}.
 
 % Another scenario - a system-level adaptation - is shown on Fig.~\ref{fig:apd}.
 % If the network is static, it is feasible to use a \emph{Collection Tree
@@ -235,38 +235,46 @@ simple concepts.
 
 \subsection{Software Evolution}\label{sec:evolve}
 
-WSN software needs to constantly evolve due to changes in requirements and
-unpredicted environmental dynamics. It is known that the more application is
-modularized, the easier is the modification, since the changes in the internal
-logic are minor. For each scenario we estimated the efforts required to modify
-the \conesc software, and compared them against its nesC counterpart. To this
-end, we performed three different types of modification: removing a context,
-adding a new context, and adding a new context group.
+WSN software needs to constantly evolve due to changes in requirements
+and unpredictable environment dynamics. Generally, the better an
+implementation is modularized, the easier are the modifications, since
+the changes only affect an isolated portion of the
+system~\cite{embeddedSoftwareBook}. For each application hitherto
+considered, we estimate the effort required to modify the \conesc
+implementation compared to their nesC counterpart. In doing so, we
+study three types of modification: removing a context, adding a new
+context, and adding a new context group.
 
-To estimate efforts for removing context we extended the scenario for adaptive
-protocol stack. Say, for example, developer wants to get rid of one of the
-parameter sets after testing, since the set has been proven ineffective. So
-there are only two sets remained. In wildlife tracking application it might be
-necessary to monitor the spread of disease. To do this developer may want to add
-a new context ``Carrier'' to the exiting contexts in ``Health conditions'' group
-to mark the animal, who was in contact with diseased one, but shows no symptoms
-yet. By elaborating the smart-home software, developer may want to monitor the
-state of the node and notify the user about the failure. To this end he adds the
-whole context group ``Status'' with two contexts ``Normal'' and
-``Failure''.
+To estimate the effort for removing a context, we rework the scenario
+of the adaptive protocol stack. Say, for example, developers want to
+remove of one of the CTP parameter sets after testing, since those
+parameters performed ineffectively. To study the addition of a new
+context, we extend the wildlife tracking application to the case when
+it becomes necessary to monitor the spread of a disease. To do this,
+developers add a new context \emph{Carrier} to the \emph{Health
+  conditions} group to create a beacon for an animal who was in
+contact with a diseased one, but shows no symptoms yet. In the
+smart-home controller scenario, developers may need to monitor a
+device's state depending on periodic run-time checks. If a potential
+failure is discovered, the controller should change it's behavior. To
+this end, programmers add an entire context group \emph{Status} with
+two contexts \emph{Normal} and \emph{Failure}.
 
-\fakepar{Results} Our analysis shows that removing the context in \conesc leads
-to the modification of 3 lines of code and deleting of one component -- i.e.
-context. Meanwhile, to remove unnecessary functionality in nesC, developer must
-modify 11 lines of code scattered throughout the main module. As concerns adding
-new context in wildlife application, along with adding new component --
-``Carrier'' context -- in \conesc it is necessary to modify 5 lines of code. By
-adding the same functionality in nesC, developer have to modify 8 lines of code
-along with adding two new global states. The extension by the new context group
-in \conesc requires the modification of 40 lines of code along with 3 new
-components -- ``Status'' group, ``Normal'' and ``Failure'' contexts. The same
-lines of code would be changed in its nesC counterpart along with adding two
-global states, however.
+\fakepar{Results} Our analysis shows that removing a context in the
+\conesc implementation of the adaptive protocol stack only requires
+modifying 3 lines of code, besides deleting the context itself. To
+remove unnecessary functionality in nesC, developer must modify
+several lines of code scattered throughout the main module. To add a
+context in the wildlife tracking application, using \conesc it is
+necessary to modify 5 lines of code, besides providing the
+implementation for the new context. Implementing the same extension in
+nesC requires, among other code modifications, adding two new global
+states, further complicating the control flow. Adding a new context
+group in the smart-home controller requires modifications in about 40
+lines of code using \conesc, besides providing the implementation for
+the new contexts. Using nesC, about the same amount of code changes
+are required, yet these include adding two global states, again
+rendering the implementation necessarily more entangled.
 
 % as shown on Table~\ref{tab:compres}, we notice that the
 % program written in context-oriented style using plane nesC is more
@@ -297,8 +305,7 @@ TinyOS, that is turning on/off an LED, already consumes 8 MCU cycles. The
 overhead of context transitions is slightly larger, but in the same order of
 magnitude. Most importantly, the memory overhead is also negligible, measuring a
 worst-case 2.5\% penalty for the size of the program binary and a worst-case
-4.5\% penalty for RAM usage.\lm{Do we have an explanation as to why the adaptive
-protocol case is the smallest?}
+4.5\% penalty for RAM usage.
 
 \putfigure{caption=MCU and memory overhead: \emph{the resource usage penalty for using \conesc is almost negligible.},label=fig:cmo}{
 \centering
