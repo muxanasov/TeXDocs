@@ -1,22 +1,20 @@
 \section{Evaluation}\label{sec:eval}
 
 We implement three representative applications, as described in
-Section~\ref{sec:scenarios}, using either \conesc or nesC. The
-implementations are functionally equivalent. Based on these, we
-evaluate our approach along three key
-dimensions. Section~\ref{sec:evalcomp} analyzes the severity of
-different \emph{coupling types} in our implementations. Tighter forms
-of coupling, possibly found in multiple instances, are generally
-detrimental to code maintenance and
-evolution~\cite{stevens79}. Section~\ref{sec:complexity} reports code
-metrics assessing the \emph{complexity} of the resulting
-implementations, which often impacts a system's reliability and ease
-of debugging~\cite{pressman01}. Finally, Section~\ref{sec:overhead}
-quantifies the performance overhead, in terms of MCU and memory
-penalty, incurred when using \conesc.\lm{At the beginning of a
-  structure evaluation section like this one, it's better to give a
-  crisp outline of what's coming next, with pointers to the
-  subsections.}
+Section~\ref{sec:scenarios}, using either \conesc or nesC. The implementations
+are functionally equivalent. Based on these, we evaluate our approach along
+four key dimensions. Section~\ref{sec:evalcomp} analyzes the severity of
+different \emph{coupling types} in our implementations. Tighter forms of
+coupling, possibly found in multiple instances, are generally detrimental to
+code maintenance and evolution~\cite{stevens79}. Section~\ref{sec:complexity}
+reports code metrics assessing the \emph{complexity} of the resulting
+implementations, which often impacts a system's reliability and ease of
+debugging~\cite{pressman01}. The efforts required for the software evolution are
+measured in Sec.~\ref{sec:evolve}, where we modified our implementations.
+Finally, Section~\ref{sec:overhead} quantifies the performance overhead, in
+terms of MCU and memory penalty, incurred when using \conesc.\lm{At the
+beginning of a structure evaluation section like this one, it's better to give a
+crisp outline of what's coming next, with pointers to the subsections.}
 
 Overall, our evaluation reveals that:\lm{Whenever space allows, it's
   useful to summarize the major outcomes of an evaluation
@@ -294,16 +292,16 @@ toolchains.
 % are detected and handled in ConesC differently as compared to nesC, but,
 % eventually, it results in the same functionality. 
 
-\fakepar{Results} Fig.~\ref{fig:cmo}\ma{Have to make sure ``Adaptive stack'' is everywhere.} shows the results. The average MCU
-overhead for a layered function call ranges from 2 to 5 MCU cycles,
-depending on the application. Such figures are negligible in terms of
-energy consumption, since the simplest operation in TinyOS, that is
-turning on/off an LED, already consumes 8 MCU cycles. The overhead of
-context transitions is slightly larger, but in the same order of
-magnitude. Most importantly, the memory overhead is also negligible,
-measuring a worst-case 2.5\% penalty for the size of the program
-binary and a worst-case 4.5\% penalty for RAM usage.\lm{Do we have an
-  explanation as to why the adaptive protocol case is the smallest?}
+\fakepar{Results} Fig.~\ref{fig:cmo}\ma{Have to make sure ``Adaptive stack'' is
+everywhere.} shows the results. The average MCU overhead for a layered function
+call ranges from 2 to 5 MCU cycles, depending on the application. Such figures
+are negligible in terms of energy consumption, since the simplest operation in
+TinyOS, that is turning on/off an LED, already consumes 8 MCU cycles. The
+overhead of context transitions is slightly larger, but in the same order of
+magnitude. Most importantly, the memory overhead is also negligible, measuring a
+worst-case 2.5\% penalty for the size of the program binary and a worst-case
+4.5\% penalty for RAM usage.\lm{Do we have an explanation as to why the adaptive
+protocol case is the smallest?}
 
 \putfigure{caption=MCU and memory overhead: \emph{the resource usage penalty for using \conesc is almost negligible.},label=fig:cmo}{
 \centering
