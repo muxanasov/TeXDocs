@@ -175,19 +175,18 @@ assignment of values to the program variables. Thus, the number of
 states must be computed by looking at the different combinations of
 values assumed by variables during every possible execution.
 
-To carry out the latter analysis, we use SATABS~\cite{clarke05:satabs}, a
-model-checking tool for C programs already employed in sensor network
-programming for similar analysis~\cite{mottola10:survey}. SATABS is
-designed for off-line verification of C programs against user-provided
-assertions. To do so, it searches through the relevant program
-executions to check whether the assertion always holds. At the end of
-the process, SATABS returns the number of different states it explores
-in the program.  Using a specific configuration, it is possible to
-force SATABS to explore \emph{all} program executions. If the
-procedure terminates, SATABS returns the total number of distinct
-states of the program. We use SATABS on a per-function basis,
-implementing empty stubs to replace code that we cannot process with
-SATABS, e.g., hardware drivers.
+To carry out the latter analysis, we use
+SATABS~\cite{clarke05:satabs}, a model-checking tool for C
+programs. SATABS performs off-line verification of C programs against
+user-provided assertions. To do so, it searches through the relevant
+program executions to check whether the assertion always holds. At the
+end of the process, SATABS returns the number of states it explores in
+the program.  Using a specific configuration, it is possible to force
+SATABS to explore \emph{all} program executions. If the procedure
+terminates, SATABS returns the total number of distinct states in a
+program. We use SATABS on a per-function basis, implementing empty
+stubs to replace code that we cannot process with SATABS, e.g.,
+hardware drivers.
 
 \begin{table}[!tb]
 \renewcommand{\arraystretch}{1.3}
