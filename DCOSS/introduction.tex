@@ -71,8 +71,7 @@ mode, such as those on line~\lstref{check1} to~\lstref{check2}, appear
 interleaved with the change of mode itself. Finally, the specific
 implementation of adaptive functionality---being either
 \code{DataStore} or \code{Collection}---is visible from the caller
-module, further coupling the two.\lm{The line numbers are huge when
-  made of 2 digits... :)}
+module, further coupling the two.
 
 In such a situation, debugging, maintaining, and evolving the
 implementations is going to be difficult. Modifying the code in one
@@ -88,13 +87,14 @@ indicate that similar implementation patterns are indeed very common.
 
 \fakepar{Contribution and road-map} We aim to redress this state of
 affairs by enabling a notion of Context-Oriented Programming
-(COP)~\cite{} in WSN software. COP fosters a strict separation of
-concerns in implementing adaptive software. This is achieved through
-two key notions: \emph{i)} the different situations the software needs
-to operate in are mapped to different \emph{contexts}, and \emph{ii)}
-the different context-dependent behaviors are encapsulated in so
-called \emph{layered functions}, that is, functions whose behavior
-changes---transparently to the caller---depending on context.
+(COP)~\cite{Hirschfeld08} in WSN software. COP fosters a strict
+separation of concerns in implementing adaptive software. This is
+achieved through two key notions: \emph{i)} the different situations
+the software needs to operate in are mapped to different
+\emph{contexts}, and \emph{ii)} the different context-dependent
+behaviors are encapsulated in so called \emph{layered functions}, that
+is, functions whose behavior changes---transparently to the
+caller---depending on context.
 
 COP already proved its effectiveness in creating context-aware
 mainstream software, such as graphical user interfaces~\cite{Keays03}
