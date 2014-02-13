@@ -7,7 +7,7 @@ set style fill pattern border -1
 set style histogram cluster gap 1
 
 #set xlabel "Number of drones"
-set ylabel "CPU cycles"
+set ylabel "MCU cycles"
 # set xrange [0:8]
 #set yrange [0:35]
 
