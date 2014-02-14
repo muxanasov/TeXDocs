@@ -290,15 +290,14 @@ toolchains.
 % are detected and handled in ConesC differently as compared to nesC, but,
 % eventually, it results in the same functionality. 
 
-\fakepar{Results} Fig.~\ref{fig:cmo}\ma{Have to make sure ``Adaptive stack'' is
-everywhere.} shows the results. The average MCU overhead for a layered function
-call ranges from 2 to 5 MCU cycles, depending on the application. Such figures
-are negligible in terms of energy consumption, since the simplest operation in
-TinyOS, that is, turning on/off an LED, already consumes 8 MCU cycles. The
-overhead of context transitions is slightly larger, but in the same order of
-magnitude. Most importantly, the memory overhead is also negligible, measuring a
-worst-case 2.5\% penalty for the size of the program binary and a worst-case
-4.5\% penalty for RAM usage.
+\fakepar{Results} Fig.~\ref{fig:cmo} shows the results. The average MCU overhead
+for a layered function call ranges from 2 to 5 MCU cycles, depending on the
+application. Such figures are negligible in terms of energy consumption, since
+the simplest operation in TinyOS, that is, turning on/off an LED, already
+consumes 8 MCU cycles. The overhead of context transitions is slightly larger,
+but in the same order of magnitude. Most importantly, the memory overhead is
+also negligible, measuring a worst-case 2.5\% penalty for the size of the
+program binary and a worst-case 4.5\% penalty for RAM usage.
 
 \putfigure{caption=MCU and memory overhead: \emph{the resource usage penalty for using \conesc is almost negligible.},label=fig:cmo}{
 \centering
