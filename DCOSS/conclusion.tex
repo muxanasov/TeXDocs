@@ -1,27 +1,31 @@
 \section{Conclusion}\label{sec:ending}
 
-We presented programming abstractions for implementing adaptive WSN software. By
-borrowing COP concepts, we brought the adaptive software down to low-level
-system programming, and introduced a set of language independent concepts,
-described in Sec.~\ref{sec:appdesign}. These concepts found their place in our
-own context-oriented extension of nesC, called \conesc. To transform \conesc to
-plan nesC code, we developed a dedicated translator, described in
-Sec.~\ref{sec:translator}.
+We presented programming abstractions for implementing adaptive WSN
+software. By borrowing from COP, we conceived language-independent
+design concepts mirrored in a concrete language
+implementation---\conesc---that extends nesC with COP constructs. Our
+dedicated translator converts \conesc code to plain nesC code, then
+handed over to the standard nesC toolchain. Based on three
+representative applications, we observed that \conesc greatly
+simplifies developing adaptive WSN software. For example, we found
+that, along with increased decoupling of software components, we gain
+a $\approx$50\% reduction in the number of per-function states that
+programmers need to deal with, and applications can be evolved with
+reduced efforts compared to their nesC counterparts. The price for
+gaining such advantages is, however, negligible: we observed an
+overhead of 2.5\% (4.5\%) in program (data) memory, whereas the MCU
+overhead is negligible.
 
-As we observed in~\ref{sec:eval} based on three representative applications,
-\conesc simplifies the developing for WSNs. We shown that along with decoupling
-of software components, we gain also a $\approx$50\% reduction in the number of
-per-function states that programmers need to deal with. Moreover, due to
-decoupled modular structure, \conesc applications can be evolved with lesser
-efforts as compared to their nesC counterparts. The price is, however,
-negligible: we observed the overhead in memory (data) of maximum 2.5\% (4.5\%),
-while the maximum of MCU overhead for context transition (function call) is only
-28 (4) MCU cycles.
-
-To our knowledge, efforts related to ours can be divided into WSN-specific
-adaptation and programmer support for adaptation outside WSN. Meanwhile, \conesc
-brings the design-time programming support for adaptive low-level WSN software.
+% To our knowledge, efforts related to ours can be divided into WSN-specific
+% adaptation and programmer support for adaptation outside WSN. Meanwhile, \conesc
+% brings the design-time programming support for adaptive low-level WSN software.
 
 % use section* for acknowledgement
 %\section*{Acknowledgment}
 %The authors would like to thank...
+
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "bare_conf"
+%%% End: 
