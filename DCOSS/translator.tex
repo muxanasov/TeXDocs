@@ -11,7 +11,7 @@
  sources are then compiled using the standard nesC toolchain to
  produce a deployment-ready binary.
 
-\putfigure{caption=\conesc translation to nesC code for a generic \code{FooG} context group and an individual context \code{CA}.,label=fig:ctd}{
+\putfigure{caption=\conesc translation to nesC code for a generic \code{FooGroup} context group and an individual context \code{FooCon}.,label=fig:ctd}{
  \centering
  \includegraphics[width=\columnwidth]{pdf/translator}
 }
@@ -25,19 +25,19 @@ sample \code{FooGroup} context group and an individual \code{FooCon}
 context, whereas nesC configurations (modules) with \conesc
 constructs are represented as \code{BarC} (\code{BarP}).
 
-Based on every context group, we generate a custom nesC module that
-implements the dynamic binding of layered functions to the active
-context, such as \code{FooGroupBinding} in Fig.~\ref{fig:ctd}. This
-module is part of a configuration also automatically generated, such
-as \code{FooGroupConfig} in Fig.~\ref{fig:ctd}. Such configuration
-uses an automatically generated nesC interface that exports the
-layered functions defined in the group, such as \code{FooGroupLayered}
-in Fig.~\ref{fig:ctd}. Optionally, an error context is also generated
-in plain nesC, as indicated by \code{ErrorFooGroup} in this case, if
-the programmer does not provide one. Each individual context is 
-translated to a corresponding nesC module with the proper interfaces
-to be wired within the aforementioned configuration, as in the case of
-\code{FooConContext} for the \code{FooGroupConfig} in
+Based on every context group, we generate a custom nesC module, such
+as \code{FooGroupBinding} in Fig.~\ref{fig:ctd}, that implements the
+dynamic binding of layered functions to the active context. This
+module is part of a configuration, such as \code{FooGroupConfig} in
+Fig.~\ref{fig:ctd}, also automatically generated. This configuration
+implements a nesC interface our translator produces, such as
+\code{FooGroupLayered} in Fig.~\ref{fig:ctd}, that exports the layered
+functions defined in the group. Optionally, an error context is also
+generated in plain nesC, as indicated by \code{ErrorFooGroup} in this
+case, if the programmer does not provide one. Each individual context
+is translated to a corresponding nesC module with the proper
+interfaces to be wired within the aforementioned configuration, as in
+the case of \code{FooConContext} for the \code{FooGroupConfig} in
 Fig.~\ref{fig:ctd}.
 
 At this stage, context and context groups disappeared, yet \conesc

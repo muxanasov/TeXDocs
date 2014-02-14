@@ -6,8 +6,7 @@
  evaluate our approach along four key
  dimensions. Section~\ref{sec:evalcomp} analyzes the severity of
  different \emph{coupling types} in our implementations. Tighter forms
- of coupling, possibly found in multiple instances, are generally
- detrimental to code maintenance and
+ of coupling are generally detrimental to code maintenance and
  evolution~\cite{koopman10:better}. Section~\ref{sec:complexity}
  reports code metrics assessing the \emph{complexity} of the resulting
  implementations, which often impacts a system's reliability and ease
@@ -15,17 +14,14 @@
  evolving the software are measured in Sec.~\ref{sec:evolve} based on
  representative case studies.  Finally, Section~\ref{sec:overhead}
  quantifies the performance overhead, in terms of MCU and memory
- penalty, incurred when using \conesc.\lm{At the beginning of a
-   structure evaluation section like this one, it's better to give a
-   crisp outline of what's coming next, with pointers to the
-   subsections.}
+ penalty, incurred when using \conesc.
 
-Overall, our evaluation reveals that:\lm{Whenever space allows, it's
-  useful to summarize the major outcomes of an evaluation
-  section. Let's see if we manage to keep it.}
-\begin{enumerate}
-\item ...
-\end{enumerate}
+% Overall, our evaluation reveals that:\lm{Whenever space allows, it's
+%   useful to summarize the major outcomes of an evaluation
+%   section. Let's see if we manage to keep it.}
+% \begin{enumerate}
+% \item ...
+% \end{enumerate}
 
 % In this section we show the evaluation of our approach. To this end, we
 % developed several scenarios for WSNs and compare nesC implementations against
@@ -34,9 +30,9 @@ Overall, our evaluation reveals that:\lm{Whenever space allows, it's
 
 \subsection{Applications}\label{sec:scenarios}
 
-In addition to the wildlife monitoring application we used as a
-running example, we implement a smart-home controller and an adaptive
-protocol stack to demonstrate the generality of our design.
+To demonstrate the generality of our design, we implement a smart-home
+controller and an adaptive protocol stack in addition to the wildlife
+tracking application.
 
 The smart-home controller, whose design is shown in
 Fig.~\ref{fig:shd}, relies on context information to regulate
@@ -46,8 +42,7 @@ user-provided preferences that depend on the current context. The
 preferences are managed within the \emph{Preferences} group, whose
 contexts provide different operating parameters depending on day/night
 and working days vs.\ weekend conditions. The context transitions
-within the \emph{Light} and \emph{Temperature}\lm{We should change
-  Climate to Temperature in the diagram.} groups are driven by
+within the \emph{Light} and \emph{Temperature} groups are driven by
 thresholds found in such parameter set, compared against current
 temperature and light readings. When transitioning between these
 contexts, the node operates actuators to control the HVAC and lighting
@@ -76,16 +71,13 @@ situations where a node may alternative periods of significant
 mobility to periods of static operation. The node roams within a
 network of static nodes running CTP~\cite{gnawali09}. As long as the
 node remains static, it joins the existing routing tree by running an
-instance of CTP limited to being a leaf. As soon as the on-board
-accelerometer detects a significant movement, it switches to a
-route-less gossip protocol, which allows the node to relay data to the
-static infrastructure
+instance of CTP. As soon as the on-board accelerometer detects a
+significant movement, it switches to a route-less gossip protocol,
+which allows the node to relay data to the static infrastructure
 opportunistically~\cite{Fotouhi:2012:SRH:2187181.2187193}. In
 addition, the node may switch between three parameter sets for CTP,
 depending on context information that determine whether lifetime,
-bandwidth, or XXXX\lm{Not sure what ``link quality adaptation'' means
-  on the original diagram.} is to be favored, similar to parameter
-adaptation in existing MAC protocols~\cite{zimmerling12}.
+bandwidth, or latency is to be favored.
 
 % Another scenario - a system-level adaptation - is shown on Fig.~\ref{fig:apd}.
 % If the network is static, it is feasible to use a \emph{Collection Tree
@@ -101,13 +93,6 @@ adaptation in existing MAC protocols~\cite{zimmerling12}.
 
 \subsection{Coupling}\label{sec:evalcomp}
 
-\begin{table}[!tb]
-\renewcommand{\arraystretch}{1.3}
-\caption{Coupling types.}
-\label{tab:couptypes}
-\input{tab_couptypes}
-\end{table}
-
 According to Stevens et al.~\cite{stevens79}, seven types of coupling
 between software modules exist, as summarized in
 Table~\ref{tab:couptypes}. It is generally known that the tightest is
@@ -115,37 +100,43 @@ coupling, the more difficult is debugging, maintaining, and extending
 the implementations. % Coupling types, which
 % are presented in this section, are not forbidden in ConesC, but some
 % of them can be easily avoided with a proper use of its concepts.
-We investigate the types of coupling in \conesc and the nesC
-implementations.
+We investigate the types of coupling we can observe in \conesc and
+nesC implementations.
+
+\fakepar{Results} Table~\ref{tab:coupres} illustrates the results of
+our analysis. Generally, the ConesC implementations are significantly
+more decoupled compared to their nesC counterparts. \conesc avoids
+\emph{Content} coupling in that different behavioral variations are
+encapsulated in different contexts. NesC programmers, on the other
+hand, cannot dynamically bind command calls or event signals to
+different modules, which forces them to expose internal module
+information that make one module's operation depending on that of
+several others'. For the same reason, nesC programmers are forced to
+use global state to switch between different functionality depending
+on the situation. This creates \emph{Common} coupling that is not
+found in \conesc, in that the necessary functionality is automatically
+generated by our translator. Finally, \conesc spares \emph{Control}
+coupling as well. This is a result of allowing dynamic binding across
+modules driven by the context transitions. Such functionality needs to
+be hand-coded in nesC.
+
+\begin{table}[!tb]
+\renewcommand{\arraystretch}{1.3}
+\caption{Coupling types.}
+\vspace{-2mm}
+\label{tab:couptypes}
+\input{tab_couptypes}
+\vspace{-2mm}
+\end{table}
 
 \begin{table}[!tb]
 \renewcommand{\arraystretch}{1.3}
 \caption{Coupling comparison: \emph{\conesc implementations save most types of coupling that are unavoidable in nesC.}}
+\vspace{-2mm}
 \label{tab:coupres}
 \input{tab_coupres}
+\vspace{-4mm}
 \end{table}
-
-\fakepar{Results} Table~\ref{tab:coupres}\lm{Can we also count how
-  many times we encounter a given type of coupling in either
-  implementation?} illustrates the results of our analysis. Generally,
-the ConesC implementations are significantly more decoupled compared
-to their nesC counterparts.
-
-Specifically, \conesc avoids \emph{Content} coupling in that different
-behavioral variations are cleanly encapsulated in different
-contexts. NesC programmers, on the other hand, cannot dynamically bind
-command calls or event signals to different modules, which forces them
-to expose internal module information that make one module's operation
-depending on that of several others'. For the same reason, nesC
-programmers are forced to use global state to switch between different
-functionality depending on the situation. Such global state, which
-creates \emph{Common} coupling, is not needed using \conesc, in that
-the necessary functionality is automatically generated by our
-translator. Finally, \conesc spares \emph{Control} coupling as
-well. In essence, this comes as a result of allowing, in a sense,
-dynamic binding across modules driven by the context transitions. Such
-functionality, which is not available in nesC, needs to be hand-coded
-in the latter.
 
 
 % Implementation of context components in ConesC, example of which are presented in Fig.~\ref{fig:cc} and~\ref{fig:irc}, do not rely on internal work of each other, so the are not coupled in the sense of~\emph{Content coupling}, as compared to nesC-written application, where all the behavioral variations are encapsulated in one module or function. Since each context represents a separate state of the environment or the device the system operates in, contexts are not intended to share any global states, to control the flow of each other and to pass the information how to execute. Our abstraction toward~\emph{context
