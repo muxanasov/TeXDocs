@@ -9,10 +9,9 @@ context group BaseStationG {
 *\lstnote{contexts}* contexts Reachable,
 *\lstnote{isdefault}*          Unreachable is default,
 *\lstnote{iserror}*          MyErrorC is error;
- components Routing, Logging, LedsC;
+ components Routing, Logging;
  Reachable.Collection -> Routing;
- Unreachable.DataStore -> Logging;
- ErrorC.Leds -> LedsC;}
+ Unreachable.DataStore -> Logging;}
 \end{lstlisting}
 \end{minipage}
 }
@@ -45,8 +44,8 @@ context Unreachable {
 *\lstnote{activatedUnreachable}* event void activated(){//...}
 *\lstnote{deactivatedUnreachable}* event void deactivated(){//...}
 *\lstnote{checkUnreachable}* command bool check(){//...}
-*\lstnote{layeredimp}* layered command void report(msg_t msg){
-  call DataStore.deposit(msg);}}
+ layered command void report(msg_t msg){
+*\lstnote{layeredimp}*  call DataStore.deposit(msg);}}
 \end{lstlisting}
 \end{minipage}
 }
@@ -64,8 +63,8 @@ context Reachable {
 *\lstnote{deactivated}* event void deactivated(){//...}
 *\lstnote{check}* command bool check(){
   return call BatteryG.getContext() == BatteryG.Normal;}
-*\lstnote{layeredimp2}* layered command void report(msg_t msg){
-  call Collection.send(msg);}}
+ layered command void report(msg_t msg){
+*\lstnote{layeredimp2}*  call Collection.send(msg);}}
 \end{lstlisting}
 \end{minipage}
 }
