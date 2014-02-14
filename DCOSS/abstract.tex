@@ -1,29 +1,27 @@
 \begin{abstract}
 
-  We present programming abstractions specific to implementing
-  adaptive Wireless Sensor Network (WSN) software. The need for
-  adaptability arises in WSNs because of unpredictable environment
-  dynamics, changing requirements, and resource scarcity. However,
-  after about a decade of research in WSN programming, developers are
-  still left with no dedicated support for implementing adaptive
-  code. To address this issue, we bring concepts from Context-Oriented
-  Programming (COP) down to WSN devices. Contexts model the situations
-  that WSN software needs to adapt to. Using COP, programmers use a
-  notion of \emph{layered function} to implement context-dependent
-  behavioral variations of WSN code. To this end, we provide
-  \emph{language-independent} design concepts to organize the
-  context-dependent WSN operating modes, decoupling the abstractions
-  from their concrete implementation in a programming language. Our
-  own language implementation, called \conesc, extends nesC with COP
-  constructs. Based on three representative applications, we show that
-  \conesc greatly simplifies the resulting code and yields
-  increasingly decoupled implementations compared to nesC
-  implementations. For example, model-checking every function in
-  either implementations shows a $\approx$50\% reduction in the number
-  of per-function states that programmers need to deal with,
-  indicating easier debugging and maintainance. In our tests, this
-  comes at the price of a maximum 2.5\% (4.5\%) overhead in program
-  (data) memory.
+  We present programming abstractions for implementing \emph{adaptive}
+  Wireless Sensor Network (WSN) software. The need for adaptability
+  arises in WSNs because of unpredictable environment dynamics,
+  changing requirements, and resource scarcity. However, after about a
+  decade of research in WSN programming, developers are still left
+  with no dedicated support. To address this issue, we bring concepts
+  from Context-Oriented Programming (COP) down to WSN
+  devices. Contexts model the situations that WSN software needs to
+  adapt to. Using COP, programmers use a notion of \emph{layered
+    function} to implement context-dependent behavioral variations of
+  WSN code. To this end, we provide \emph{language-independent} design
+  concepts to organize the context-dependent WSN operating modes,
+  decoupling the abstractions from their concrete implementation in a
+  programming language. Our own implementation, called \conesc,
+  extends nesC with COP constructs. Based on three representative
+  applications, we show that \conesc greatly simplifies the resulting
+  code and yields increasingly decoupled implementations compared to
+  nesC. For example, by model-checking every function in either
+  implementations, we show a $\approx$50\% reduction in the number of
+  program states that programmers need to deal with, indicating easier
+  debugging. In our tests, this comes at the price of a maximum 2.5\%
+  (4.5\%) overhead in program (data) memory.
 
 % Wireless sensor networks (WSNs) take a significant role to gather data from, and
 % possibly take actions on the real world. Therefore they are intimately tied to
