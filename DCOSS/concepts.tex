@@ -1,24 +1,20 @@
 \section{Design Concepts}\label{sec:appdesign}
 
-We illustrate in the following language-independent design concepts,
-providing a foundation to apply the COP model to different concrete
-languages, as we further illustrate next. Throguhout this section and
-the next, we refer to the wildelife tracking application described
-earlier as a running example.
+We illustrate language-independent design concepts, providing a
+foundation to apply the COP model to different concrete languages, as
+we illustrate next. Throughout this section and the next, we refer to
+the wildlife tracking application described earlier as a running
+example.
 
 We define two key concepts:~\emph{i)} individual contexts, and
 \emph{ii)} context groups. Contexts represent the different
 environmental situations the system may encounter, and correspond to
 behavioral variations associated to a given situation. As the
-environment surrounding the system mutates, the software adapts
-accordingly by activating given contexts. Context groups represent
-collections of contexts sharing common characteristics; for example,
-whenever the same functionality must adapt to changes in the
-surrounding environment or the required adaptive behavior is
-determined by the same environmental quantity. We argue that these
-concepts are sufficient to capture a wide range of adaptive behaviors
-in WSNs, and yet are largely independent of a specific programming
-language.
+environment surrounding the system or the requirements mutate, the
+software adapts accordingly by activating given contexts. Context
+groups represent collections of contexts sharing common
+characteristics; for example, whenever the required adaptive behavior
+is determined by the same environmental quantity. 
 
 % Programming in \conesc is intimately tied with environment-dependent behavior of
 % the application and exploits two main concepts: \emph{i)} individual contexts
@@ -41,9 +37,9 @@ the design of the wildlife tracking application. Context groups are
 defined to describe behavioral variations corresponding to different
 battery levels and whether a node is within the communication range of
 a base-station, as well as an animal's health conditions and
-activity. Context groups are tagged as system-level or
-application-level to discern application-specific functionality from
-likely re-usable system services.
+activity. % Context groups are tagged as system-level or
+% application-level to discern application-specific functionality from
+% likely re-usable system services.
 
 The contexts within a group define the individual behavioral
 variations depending on the situation. For example, the function to
@@ -55,14 +51,14 @@ this end, the programmer activates context \emph{Reachable} within the
 \emph{Unreachable}, as the software must log the data locally; for
 example, on flash. 
 
-The contexts in a group are tied with transitions that
-express the conditions triggering the context change. For example,
-within the \emph{Base-station} group, the system transitions from
-context \emph{Reachable} to \emph{Unreachable} whenever no beacons are
-received from the base-station within a timeout. This entails
-a node is out of the base-station communication range and the software
-must adapt accordingly, that is, by locally storing the contact logs
-instead of sending them over the radio.
+The contexts in a group are tied with transitions that express the
+conditions triggering the context change. For example, within the
+\emph{Base-station} group, the system transitions from context
+\emph{Reachable} to \emph{Unreachable} whenever no base-station
+beacons are received within a timeout. This entails a node is out of
+the base-station communication range and the software must adapt
+accordingly, that is, by locally storing the contact logs instead of
+sending them over the radio.
 
 % Orthogonal to application-level functionality, the system should transmit data
 % to the Base Station (BS) or save readings locally depending on the BS
@@ -73,13 +69,13 @@ instead of sending them over the radio.
 % level is \emph{Low}.
 
 The behavioral variations must not necessarily implement a complete
-functionality on their own, but they may also serve other
+functionality on their own, but they may just serve other
 functionality; for example, by providing context-dependent data. The
 group \emph{Health conditions} is one such example. By using a body
 temperature sensor, the system detects whether the animal is
 \emph{Diseased} or \emph{Healthy}. The corresponding behavioral
 variations implement two ways to build the radio beacon used as a
-proximity sensor for detecting contacts between animals. If the animal
+``proximity'' sensor for detecting contacts between animals. If the animal
 is \emph{Diseased}, additional information is added to the beacon for
 understanding how the disease spreads. Either type of beacon is then
 handed over to the radio stack for transmission.
@@ -90,9 +86,8 @@ argue in Section~\ref{sec:eval}. On the other hand, unlike the vast
 majority of WSN programming approaches~\cite{mottola10:survey}, these
 concepts remain largely decoupled from a concrete language
 implementation. Although the following section describes a nesC-based
-implementation---mainly motivated by the availability of a mature
-toolchain---our design can be straightforwardly embedded within other
-WSN languages. For example, within functional lanuages such as
+implementation, our design can be straightforwardly embedded within
+other WSN languages. For example, within functional languages such as
 Regiment~\cite{Newton:2007:RMS:1236360.1236422} or
 Flask~\cite{Mainland:2008:FSF:1411204.1411251}, one would simply
 enable behavioral variations of programmer-defined functions through a
