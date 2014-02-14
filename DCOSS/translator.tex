@@ -1,32 +1,31 @@
  \section{Translator}\label{sec:translator}
 
-We develop a dedicated translator to convert \conesc code to plain
-nesC. To do so, our translator performs two passes through the input
-code. First, it reads the main \code{Makefile} to determine the main
-configuration component and to recursively scan the component
-tree. Based on the information gained during the first pass, including
-the list of every context and context groups defined in the code, it
-parses every input file to convert the \conesc code to plain nesC and
-to generate a set of support files and additional functionality. The
-resulting sources are then compiled using the standard nesC toolchain
-to produce a deployment-ready binary.
+ We develop a dedicated translator to convert \conesc code to plain
+ nesC. To do so, our translator performs two passes through the input
+ code. First, it reads the main \code{Makefile} to determine the main
+ configuration component and to recursively scan the component
+ tree. Based on the information gained during the first pass,
+ including the list of every context and context groups defined in the
+ code, it parses every input file to convert the \conesc code to plain
+ nesC and to generate a set of support functionality. The resulting
+ sources are then compiled using the standard nesC toolchain to
+ produce a deployment-ready binary.
 
 \putfigure{caption=\conesc translation to nesC code for a generic \code{FooG} context group and an individual context \code{CA}.,label=fig:ctd}{
  \centering
  \includegraphics[width=\columnwidth]{pdf/translator}
 }
 
-Fig.~\ref{fig:ctd} graphically details the operations during the
-second pass. Generally, the input to the translator includes four
-types of components: context groups and contexts, as well as nesC
-configurations and modules where \conesc constructs appear
-nonetheless.  In Fig.~\ref{fig:ctd}, context groups and contexts are
-presented by a sample \code{FooGroup} context group and an individual
-\code{FooCon} context therein, whereas nesC configurations and modules
-with \conesc constructs are represented as \code{BarC} and
-\code{BarP}, respectively.
+Fig.~\ref{fig:ctd} details the operations during the second
+pass. Generally, the input to the translator includes four types of
+components: context groups and contexts, as well as nesC
+configurations and modules where \conesc constructs appear.  In
+Fig.~\ref{fig:ctd}, context groups and contexts are represented by a
+sample \code{FooGroup} context group and an individual \code{FooCon}
+context, whereas nesC configurations (modules) with \conesc
+constructs are represented as \code{BarC} (\code{BarP}).
 
-Each context group translates into a custom nesC module that
+Based on every context group, we generate a custom nesC module that
 implements the dynamic binding of layered functions to the active
 context, such as \code{FooGroupBinding} in Fig.~\ref{fig:ctd}. This
 module is part of a configuration also automatically generated, such
@@ -35,7 +34,7 @@ uses an automatically generated nesC interface that exports the
 layered functions defined in the group, such as \code{FooGroupLayered}
 in Fig.~\ref{fig:ctd}. Optionally, an error context is also generated
 in plain nesC, as indicated by \code{ErrorFooGroup} in this case, if
-the programmer does not provide one. Each individual context is also
+the programmer does not provide one. Each individual context is 
 translated to a corresponding nesC module with the proper interfaces
 to be wired within the aforementioned configuration, as in the case of
 \code{FooConContext} for the \code{FooGroupConfig} in
@@ -89,7 +88,7 @@ processing. To give an intuition, we measured the size of the \conesc
 implementations of the application we use for evaluation, described
 next, against the size of the nesC implementations output by our
 translator. On average, we observe three times as much lines of code
-in the latter compared to the former.
+in the automatically-generated nesC code.
 
 %%% Local Variables: 
 %%% mode: latex
