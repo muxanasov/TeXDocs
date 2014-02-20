@@ -45,6 +45,31 @@ to provide design-time and programming support to implement
 self-adaptive software in this domain, these works focus on the actual
 problem-specific adaptation logic.
 
+Efforts very close to ours were performed by Villegas N.~\cite{VilegasPhD11}.
+Despite the same challenges -- e.g. adaptivity and context representation and
+management -- are addressed in the work, the motivating example and consequent
+reasoning are base on user-centric self-adaptive software systems. The latter
+implies the end-user as a controller of the context management, while we are
+focused on the systems which are governed by themselves, or by the programmer,
+at least. The proposed in~\cite{VilegasPhD11} context ontology, context control
+model and reference model are not considering application scenarios of CPSs,
+and, thus, are not applicable. Differently, our research is based on particular
+challenges arose when creating adaptive software for CPSs. Besides, we are using
+physical sensor devices and considering all the consequent challenges to derive
+the context, while Villegas N.~\cite{VilegasPhD11} is considering software-based
+\emph{sensor} to monitor software service interface.
+
+Another highly relevant work -- Fleurey et
+al.~\cite{Fleureya-adaptive-firmwares11} -- is devoted to model-driven approach
+for creating adaptive firmwares. By having similar motivation, authors propose
+and implement similar ideas and tools, such as: define behavioral variations at
+design-time and then compile all possible variations and adaptive logic in one
+resulting binary. Except using different approach to self-adaptive software, our
+work introduces notions of \emph{context groups} and \emph{context
+dependencies}. Moreover, being declared by programmer, contexts in our approach
+are determined not only by variables as in~\cite{Fleureya-adaptive-firmwares11}, but also by abstract entities, such as
+movement of an animal or link quality.
+
 
 % There are some attempts to apply context-oriented programming for the software
 % for CPSs. Sehic et al.~\cite{Sehic11}, for example, proposed a macro-language
