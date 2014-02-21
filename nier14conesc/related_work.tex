@@ -67,8 +67,24 @@ design-time and then compile all possible variations and adaptive logic in one
 resulting binary. Except using different approach to self-adaptive software, our
 work introduces notions of \emph{context groups} and \emph{context
 dependencies}. Moreover, being declared by programmer, contexts in our approach
-are determined not only by variables as in~\cite{Fleureya-adaptive-firmwares11}, but also by abstract entities, such as
-movement of an animal or link quality.
+are determined not only by variables as in~\cite{Fleureya-adaptive-firmwares11},
+but also by abstract entities, such as movement of an animal or link quality.
+
+Aside from COP, there are other adaptation techniques, such as Meta- and
+Aspect-oriented programming (AOP) analyzed
+in~\cite{Salvaneschi:lang_support_for_sas:11}. The former implies
+self-modification at run-time and requires dynamic memory allocation and objects
+invocation, which is unavailable in CPSs. AOP~\cite{Kiczales:AOP:97} was
+introduced to handle the crosscutting in concerns of software. Each software has
+a number of orthogonal functionality -- e.g. concerns -- which might intersect
+each other in some parts of the source-code~\cite{Tarr:concerns:99}. To keep
+modularization and maintainability, AOP allows to separate these parts into the
+\emph{aspects}, and, thus, to save the separation between concerns. COP,
+however, focuses on the representation of alternative behavior, by using notion
+of \emph{layers} and separating the implementations of behavioral variations.
+Thus, the separation into aspects is no more needed. Moreover, among the other
+mentioned techniques, COP yields programs with the lowest
+complexity~\cite{Salvaneschi:lang_support_for_sas:11}.
 
 
 % There are some attempts to apply context-oriented programming for the software
