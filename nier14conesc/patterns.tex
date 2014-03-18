@@ -1,0 +1,42 @@
+\section{Design Patterns}
+
+\conesc, as we mentioned before, makes the components of application more
+decoupled and reusable. To show that, we provide three possible patters --
+general solutions to a commonly occurring problems. The patterns are formalized
+best practices, the programmer should follow, and can not be transformed into
+source or machine code directly without proper implementation.
+
+\subsection{Behavior Control Pattern}
+
+This pattern directly arise from the motivation of our work. Whenever the
+application should perform some specific actions repeatedly, according to the
+environmental conditions, the developer should use \emph{Behavior Control
+Pattern}. The example is in our scenario, when the application adapts to the
+reach-ability of the base-station.
+
+Context group in that case includes the functionality, which needs to adapt.
+Each context implies an implementation of a corresponding functionality. To make
+the pattern complete, we also use a separate control module, which is
+responsible only for the activating suitable context in the given context group.
+
+\subsection{Content Provider Pattern}
+
+Whenever the internal logic of the application implies the component which
+generates data, it might be useful to use this pattern. Here, a content provider
+is the source of the data, which is dependent on the environmental conditions.
+As, for example, in our scenario the beacon contains the information -- the
+health conditions -- which is dependent on the body temperature.
+
+Differently from the Behavior Control Pattern, the functionality of the context
+provider does not imply the control of the execution. The component
+architecture, however, is the same.
+
+\subsection{Context Initialization Pattern}
+
+Since the \emph{context} is a separated and isolated module, it should be
+initialized whenever activated. One way to do that is to provide a \code{command
+init()} function, but it leads to coupling type \emph{Control}, when one module
+controls the execution of another by passing the information, how to execute. To
+avoid the coupling, one should use event \code{activated()} to perform all
+necessary initializations.
+
