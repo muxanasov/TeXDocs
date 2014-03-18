@@ -6,37 +6,42 @@ general solutions to a commonly occurring problems. The patterns are formalized
 best practices, the programmer should follow, and can not be transformed into
 source or machine code directly without proper implementation.
 
-\subsection{Behavior Control Pattern}
-
-This pattern directly arise from the motivation of our work. Whenever the
-application should perform some specific actions repeatedly, according to the
-environmental conditions, the developer should use \emph{Behavior Control
-Pattern}. The example is in our scenario, when the application adapts to the
-reach-ability of the base-station.
+\fakepar{Behavior Control Pattern}This pattern directly arise from the
+motivation of our work. Whenever the application should perform some specific
+actions repeatedly, according to the environmental conditions, the developer
+should use \emph{Behavior Control Pattern}. The example is in our scenario, when
+the application adapts to the reach-ability of the base-station.
 
 Context group in that case includes the functionality, which needs to adapt.
 Each context implies an implementation of a corresponding functionality. To make
 the pattern complete, we also use a separate control module, which is
-responsible only for the activating suitable context in the given context group.
+responsible only for the activating suitable context in the given context group. Since this pattern controls the behavior of the device, it is mostly applicable in the system level.
 
-\subsection{Content Provider Pattern}
+Behavior Control Pattern can also be applied on Smart-home system, when system
+needs to send data to the Fire, or Police, or both, depending on the type of
+emergency. The Adaptive protocol can also use this pattern to switch between
+CTP- or Gossip-based protocols depending on the network topology.
 
-Whenever the internal logic of the application implies the component which
-generates data, it might be useful to use this pattern. Here, a content provider
-is the source of the data, which is dependent on the environmental conditions.
-As, for example, in our scenario the beacon contains the information -- the
-health conditions -- which is dependent on the body temperature.
+\fakepar{Content Provider Pattern}Whenever the internal logic of the
+application implies the component which generates data, it might be useful to
+use this pattern. Here, a content provider is the source of the data, which is
+dependent on the environmental conditions. As, for example, in our scenario the
+beacon contains the information -- the health conditions -- which is dependent
+on the body temperature.
 
 Differently from the Behavior Control Pattern, the functionality of the context
 provider does not imply the control of the execution. The component
 architecture, however, is the same.
 
-\subsection{Context Initialization Pattern}
+In Smart-home systems we need to generate climate preferences, depending on the
+day-time, while Adaptive protocol will might want to generate preferences, based
+on lifetime, bandwidth or latency priority. In both cases, the pattern acts on
+application level.
 
-Since the \emph{context} is a separated and isolated module, it should be
-initialized whenever activated. One way to do that is to provide a \code{command
-init()} function, but it leads to coupling type \emph{Control}, when one module
-controls the execution of another by passing the information, how to execute. To
-avoid the coupling, one should use event \code{activated()} to perform all
-necessary initializations.
-
+\fakepar{Contextual Actuator Pattern} Differently from previous two patterns,
+Contextual Actuator performs a one-time operations as soon as context changed.
+For example, if the battery goes low, system activates \emph{Low} context, where
+all energy expensive modules are disabled. Another use of the pattern is
+contextual switching of lights, based on light level in Smart-home application.
+The considered pattern can be used in both system and application level. It also
+can be combined with both patterns described above.
