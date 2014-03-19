@@ -5,7 +5,7 @@ Using the translator, we compare an implementation of the wildlife
 monitoring application against a functionally-equivalent nesC
 implementation that would arguably result from current
 practice~\cite{mottola10:survey,Picco:2010:SEW:1882362.1882421,pasztor10:selective}. Nonetheless,
-the following considerations more generally aply to a larger set of
+the following considerations more generally apply to a larger set of
 applications we are experimenting with, including a smart-home
 controller and an adaptive sensor network protocol stack, whose
 discussion we omit for brevity. Our comparison addresses three key
@@ -19,14 +19,16 @@ dimensions, as described next.
 % requirements. Finally, we assess the system overhead our approach
 % introduces over the current practice.
 
-\begin{table}[!tb]
-\renewcommand{\arraystretch}{1.3}
-\caption{Coupling types.}
-\vspace{-2mm}
+\begin{figure}[!tb]
+\renewcommand{\arraystretch}{1.1}
+\scriptsize
+\centering
 \label{tab:couptypes}
 \input{tab_couptypes}
 \vspace{-2mm}
-\end{table}
+\caption{Coupling types.}
+\vspace{-7mm}
+\end{figure}
 
 \begin{figure}[!tb]
 \renewcommand{\arraystretch}{1.1}
@@ -46,12 +48,11 @@ ConesC-based &
 --&--&yes&--&--&yes&--\\
 \hline
 \end{tabular}
-\caption{Coupling comparison.}
 \vspace{-2mm}
+\caption{Coupling comparison.}
+\vspace{-7mm}
 \label{fig:coupres}
 \end{figure}
-
-
 
 % \hrule
 % \noindent Three key aspects:
@@ -60,7 +61,7 @@ ConesC-based &
 %   coupling, dependencies, programmer-visible program states, ...
 \fakepar{1.\ Coupling and cohesion} According to Stevens et
 al.~\cite{}, seven types of coupling between software components
-exist, as summarized in Table~\ref{tab:couptypes}. It is generally
+exist, as summarized in Figure~\ref{tab:couptypes}. It is generally
 known that the tightest is coupling, the more difficult is debugging,
 maintaining, and extending the implementations.
 
@@ -94,7 +95,7 @@ components compared to a plain nesC implementation.
 %   a new context) is easier in ConesC than nesC;
 
 \fakepar{2.\ Evolving the software} Besides dealing with the run-time
-adaptation required to cope with environmetal dyammics, CPS software
+adaptation required to cope with environmental dynamics, CPS software
 also needs to evolve in response to changing requirements. Generally,
 the better an implementation is modularized, the easier are the
 modifications, since the changes are limited to isolated portions of

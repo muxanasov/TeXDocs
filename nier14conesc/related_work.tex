@@ -4,88 +4,103 @@
 Efforts close to ours particularly address the design and
 implementation of self-adaptive embedded system software,
 context-oriented programming, and system-level adaptiveness in
-CPSs. We briefly survey paradigmatic examples in the respective fields
-and how they relate to our work.
+CPSs. We briefly survey paradigmatic examples.
 
 Works in self-adaptive embedded system software
-include a vast array of contributions from requirement engineering to
+cover contributions from requirement engineering to
 verification~\cite{cheng:adaptive}. Co-design approaches also exist
 where the hardware/software boundaries blur for greater
 flexibility~\cite{diguet11:closed}. Unlike in our work, several of
-these solutions focus on at most a few environmental dimensions, each
-requiring sophisticated self-adaptive functionality. In our target
+these solutions focus on a few environmental dimensions, each
+requiring ad-hoc self-adaptive functionality. In our target
 applications, complexity arises especially from the several
 combinations that multiple environmental dimensions concurrently
-generate. Nevertheless, most of the existing solutions would be hardly
-applicable in resource-constrained CPSs, due to a significant
+generate. Nevertheless, most of these solutions would be hardly
+applicable in resource-constrained CPSs, due to
 run-time overhead.
+
+Villegas~\cite{VilegasPhD11} designed dedicated software support for
+situation-aware software systems. Despite sharing some high-level
+challenges with our work, Villegas relies on the end-user as a
+controller of context management, whereas we focus on autonomous
+systems possibly deployed in remote or inaccessible areas. Moreover,
+we directly deal with physical sensors to acquire context information,
+whereas these are abstracted in software-based sensor devices in
+Villega's work.
+
+% e.g. adaptivity and context representation and management -- are
+% addressed in the work, the motivating example and consequent reasoning
+% are base on user-centric self-adaptive software systems. The latter
+% implies the end-user as a controller of the context management, while
+% we are focused on the systems which are governed by themselves, or by
+% the programmer, at least. The proposed in~\cite{VilegasPhD11} context
+% ontology, context control model and reference model are not
+% considering application scenarios of CPSs, and, thus, are not
+% applicable. Differently, our research is based on particular
+% challenges arose when creating adaptive software for CPSs. Besides, we
+% are using physical sensor devices and considering all the consequent
+% challenges to derive the context, while Villegas
+% N.~\cite{VilegasPhD11} is considering software-based \emph{sensor} to
+% monitor software service interface.
+
+Fleurey et al.~\cite{Fleureya-adaptive-firmwares11} present a
+model-driven approach for creating adaptive firmwares. They model the
+application as a single state machine and define behavioral variations
+based on predicates defined over the application state. When such
+predicates are found true, the system accordingly adapt the state
+machine transitions. Code is automatically generated from these
+specifications. Compared to this effort, we do not target completely
+automatic code generation, which provides greater freedom in encoding
+the conditions to trigger context changes and enables fine-grained
+optimizations in the code. Moreover, we seek to integrate our approach
+in existing component-based CPS frameworks, leveraging the existing
+code base.
 
 The COP model~\cite{Hirschfeld08} is implemented in several high-level
 languages~\cite{Bardram05,Ghezzi10,Kamina11,Salvaneschi12,Sehic11}. These
 are, however, generally unfeasible on the platforms we target. We
-borrow a few of these concepts; for example, our layered functions in
-context groups are akin to the layer-in-class concept by Salvaneschi
-et al.~\cite{Salvaneschi12}, and adapt them to the limitations of
-low-level programming platforms. In this area, CPSs are rather seen as
-providers of raw sensor data. For example, Sehic et al.~\cite{Sehic11}
-design context-aware extensions to Java where input data comes from
-wireless sensor networks. Differently, we bring COP down to the
-resource-constrained CPS nodes, enabling self-adaptive software right
-on the devices that directly interact with the surrounding
-environment.
+borrow a few of these concepts---for example, our layered functions in
+context groups are akin to the concept of
+layer-in-class~\cite{Salvaneschi12}---and adapt them to the
+limitations of low-level component-based frameworks. In this area, CPS
+devices are rather seen as application-agnostic providers of raw
+sensor data~\cite{Sehic11}. Differently, we bring COP down to the
+component-based CPS software, enabling self-adaptive functionality
+right on the devices that directly interact with the environment.
+
+Aside from COP, Meta- and Aspect-oriented Programming (AOP) offer
+programming support to implement adaptive
+functionality~\cite{SalvaneschiTBP}. The former requires
+self-modification of the binary and hence needs dynamic
+memory allocation, which is often unfeasible in resource-constrained
+CPSs. Similar requirements hold for AOP~\cite{Kiczales:AOP:97}, which
+is originally intended to cope with large complex software
+projects. Arguably, applying AOP to the relative simple processing
+running aboard the CPS devices, even if possible, would be overkill.
+
+% was introduced to handle the
+% crosscutting in concerns of software. Each software has a number of
+% orthogonal functionality -- e.g. concerns -- which might intersect
+% each other in some parts of the
+% source-code~\cite{Tarr:concerns:99}. To keep modularization and
+% maintainability, AOP allows to separate these parts into the
+% \emph{aspects}, and, thus, to save the separation between
+% concerns. COP, however, focuses on the representation of alternative
+% behavior, by using notion of \emph{layers} and separating the
+% implementations of behavioral variations.  Thus, the separation into
+% aspects is no more needed. Moreover, among the other mentioned
+% techniques, COP yields programs with the lowest
+% complexity~\cite{SalvaneschiTBP}.
 
 Specific cases of run-time adaptation are seen at system level in the
-CPS literature. For example, Zimmerling et al.~\cite{zimmerling12} focus
-on run-time reconfiguration of MAC protocol parameters depending on
-environmental conditions. Routing protocols expressly designed
-with self-adaptive functionality are also found in the existing
-literature~\cite{Bourdenas11}. Such efforts essentially address
-a different, yet complementary problem compared to ours. While we aim
-to provide design-time and programming support to implement
-self-adaptive software in this domain, these works focus on the actual
+CPS literature. For example, Zimmerling et al.~\cite{zimmerling12}
+focus on run-time reconfiguration of MAC protocol parameters depending
+on environmental conditions. Routing protocols expressly designed with
+self-adaptive functionality also exist~\cite{Bourdenas11}. Such
+efforts essentially address a complementary problem. While we aim to
+provide design-time and programming support to implement self-adaptive
+software in this domain, these works focus on the actual
 problem-specific adaptation logic.
-
-Efforts very close to ours were performed by Villegas N.~\cite{VilegasPhD11}.
-Despite the same challenges -- e.g. adaptivity and context representation and
-management -- are addressed in the work, the motivating example and consequent
-reasoning are base on user-centric self-adaptive software systems. The latter
-implies the end-user as a controller of the context management, while we are
-focused on the systems which are governed by themselves, or by the programmer,
-at least. The proposed in~\cite{VilegasPhD11} context ontology, context control
-model and reference model are not considering application scenarios of CPSs,
-and, thus, are not applicable. Differently, our research is based on particular
-challenges arose when creating adaptive software for CPSs. Besides, we are using
-physical sensor devices and considering all the consequent challenges to derive
-the context, while Villegas N.~\cite{VilegasPhD11} is considering software-based
-\emph{sensor} to monitor software service interface.
-
-Another highly relevant work -- Fleurey et
-al.~\cite{Fleureya-adaptive-firmwares11} -- is devoted to model-driven approach
-for creating adaptive firmwares. By having similar motivation, authors propose
-and implement similar ideas and tools, such as: define behavioral variations at
-design-time and then compile all possible variations and adaptive logic in one
-resulting binary. Except using different approach to self-adaptive software, our
-work introduces notions of \emph{context groups} and \emph{context
-dependencies}. Moreover, being declared by programmer, contexts in our approach
-are determined not only by variables as in~\cite{Fleureya-adaptive-firmwares11},
-but also by abstract entities, such as movement of an animal or link quality.
-
-Aside from COP, there are other adaptation techniques, such as Meta- and
-Aspect-oriented programming (AOP) analyzed
-in~\cite{SalvaneschiTBP}. The former implies
-self-modification at run-time and requires dynamic memory allocation and objects
-invocation, which is unavailable in CPSs. AOP~\cite{Kiczales:AOP:97} was
-introduced to handle the crosscutting in concerns of software. Each software has
-a number of orthogonal functionality -- e.g. concerns -- which might intersect
-each other in some parts of the source-code~\cite{Tarr:concerns:99}. To keep
-modularization and maintainability, AOP allows to separate these parts into the
-\emph{aspects}, and, thus, to save the separation between concerns. COP,
-however, focuses on the representation of alternative behavior, by using notion
-of \emph{layers} and separating the implementations of behavioral variations.
-Thus, the separation into aspects is no more needed. Moreover, among the other
-mentioned techniques, COP yields programs with the lowest
-complexity~\cite{SalvaneschiTBP}.
-
 
 % There are some attempts to apply context-oriented programming for the software
 % for CPSs. Sehic et al.~\cite{Sehic11}, for example, proposed a macro-language

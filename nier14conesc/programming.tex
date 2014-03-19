@@ -1,5 +1,5 @@
 \input{snippets}
-\section{ConesC}
+\section{Programming Support}
 \label{sec:conesc}
 
 We render the design concepts above in a set of context-oriented
@@ -40,7 +40,7 @@ depends on the currently active context, and are hence the primary
 means to implement the behavioral variations necessary for
 self-adaptation. Crucially, the behavior of layered functions may
 change \emph{transparently} to the caller, which is then relieved from
-explictly managing the adaptation required by the situation.
+explicitly managing the adaptation required by the situation.
 
 
 \begin{figure}[!tb]
@@ -58,7 +58,7 @@ implementation {
 \vspace{-4mm}
 \caption{Context group in \conesc.}
   \label{fig:configuration}
-\vspace{-2mm}
+\vspace{-5mm}
 \end{figure}
 
 A \emph{context group} in \conesc extends nesC configurations
@@ -98,7 +98,7 @@ implementation {
 \vspace{-4mm}
 \caption{\conesc context.}
   \label{fig:context}
-\vspace{-2mm}
+\vspace{-7mm}
 \end{figure}
 
 Contexts extend nesC components by providing the context-dependent
@@ -132,7 +132,7 @@ context defined in the corresponding context group is activated.
 
 
 \putsnippet{
- caption=Base-station context manager.,
+ caption=Base-station context controller.,
  label=fig:bscm,
  boxname=boxbscm
 }

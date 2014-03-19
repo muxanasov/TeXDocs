@@ -9,6 +9,8 @@
 \usepackage{paralist}
 \usepackage{listings}
 \usepackage{xcolor}
+\usepackage{url}
+
 
 % *** SOURCE CODE LISTINGS ***
 \usepackage{paralist}
@@ -48,7 +50,7 @@
 \newcommand{\code}[1]{{\bfseries\texttt{#1}}}
 \newcommand{\lm}[1]{\footnote{{\bf Luca: #1}}}
 \newcommand{\ma}[1]{\footnote{{\bf Mike: #1}}}
-\newcommand{\fakepar}[1]{\vspace{1mm}\noindent\textbf{#1.}}
+\newcommand{\fakepar}[1]{\vspace{0mm}\noindent\textbf{#1.}}
 
 % -begin- //nice in-code glyphs routine
 \usepackage{tikz}
@@ -82,7 +84,7 @@
   \vspace{-4mm}
   \caption{\pf@caption}
   \label{\pf@label}
-  \vspace{-2mm}
+  \vspace{-5mm}
  \end{figure}
 }
 \define@key{putsnippet}{boxname}{\def\ps@boxname{\csname #1\endcsname}}
@@ -101,17 +103,17 @@
 \hyphenation{op-tical net-works semi-conduc-tor}
 
 
-% No space between bibliography items:
-% \let\oldthebibliography=\thebibliography
-%   \let\endoldthebibliography=\endthebibliography
-%   \renewenvironment{thebibliography}[1]{%
-%     \begin{oldthebibliography}{#1}%
-%       \setlength{\parskip}{0ex}%
-%       \setlength{\itemsep}{0ex}%
-%   }%
-%   {%
-%     \end{oldthebibliography}%
-%   }
+%No space between bibliography items:
+\let\oldthebibliography=\thebibliography
+  \let\endoldthebibliography=\endthebibliography
+  \renewenvironment{thebibliography}[1]{%
+    \begin{oldthebibliography}{#1}%
+      \setlength{\parskip}{0ex}%
+      \setlength{\itemsep}{0ex}%
+  }%
+  {%
+    \end{oldthebibliography}%
+  }
 
 \begin{document}
 
@@ -155,8 +157,8 @@ carlo.ghezzi@polimi.it}}
 \input{intro}
 \input{design}
 \input{programming}
-\input{patterns}
 \input{eval}
+\input{patterns}
 \input{related_work}
 \input{end}
 % acknowledgements

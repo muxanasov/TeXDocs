@@ -35,17 +35,17 @@ turn the GPS sensor off to make the node survive until the next
 encounter with a base-station, not to lose the collected contact
 traces.
 
-\fakepar{Challenge} Taking into explicit account every possible
-situation in the design of CPS software is a challenge. Crucially,
-\emph{multiple combined aspects} concurrently determine how the
-software should adapt its operation, e.g., battery levels and physical
-locations in our example application. Although the existing literature
-already investigates similar problems~\cite{cheng:adaptive}, a
-principled approach at tackling these issues in the design and
-implementation of CPS software for extremely constrained platforms is
-largely missing. Severe resource limitations, for example, due to a
-few Kb of data memory and low-power MCUs running at a few Mhz, make
-this a challenge.
+\fakepar{Contribution and road-map} Taking into explicit account every
+possible situation in the design of CPS software is a
+challenge. Crucially, \emph{multiple combined aspects} concurrently
+determine how the software should adapt its operation, e.g., battery
+levels and physical locations in our example application. Although the
+existing literature already investigates similar
+problems~\cite{cheng:adaptive}, a principled approach at tackling
+these issues in the design and implementation of CPS software for
+extremely constrained platforms is largely missing. Severe resource
+limitations, for example, in the form of a few Kb of data memory and low-power
+MCUs running at a few MhZ, make this a challenge.
 
 Existing component-based frameworks for sensor
 networks~\cite{mottola10:survey}, for example, employ component-based
@@ -77,9 +77,6 @@ programming languages~\cite{gay03nesc}. % Notably, these are
 % characterized by severe restrictions, e.g., the inability to create
 % run-time instances of components because of the few KBytes of data and
 % program memory typically available.
-Setion~\ref{sec:patterns} complements the description by illustrating
-recurring patterns already emerging in the use of our approach against
-a number of paradigmatic applications.
 
 Section~\ref{sec:eval} illustrates early results indicating that our
 approach results in better structured implementations, where
@@ -89,9 +86,13 @@ requirements is likely easier in our approach. These results come at a
 negligible increase in resource consumption, which does not impact the
 feasibility of our approach on the target platforms. For example, we
 observe a mere 3\% increase in program memory, whereas the energy
-overhead is negligible. We conclude the paper with a brief account of
-related efforts in Section~\ref{sec:related}, and with concluding
-remarks in Section~\ref{sec:ending}.
+overhead is negligible. 
+
+We conclude the paper by discussing in Section~\ref{sec:patterns}
+recurring design and programming patterns that we already observe
+emerging in our experience, and by briefly surveying related efforts
+in Section~\ref{sec:related}. Section~\ref{sec:ending} ends the paper
+with brief concluding remarks.
 
 % \hrule
 
