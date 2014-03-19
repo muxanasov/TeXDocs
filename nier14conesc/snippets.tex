@@ -1,0 +1,126 @@
+\newsavebox{\boxcc}
+\Savebox{\boxcc}{
+\hspace{-0.25cm}
+\begin{minipage}[l]{\columnwidth}
+\begin{lstlisting}[style=conescframe]
+context group BaseStationG {
+*\lstnote{layereddef}* layered command void report(msg_t msg);
+}implementation {
+*\lstnote{contexts}* contexts Reachable,
+*\lstnote{isdefault}*          Unreachable is default,
+*\lstnote{iserror}*          MyErrorC is error;
+ components Routing, Logging;
+ Reachable.Collection -> Routing;
+ Unreachable.DataStore -> Logging;}
+\end{lstlisting}
+\end{minipage}
+}
+\newsavebox{\boxbscm}
+\Savebox{\boxbscm}{
+\hspace{-0.25cm}
+\begin{minipage}[l]{\columnwidth}
+\begin{lstlisting}[style=conescframe]
+module BaseStationContextManager {
+ uses context group BaseStationG;
+}
+implementation {
+ event msg_t Beacon.receive(msg_t msg) {
+*\lstnote{actBS}*  activate BaseStationG.Reachable;
+  call BSReset.stop(); 
+  call BSReset.startOneShot(TIMEOUT);
+}
+ event void BSReset.fired() {
+*\lstnote{actNoBS}*  activate BaseStationG.Unreachable;
+}}
+\end{lstlisting}
+\end{minipage}
+}
+\newsavebox{\boxc}
+\Savebox{\boxc}{
+\hspace{-0.25cm}
+\begin{minipage}[l]{\columnwidth}
+\begin{lstlisting}[style=conescframe]
+context Unreachable {
+*\lstnote{dependence}* transitions Reachable iff ActivityG.Running;
+ uses interface DataStore;
+}implementation {
+*\lstnote{activatedUnreachable}* event void activated(){//...}
+*\lstnote{deactivatedUnreachable}* event void deactivated(){//...}
+*\lstnote{checkUnreachable}* command bool check(){//...}
+ layered command void report(msg_t msg){
+*\lstnote{layeredimp}*  call DataStore.deposit(msg);}}
+\end{lstlisting}
+\end{minipage}
+}
+\newsavebox{\boxirc}
+\Savebox{\boxirc}{
+\hspace{-0.25cm}
+\begin{minipage}[l]{\columnwidth}
+\begin{lstlisting}[style=conescframe]
+context Reachable {
+ uses interface Collection;
+ uses context group BatteryG; 
+}implementation {
+*\lstnote{activated}* event void activated(){ 
+  call GPS.stop();}
+*\lstnote{deactivated}* event void deactivated(){//...}
+*\lstnote{check}* command bool check(){
+  return call BatteryG.getContext() == BatteryG.Normal;}
+ layered command void report(msg_t msg){
+*\lstnote{layeredimp2}*  call Collection.send(msg);}}
+\end{lstlisting}
+\end{minipage}
+}
+\newsavebox{\boxlc}
+\Savebox{\boxlc}{
+\hspace{-0.25cm}
+\begin{minipage}[l]{\columnwidth}
+\begin{lstlisting}[style=conescframe]
+context Low {
+*\lstnote{triggers}* triggers BaseStationG.Unreachable;
+}implementation {//...}
+\end{lstlisting}
+\end{minipage}
+}
+% \newsavebox{\boxmc}
+% \Savebox{\boxmc}{
+% \hspace{-0.25cm}
+% \begin{minipage}[l]{\columnwidth}
+% \begin{lstlisting}[style=conescframe]
+% configuration ApplicationC {
+% }implementation {
+% *\lstnote{declaration}* components BaseStationG, Application;
+%  //...
+% *\lstnote{wiring}* Application.BaseStationG -> BaseStationG;}
+% \end{lstlisting}
+% \end{minipage}
+% }
+\newsavebox{\boxmm}
+\Savebox{\boxmm}{
+\hspace{-0.25cm}
+\begin{minipage}[l]{\columnwidth}
+\begin{lstlisting}[style=conescframe]
+module User {
+*\lstnote{cgdecl}* uses context group BaseStationG;
+}
+implementation {
+ event void Timer.fired() {
+*\lstnote{calling}*  call BaseStationG.report(msg);
+}
+*\lstnote{eventCC}* event void BaseStationG.contextChanged(context_t con) {
+*\lstnote{concheck}*  if(con == BaseStationG.Reachable) // DO SOMETHING...
+}}
+\end{lstlisting}
+\end{minipage}
+}
+\newsavebox{\boxnmc}
+\Savebox{\boxnmc}{
+\hspace{-0.25cm}
+\begin{minipage}[l]{\columnwidth}
+\begin{lstlisting}[style=conescframe]
+context NotMoving {
+*\lstnote{transitions}* transitions Resting;
+}implementation {//...}
+\end{lstlisting}
+\end{minipage}
+}
