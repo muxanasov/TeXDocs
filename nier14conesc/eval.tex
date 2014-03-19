@@ -1,19 +1,15 @@
-\section{Current Work and\\ Preliminary Evaluation}
+\section{Preliminary Evaluation}
 \label{sec:eval}
-
-We implemented a translator from \conesc to pure nesC that allows us
-to rely on the nesC tool-chain to obtain running implementations. We
-are also investigating ways to automatically generate \conesc
-skeletons based on graphical representations of contexts and context
-groups similar to Figure~\ref{fig:design}. Further, we plan to use the
-same notation as input to perform static verification, e.g., using
-domain-specific model-checking techniques.
 
 Using the translator, we compare an implementation of the wildlife
 monitoring application against a functionally-equivalent nesC
 implementation that would arguably result from current
-practice~\cite{mottola10:survey,pasztor10:selective}. Our comparison
-addresses three key dimensions, as described next.
+practice~\cite{mottola10:survey,Picco:2010:SEW:1882362.1882421,pasztor10:selective}. Nonetheless,
+the following considerations more generally aply to a larger set of
+applications we are experimenting with, including a smart-home
+controller and an adaptive sensor network protocol stack, whose
+discussion we omit for brevity. Our comparison addresses three key
+dimensions, as described next.
 
 % First, we
 % study the logical structuring and simplicity of the implementations,
@@ -22,6 +18,15 @@ addresses three key dimensions, as described next.
 % itself to evolving the software against initially unforeseen
 % requirements. Finally, we assess the system overhead our approach
 % introduces over the current practice.
+
+\begin{table}[!tb]
+\renewcommand{\arraystretch}{1.3}
+\caption{Coupling types.}
+\vspace{-2mm}
+\label{tab:couptypes}
+\input{tab_couptypes}
+\vspace{-2mm}
+\end{table}
 
 \begin{figure}[!tb]
 \renewcommand{\arraystretch}{1.1}
@@ -46,15 +51,22 @@ ConesC-based &
 \label{fig:coupres}
 \end{figure}
 
+
+
 % \hrule
 % \noindent Three key aspects:
 % \begin{itemize}
 % \item qualitatively compare ConesC and nesC implementations along
 %   coupling, dependencies, programmer-visible program states, ...
-\fakepar{1.\ Coupling and cohesion} Our analysis reveals that the
-\conesc implementation is significantly more decoupled than its nesC
-counterpart, as qualitatively indicated in
-Figure~\ref{fig:coupres}. Based on current practice, the adaptation
+\fakepar{1.\ Coupling and cohesion} According to Stevens et
+al.~\cite{}, seven types of coupling between software components
+exist, as summarized in Table~\ref{tab:couptypes}. It is generally
+known that the tightest is coupling, the more difficult is debugging,
+maintaining, and extending the implementations.
+
+Our analysis reveals that the \conesc implementation is significantly
+more decoupled than its nesC counterpart, as qualitatively indicated
+in Figure~\ref{fig:coupres}. Based on current practice, the adaptation
 functionality would be implemented as a monolithic nesC component,
 using global state variables to dispatch function calls depending on
 the current situation. With our approach, most types of coupling among
@@ -81,14 +93,18 @@ components compared to a plain nesC implementation.
 % \item demonstrates that changing the application (for example, adding
 %   a new context) is easier in ConesC than nesC;
 
-\fakepar{2.\ Evolving the software} CPS software needs to evolve in
-response to unforeseen environment dynamics and changing
-requirements. Say, for example, developers of the wildlife monitoring
-applications need to track the spreading of a disease. To this end,
-they modify the application design by adding a new context ``Carrier''
-in the ``Health conditions'' group to mark an animal who was in
-contact with a diseased one, but shows no increase in body temperature
-yet.
+\fakepar{2.\ Evolving the software} Besides dealing with the run-time
+adaptation required to cope with environmetal dyammics, CPS software
+also needs to evolve in response to changing requirements. Generally,
+the better an implementation is modularized, the easier are the
+modifications, since the changes are limited to isolated portions of
+the system.
+
+Say, for example, developers of the wildlife monitoring applications
+need to track the spreading of a disease. To this end, they modify the
+application design by adding a new context ``Carrier'' in the ``Health
+conditions'' group to mark an animal who was in contact with a
+diseased one, but shows no increase in body temperature yet.
 
 Using our approach, this is as simple as changing 5~lines of code in
 the \conesc implementation, besides the functionality needed in the
@@ -98,18 +114,25 @@ states.  This adds the burden of explicitly managing their transitions
 and is further detrimental to ease of testing and maintainability.
 
 \fakepar{3.\ System overhead} The advantages above come at the price
-of a negligible system overhead. On the widespread TMote Sky sensor
-node~\cite{polastre05telos}, calls to layered functions in our example
+of a negligible system overhead. We assess this aspect on the
+widespread TMote Sky sensor node~\cite{polastre05telos}, featuring a
+16-bit MSP430 MCU with 10 Kb RAM and 48Kb for program memory. In
+particular, we measure the MCU overhead for context transitions and
+calls to layered functions, as well as memory overhead when using
+\conesc as compared to nesC. To measure the MCU overhead we use the
+MSPSim MSP430 emulator [5], while we estimate the memory overhead
+using the tools in the nesC and GNU-C toolchains.
+
+Aboard the TMote Sky, calls to layered functions in our example
 application add only 3 CPU cycles over standard function calls,
 whereas context transitions involve at most 20 CPU cycles. To put
 these figures in prospective, turning an LED on takes 8 CPU cycles on
-a TMote Sky. The energy consumed by the additional CPU cycles is
-hence immaterial. As for memory consumption, we measure a mere 3\%
-increase in both RAM and program memory. These figures demonstrate
-that the price to pay for obtaining significant advantages in the
-quality of the implementations is modest, and hence our
-approach is ultimately feasible even on extremely resource-constrained
-platforms.
+a TMote Sky. The energy consumed by the additional CPU cycles is hence
+immaterial. As for memory consumption, we measure a mere 3\% increase
+in both RAM and program memory. These figures demonstrate that the
+price to pay for obtaining significant advantages in the quality of
+the implementations is modest, and hence our approach promises to be 
+feasible even on extremely resource-constrained platforms.
 
 % \item shows a few figures on run-time overhead to demonstrate the
 %   approach is feasible.

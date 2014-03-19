@@ -1,4 +1,5 @@
-\documentclass{sig-alternate}
+\documentclass[conference]{IEEEtran}
+% \documentclass{sig-alternate}
 
 \usepackage{xspace}
 \usepackage{graphicx}
@@ -9,22 +10,14 @@
 \usepackage{listings}
 \usepackage{xcolor}
 
-% No space between bibliography items:
-\let\oldthebibliography=\thebibliography
-  \let\endoldthebibliography=\endthebibliography
-  \renewenvironment{thebibliography}[1]{%
-    \begin{oldthebibliography}{#1}%
-      \setlength{\parskip}{0ex}%
-      \setlength{\itemsep}{0ex}%
-  }%
-  {%
-    \end{oldthebibliography}%
-  }
+% *** SOURCE CODE LISTINGS ***
+\usepackage{paralist}
+\usepackage{listings}
+\usepackage{xcolor}
 
-\renewcommand{\ttdefault}{pcr} % to fix non-bold key-words in listings
 \lstdefinelanguage{conesc}
 {
- morekeywords={components, triggers, is, error, default, context, group, layered, command, implementation, contexts, event, call, void, uses, transitions, iff, activate, interface},
+ morekeywords={components, is, case, switch, if, return, error, default, context, group, layered, command, module, interface, implementation, contexts, event, call, void, uses, transitions, triggers, iff, activate},
  morecomment=[s]{/*}{*/},
  sensitive=false,
  escapeinside={*}{*}
@@ -50,67 +43,101 @@
   backgroundcolor=\color{Lemon}
 }
 
+\usepackage{xspace}
+\newcommand{\conesc}{{\textsc{ConesC}}\xspace}
+\newcommand{\code}[1]{{\bfseries\texttt{#1}}}
+\newcommand{\lm}[1]{\footnote{{\bf Luca: #1}}}
+\newcommand{\ma}[1]{\footnote{{\bf Mike: #1}}}
+\newcommand{\fakepar}[1]{\vspace{1mm}\noindent\textbf{#1.}}
+
 % -begin- //nice in-code glyphs routine
 \usepackage{tikz}
 % for the pretty dark-circle-enclosed numbers
-\newcommand*\circled[2]{\tikz[baseline=(char.base)]{
-            \node[shape=circle,fill,inner sep=0.1pt, text=white,font=#2] (char) {#1};}}
+\newcommand*\circled[2]{
+  \resizebox{14.5pt}{!}{
+    \tikz[baseline=(char.base)]{
+      \node[shape=circle,fill,inner sep=0.1pt, text=white,font=#2] (char) {#1};
+    }
+  }
+}
 
 \newcounter{lstNoteCounter}
-\newcommand{\lstref}[1]{\circled{\ref{#1}}{\normalsize}}
+\newcommand{\lstref}[1]{\hspace{-5pt}\hbox to 14.5pt{\circled{\ref{#1}}{\normalsize}}}
 \newcommand{\lstnote}[1] {
-  \label{#1}\hbox to -8.5pt{\llap{{\circled{\ref{#1}}{\scriptsize\rmfamily}}\hskip 0.98em}}
+  \label{#1}\hbox to -8.5pt{\llap{{\circled{\ref{#1}}{\scriptsize\rmfamily}}}}
 }
 % -end- //nice in-code glyphs routine
 
+% -begin- // figures template
+\usepackage{subfig}
+\usepackage{xkeyval}
+\usepackage{realboxes}
+\makeatletter
+\define@key{putfigure}{caption}{\def\pf@caption{#1}}
+\define@key{putfigure}{label}{\def\pf@label{#1}}
+\newcommand*\putfigure[2]{
+ \setkeys{putfigure}{#1}
+ \begin{figure}[!tb]
+  #2
+  \vspace{-4mm}
+  \caption{\pf@caption}
+  \label{\pf@label}
+  \vspace{-2mm}
+ \end{figure}
+}
+\define@key{putsnippet}{boxname}{\def\ps@boxname{\csname #1\endcsname}}
+\define@key{putsnippet}{caption}{\def\ps@caption{#1}}
+\define@key{putsnippet}{label}{\def\ps@label{#1}}
+\newcommand*\putsnippet[1]{
+ \setkeys{putsnippet}{#1}
+ \putfigure{caption=\ps@caption,label=\ps@label}{
+    \usebox{\ps@boxname}
+ }
+}
+\makeatother
+% -end- // figures template
+
 % correct bad hyphenation here
-\newcommand{\lm}[1]{\footnote{{\bf Luca: #1}}}
-\newcommand{\ma}[1]{\footnote{{\bf Mikhail: #1}}}
+\hyphenation{op-tical net-works semi-conduc-tor}
 
-\newcommand{\conesc}{{\textsc{ConesC}}\xspace}
-\newcommand{\code}[1]{{\bfseries\texttt{#1}}}
 
-\newcommand{\fakepar}[1]{\vspace{0.4mm}\noindent\textbf{#1.}}
-\newcommand{\wrt}{w.r.t.\ }
-
-%\linespread{0.97}
+% No space between bibliography items:
+% \let\oldthebibliography=\thebibliography
+%   \let\endoldthebibliography=\endthebibliography
+%   \renewenvironment{thebibliography}[1]{%
+%     \begin{oldthebibliography}{#1}%
+%       \setlength{\parskip}{0ex}%
+%       \setlength{\itemsep}{0ex}%
+%   }%
+%   {%
+%     \end{oldthebibliography}%
+%   }
 
 \begin{document}
 
-\title{A Context-oriented Approach to Self-adaptive Software\\ in Resource-constrained Cyberphysical Systems}
+\title{Towards Context-oriented Self-adaptation in\\ Component-based Cyberphysical Systems}
 
 % Author names and affiliations
 % use a multiple column layout for up to two different
 % affiliations
 
-\numberofauthors{3} 
+
+% author names and affiliations
+% use a multiple column layout for up to three different
+% affiliations
 \author{
-% You can go ahead and credit any number of authors here,
-% e.g. one 'row of three' or two rows (consisting of one row of three
-% and a second row of one, two or three).
-%
-% The command \alignauthor (no curly braces needed) should
-% precede each author name, affiliation/snail-mail address and
-% e-mail address. Additionally, tag each line of
-% affiliation/address with \affaddr, and tag the
-% e-mail address with \email.
-%
-% 1st. author
-\alignauthor
-Mikhail Afanasov \\
-       \affaddr{Politecnico di Milano, Italy}\\
-       \email{afanasov@elet.polimi.it}
-% 2nd. author
-\alignauthor
-Luca Mottola \\
-       \affaddr{Politecnico di Milano, Italy and SICS Swedish ICT}\\
-       \email{luca.mottola@polimi.it}
-% 3rd. author
-\alignauthor 
-Carlo Ghezzi\\
-       \affaddr{Politecnico di Milano, Italy}\\
-       \email{carlo.ghezzi@polimi.it}
-}
+\IEEEauthorblockN{Mikhail Afanasov}
+\IEEEauthorblockA{Politecnico di Milano, Italy\\
+afanasov@elet.polimi.it}
+\and
+\IEEEauthorblockN{Luca Mottola}
+\IEEEauthorblockA{Politecnico di Milano, Italy and \\
+SICS Swedish ICT\\
+luca.mottola@polimi.it}
+\and
+\IEEEauthorblockN{Carlo Ghezzi}
+\IEEEauthorblockA{Politecnico di Milano, Italy\\
+carlo.ghezzi@polimi.it}}
 
 % \author{ 
 % \alignauthor 

@@ -1,4 +1,5 @@
-\section{Programming Support}
+\input{snippets}
+\section{ConesC}
 \label{sec:conesc}
 
 We render the design concepts above in a set of context-oriented
@@ -9,29 +10,25 @@ nesC~\cite{gay03nesc}, a mainstream sensor network programming
 language. However, our approach is not tied to it, and may be readily
 translated to other similar programming systems~\cite{mottola10:survey}.
 
-\fakepar{Target language} nesC is an event-driven programming language
-for sensor networks, derived from C. Applications are built by
-interconnecting \emph{components} that interact by providing or using
-\emph{interfaces}. An interface lists one or more functions, tagged as
-\emph{commands} or \emph{events}. % Commands are used to execute
-% actions, while events are used to collect the results
-% asynchronously.
-% Interfaces in nesC are bidirectional: data flows both
-% ways between components connected through the same
-% interface.
-Component \emph{configurations} specify the wirings among
-components. % Configurations are component themselves, so they can offer
-% interfaces and be wired to other components.
+\fakepar{Target language} nesC is a component-based event-driven
+programming framework for sensor networks, derived from
+C. Applications are built by interconnecting \emph{components} that
+interact by providing or using \emph{interfaces}. An interface lists
+one or more functions, tagged as \emph{commands} or
+\emph{events}. Commands are used to execute actions, while events are
+used to collect the results asynchronously.  Interfaces in nesC are
+bidirectional: data flows both ways between components connected
+through the same interface.  Component \emph{configurations} specify
+the wirings among components. Configurations are component themselves,
+so they can provide interfaces and be wired to other components.
 
 nesC exemplifies the limitations dictated by the target platforms, and
 hence the reasons why existing COP approaches cannot be directly
-ported. Because of the limited memory available, for example,
-components cannot be instantiated at run-time. They are rather
-in-lined at compile time so to reduce the size of the executable
-binary~\cite{gay03nesc}, which would hardly fit in the available
-program memory otherwise.  The use of dynamically-allocated memory is
-also discouraged: the MCUs provide no memory protection, so bugs in
-memory handling may have disastrous effects.
+ported. Besides the inability to create run-time instances of
+components and to reconfigure component wirings we already mentioned,
+for example, the use of dynamically-allocated memory is also
+discouraged: the MCUs provide no memory protection, so bugs in memory
+handling may have disastrous effects.
 
 \fakepar{\conesc} Notwithstanding the above constraints, we design a
 context-oriented extension to nesC, called \conesc, that incorporates
@@ -41,42 +38,46 @@ At the core of \conesc is a notion of \emph{layered
   function}~\cite{Hirschfeld08}. These are functions whose behavior
 depends on the currently active context, and are hence the primary
 means to implement the behavioral variations necessary for
-self-adaptation. A \emph{context group} in \conesc extends standard
-nesC configurations by also specifying the contexts included in the
-group and the layered functions that such contexts provide. The
-individual contexts extend the nesC component providing the
-context-dependent implementations of layered functions.
+self-adaptation. Crucially, the behavior of layered functions may
+change \emph{transparently} to the caller, which is then relieved from
+explictly managing the adaptation required by the situation.
+
 
 \begin{figure}[!tb]
 \begin{lstlisting}[style=conescframe]
 context group BaseStationG {
 *\lstnote{cg:layered}* layered command void report(contact_t contact);
-}implementation {
+}
+implementation {
 *\lstnote{cg:ctx}* contexts Reachable, 
 *\lstnote{cg:def}*          Unreachable is default,
 *\lstnote{cg:error}*          ErrorC is error;
- // Standard nesC component wirings... }
+ // Standard nesC component wirings... 
+}
 \end{lstlisting}
-\vspace{-5mm}
+\vspace{-4mm}
 \caption{Context group in \conesc.}
   \label{fig:configuration}
-\vspace{-3mm}
+\vspace{-2mm}
 \end{figure}
 
-Figure~\ref{fig:configuration} depicts a snippet of \conesc code to
-implement the ``Base Station'' group in Figure~\ref{fig:design}. In
-this example, the \code{report()} command on
-line~\lstref{cg:layered}---used to report a contact with another animal
-to the end-user---changes the behavior depending on whether the
-base-station is \code{Reachable} or \code{Unreachable}. The latter are
-the contexts included in this group, specified on line~\lstref{cg:ctx}
-after the keyword \code{contexts} with optional modifiers: \code{is
-  default} (line~\lstref{cg:def}) specifies the active context at
-start-up, and \code{is error} (line~\lstref{cg:error}) indicates an
-error context. The latter is automatically activated should there be
-violations to constraints defined over context transitions, e.g., the
-fact that ``Resting'' or ``NotMoving'' must be active when
-transitioning from ``Healthy'' to ``Diseased'', as shown in
+A \emph{context group} in \conesc extends nesC configurations
+by specifying the contexts included in the group and the layered
+functions that such contexts provide.  Figure~\ref{fig:configuration}
+shows a snippet of \conesc code to implement the ``Base Station''
+group in Figure~\ref{fig:design}. In this example, the \code{report()}
+command on line~\lstref{cg:layered}---used to report a contact with
+another animal to the end-user---changes the behavior depending on
+whether the base-station is \code{Reachable} or
+\code{Unreachable}. The latter are the contexts included in this
+group, specified on line~\lstref{cg:ctx} after the keyword
+\code{contexts} with optional modifiers: \code{is default}
+(line~\lstref{cg:def}) specifies the active context at start-up, and
+\code{is error} (line~\lstref{cg:error}) indicates an error
+context. The latter is automatically activated should there be
+violations to constraints defined over context transitions; for
+example, the fact that ``Resting'' or ``NotMoving'' must be active
+when transitioning from ``Healthy'' to ``Diseased'', as shown in
 Figure~\ref{fig:design}.
 
 \begin{figure}[!tb]
@@ -85,36 +86,41 @@ context Reachable {
 *\lstnote{ct:tr}* transitions Unreachable;
 *\lstnote{ct:trigger}* triggers NotMoving;
  uses interface Radio;
-} implementation {
+} 
+implementation {
 *\lstnote{ct:layer}* layered command void report(contact_t contact){
-  call Radio.send(contact);}
+  call Radio.send(contact);
+}
 *\lstnote{ct:activate}* event void activated(){// Dump logs on base-station }
-*\lstnote{ct:deactivate}* event void deactivated(){ // Radio clean-up }}
+*\lstnote{ct:deactivate}* event void deactivated(){ // Radio clean-up }
+}
 \end{lstlisting}
-\vspace{-5mm}
-\caption{Individual context in \conesc.}
+\vspace{-4mm}
+\caption{\conesc context.}
   \label{fig:context}
-\vspace{-5mm}
+\vspace{-2mm}
 \end{figure}
 
-Figure~\ref{fig:context} shows the \conesc specification of the
-``Reachable'' context. The keyword \code{transitions} on
-line~\lstref{ct:tr} specifies the allowed outgoing transitions, whereas
-the keyword \code{triggers} on line~\lstref{ct:trigger} is available
-to bind context activations across groups. In this case, entering the
-``Unreachable'' context consequently activates ``NotMoving'', as
-specified in Figure~\ref{fig:design}. The specific implementation of
-the layered function is indicated on line~\lstref{ct:layer} with the
-\code{layered} keyword.  The implementation of other commands or
-events is as in standard nesC. Particularly, the predefined events
-\code{activated()} and \code{deactivated()}, shown on
-lines~\lstref{ct:activate} and~\lstref{ct:deactivate}, are
-automatically signalled when entering and existing the context,
-allowing the implementation of one-time operations and the
-starting/stopping of continuous activities in a context.
+Contexts extend nesC components by providing the context-dependent
+implementations of layered functions.  Figure~\ref{fig:context} shows
+the \conesc specification of the ``Reachable'' context. The keyword
+\code{transitions} on line~\lstref{ct:tr} specifies the allowed
+outgoing transitions, whereas the keyword \code{triggers} on
+line~\lstref{ct:trigger} binds context activations across groups. In
+this case, entering the ``Unreachable'' context consequently activates
+``NotMoving'', as specified in Figure~\ref{fig:design}. The specific
+implementation of the layered function is indicated on
+line~\lstref{ct:layer} with the \code{layered} keyword.  The
+implementation of other commands or events is as in standard
+nesC. Particularly, the predefined events \code{activated()} and
+\code{deactivated()}, shown on lines~\lstref{ct:activate}
+and~\lstref{ct:deactivate}, are automatically signalled when entering
+and existing the context, allowing the implementation of one-time
+operations and the starting/stopping of continuous activities in a
+context.
 
 The contexts indicated after the \code{transitions} keyword inside
-individual contexts are possibly followed by the \code{iff} keyword to
+single contexts are possibly followed by the \code{iff} keyword to
 state constraints on the transitions, as in
 \begin{lstlisting}[language=conesc]
 transitions Diseased iff Resting || NotMoving;
@@ -124,17 +130,91 @@ constraints in Figure~\ref{fig:design}. If such a transition is
 attempted at run-time, but the constraints are violated, the error
 context defined in the corresponding context group is activated. 
 
-Explicit context activation may happen anywhere in the code, using the
-\code{activate} keyword, as in
-\begin{lstlisting}[language=conesc]
-activate BaseStationG.Unreachable;
-\end{lstlisting}
-This enables complete decoupling between the context-de\-pen\-dent
-application logic---confined within the layered functions inside the
-individual contexts---and the adaptation logic itself, which may be
-specified in a separate component. Such feature helps separate
+
+\putsnippet{
+ caption=Base-station context manager.,
+ label=fig:bscm,
+ boxname=boxbscm
+}
+
+Programmers can, anywhere in the code, trigger explicit transitions
+between contexts in a group. This is as simple as using the
+\code{activate} keyword followed by a full context name, as shown in
+Figure~\ref{fig:bscm}. The full context name is determined by
+concatenating the name of the enclosing context group and of the
+single context. For example, the \emph{Reachable} context is activated
+on line~\lstref{actBS} of Figure~\ref{fig:bscm} as soon as a beacon
+from the base station is received. Should the timeout expire with no
+more beacons received, context \emph{Unreachable} is activated on
+line~\lstref{actNoBS}. Either context change results in a different
+context-dependent implementation of \code{report} to be
+activated. These implementations are found within the single contexts.
+
+\putsnippet{
+ caption=Caller module.,
+ label=fig:mm,
+ boxname=boxmm
+}
+
+Modules using layered functions perform function calls transparently
+w.r.t.\ the available contexts and, most importantly, independently of
+what context is active at a given moment. Fig.~\ref{fig:mm} shows one
+such example for function \code{report}. Following the indication that
+context group \emph{BaseStationG} is used, as specified on
+line~\lstref{cgdecl}, the call to the layered function \code{report}
+does not refer to the single contexts. The net advantage is that
+the use of context-dependent functionality is fully decoupled w.r.t.\
+context detection and activation. The two may be implemented even in
+different modules. Such feature helps separate
 orthogonal concerns and hence facilitates testing, maintenance,
 and evolution of the software, as we discuss next.
+
+Should programmers of caller modules need to find out
+about context changes, a predefined event~\code{contextChanged} is
+fired corresponding to every context change, as in
+line~\lstref{eventCC} in Fig.~\ref{fig:mm}. % This event can be caught
+% and handled, as it is shown on the line~\lstref{eventCC} in
+% Fig.~\ref{fig:mm}, but it is not mandatory though.
+Within the event handler, programmers can access constant values that
+our translator automatically generates to find out what context was
+activated and to react accordingly, as shown on
+line~\lstref{concheck}.
+
+
+% Explicit context activation may happen anywhere in the code, using the
+% \code{activate} keyword, as in
+% \begin{lstlisting}[language=conesc]
+% activate BaseStationG.Unreachable;
+% \end{lstlisting}
+% This enables complete decoupling between the context-de\-pen\-dent
+% application logic---confined within the layered functions inside the
+%  contexts---and the adaptation logic itself, which may be
+% specified in a separate component. 
+
+\fakepar{Translation} We develop a dedicated translator to convert
+\conesc code to plain nesC. To do so, our translator performs two
+passes through the input code. First, it reads the main nesC
+\code{Makefile} to determine the main configuration component and to
+recursively scan the component tree. Based on the information gained
+during the first pass, including the list of every context and context
+groups defined in the code, it parses every input file to convert the
+\conesc code to plain nesC and to generate a set of support
+functionality managing context transitions at run-time. The resulting
+sources are then compiled using the standard nesC toolchain.
+
+Our translator is implemented using JavaCC~\cite{javacc}. Two aspects
+are worth noticing. First, the generated code is completely
+hardware-independent. Therefore, hardware compatibility is the same as
+the original nesC toolchain, allowing us to support a wide range of
+platforms and not to modify our translator due to hardware
+idiosyncrasies. Second, the whole translation process is only
+seemingly straightforward. Rendering the logic embedded within the
+\conesc abstractions does require a fairly sophisticated
+processing. To give an intuition, we measured the size of the \conesc
+implementations of a set of representative applications against the
+size of the nesC implementations output by our translator. On average,
+we observe three times as much lines of code in the
+automatically-generated nesC code.
 
 %%% Local Variables: 
 %%% mode: latex
