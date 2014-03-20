@@ -43,6 +43,16 @@ situation. Figure~\ref{fig:bscm} shows one such example for the
 wildlife monitoring application. Similar designs apply to the
 smart-home controller and the adaptive protocol stack as well.
 
+\begin{figure}
+\begin{center}
+\includegraphics[scale=.43]{imgs/beh_var}
+\vspace{-1mm}
+\caption{Behavioral control pattern.}
+  \label{fig:control}
+\vspace{-8mm}
+\end{center}
+\end{figure}
+
 % Context group in that case includes the functionality, which needs to adapt.
 % Each context implies an implementation of a corresponding functionality. 
 
@@ -75,6 +85,16 @@ situations. Whatever user preference is to be considered at a given
 point is then handed over to the control loop in charge of setting the
 functioning of the climate systems.
 
+\begin{figure}
+\begin{center}
+\includegraphics[scale=.43]{imgs/content_provider}
+\vspace{-1mm}
+\caption{Content provider pattern.}
+  \label{fig:provider}
+\vspace{-8mm}
+\end{center}
+\end{figure}
+
 In abstract terms, this pattern's structure differs from that of
 behavior control in that the role of the ``controller'' component is
 often fairly trivial. In the smart-home controller, for example, the
@@ -96,7 +116,6 @@ case, layered functions are often not defined, in
 that the predefined \code{activated} and \code{deactivated} events
 within the single contexts suffice.
 
-
 In the smart-home controller, for example, we notice a similar pattern
 in the context group regulating light dimming. Depending on
 perceived light levels in a room, either context ``Too bright'' or
@@ -110,6 +129,15 @@ unlike the other patterns, there is no other component that either
 uses context-dependent functionality or consumes context-dependent
 data.
 
+\begin{figure}
+\begin{center}
+\includegraphics[scale=.43]{imgs/con_act}
+\vspace{-1mm}
+\caption{Trigger pattern.}
+  \label{fig:trigger}
+\vspace{-8mm}
+\end{center}
+\end{figure}
 
 %%% Local Variables: 
 %%% mode: latex
