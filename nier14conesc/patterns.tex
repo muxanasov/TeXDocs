@@ -3,16 +3,16 @@
 
 Despite the limited experience we hitherto gathered using \conesc, we
 already observe quite distinctive design and programming patterns,
-representing solutions to commonly occurring problems. In general,
-however, they cannot be directly transformed into executable code
-without proper application-specific implementations.
+representing solutions to commonly occurring problems. % In general,
+% however, they cannot be directly transformed into executable code
+% without proper application-specific implementations.
 
 % \conesc, as we mentioned before, makes the components of application more
 % decoupled and reusable. To show that, we provide three possible patters --
 % general solutions to a commonly occurring problems. 
 
 \fakepar{Behavior control} Programmers often employ a single context
-group to specify different behaviors for the same high-level
+group to specify different \emph{behaviors} for the same high-level
 functionality. One such example is the ``Base-station'' group in
 Figure~\ref{fig:design}, which includes two different behaviors for
 the functionality to report contact logs to the users. The
@@ -45,7 +45,7 @@ smart-home controller and the adaptive protocol stack as well.
 
 \begin{figure}
 \begin{center}
-\includegraphics[scale=.43]{imgs/beh_var}
+\includegraphics[scale=.5]{imgs/beh_var}
 \vspace{-1mm}
 \caption{Behavioral control pattern.}
   \label{fig:control}
@@ -87,7 +87,7 @@ functioning of the climate systems.
 
 \begin{figure}
 \begin{center}
-\includegraphics[scale=.43]{imgs/content_provider}
+\includegraphics[scale=.5]{imgs/content_provider}
 \vspace{-1mm}
 \caption{Content provider pattern.}
   \label{fig:provider}
@@ -95,19 +95,20 @@ functioning of the climate systems.
 \end{center}
 \end{figure}
 
-In abstract terms, this pattern's structure differs from that of
-behavior control in that the role of the ``controller'' component is
-often fairly trivial. In the smart-home controller, for example, the
-controller component is simply based on the time of the day. On the
-other hand, the component consuming the context-dependent data plays a
-key role. Indeed, while functionality structured according to behavior
+As shwn in Figure~\ref{fig:provider}, this pattern's structure differs
+from that of behavior control in that the role of the ``controller''
+component is often fairly trivial (and hence omitted in the
+picture). In the smart-home controller, for example, the controller
+component is simply based on the time of the day. On the other hand,
+the component consuming the context-dependent data plays a key
+role. Indeed, while functionality structured according to behavior
 control can be considered stand-alone, the context provider needs to
-be tailored to the data consumer component.
+be tailored to the data consumer.
 
 \fakepar{Trigger} We also recognize designs where single contexts are
 used only to trigger specific operations when entering/exiting a
 context, but no significant context-dependent functionality or data is
-offered as the same context remains active. One example in the wildlife
+offered as the context remains active. One example in the wildlife
 monitoring application is the ``Battery'' group in
 Figure~\ref{fig:design}. The included contexts are used to
 enable/disable the GPS sensor depending on battery levels, but no
@@ -124,14 +125,14 @@ entering either context. This processing is entirely implemented
 within the corresponding \code{activated} event handlers. 
 
 In more general terms, a ``controller'' component is present in this
-case as well to drive the context transitions in the group. However,
-unlike the other patterns, there is no other component that either
-uses context-dependent functionality or consumes context-dependent
-data.
+case as well to drive the context transitions in the group, as shown
+in Figure~\ref{fig:trigger}. However, unlike the other patterns, there
+is no other component that either uses context-dependent functionality
+or consumes context-dependent data.
 
 \begin{figure}
 \begin{center}
-\includegraphics[scale=.43]{imgs/con_act}
+\includegraphics[scale=.5]{imgs/con_act}
 \vspace{-1mm}
 \caption{Trigger pattern.}
   \label{fig:trigger}

@@ -1,14 +1,14 @@
-\section{Design Concepts}
+\section{Design}
 \label{sec:design}
 
-Our approach to support the design of self-adaptive CPS software is
-intentionally simple. However, the lack of a principled approach is
-currently hampering the field at
-large~\cite{Picco:2010:SEW:1882362.1882421}. % Key in our
-% approach is the combination of design-time support and programming
-% model. We illustrate the latter in Section~\ref{sec:conesc}.
+% Our approach to support the design of self-adaptive CPS software is
+% intentionally simple. However, the lack of a principled approach is
+% currently hampering the field at
+% large~\cite{Picco:2010:SEW:1882362.1882421}. % Key in our
+% % approach is the combination of design-time support and programming
+% % model. We illustrate the latter in Section~\ref{sec:conesc}.
 
-We define two key design concepts: \emph{i)} \emph{contexts}, and
+We define two key concepts: \emph{i)} \emph{contexts}, and
 \emph{ii)} \emph{context groups}, along with the notions necessary to
 weave these concepts into a complete design.  Contexts represent the
 different environmental situations the system may encounter, and
@@ -29,14 +29,14 @@ must adapt to changes in the surrounding environment.
 \end{center}
 \end{figure}
 
-As an example, Figure~\ref{fig:design} depicts the
-context-oriented design of the wildlife monitoring application
-described earlier. Context groups are defined to describe behavioral
-variations corresponding to battery levels, base-station reachability,
-as well as an animal's health conditions and activity. The contexts
-within a group define the single behavioral variations. For example,
-the software behaves differently depending on whether the
-base-station (BS) is reachable. 
+As an example, Figure~\ref{fig:design} depicts the context-oriented
+design of the wildlife monitoring application described
+earlier. Context groups are defined to describe behavioral variations
+corresponding to battery levels, base-station reachability, as well as
+an animal's health conditions and activity. The contexts within a
+group define the single behavioral variations. For example, the
+software behaves differently depending on whether the base-station
+(BS) is reachable, as shown within the ``Base-station'' group.
 
 The contexts in a group are tied with explicit \emph{transitions},
 labeled with the conditions triggering the context change. For

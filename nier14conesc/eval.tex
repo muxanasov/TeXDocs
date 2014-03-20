@@ -8,8 +8,8 @@ practice~\cite{mottola10:survey,Picco:2010:SEW:1882362.1882421,pasztor10:selecti
 the following considerations more generally apply to a larger set of
 applications we are experimenting with, including a smart-home
 controller and an adaptive sensor network protocol stack, whose
-discussion we omit for brevity. Our comparison addresses three key
-dimensions, as described next.
+detailed discussion we omit for brevity. Our comparison addresses
+three key dimensions, as described next.
 
 % First, we
 % study the logical structuring and simplicity of the implementations,
@@ -23,12 +23,35 @@ dimensions, as described next.
 \renewcommand{\arraystretch}{1.1}
 \scriptsize
 \centering
-\label{tab:couptypes}
 \input{tab_couptypes}
 \vspace{-2mm}
 \caption{Coupling types.}
+\label{tab:couptypes}
 \vspace{-7mm}
 \end{figure}
+
+% \hrule
+% \noindent Three key aspects:
+% \begin{itemize}
+% \item qualitatively compare ConesC and nesC implementations along
+%   coupling, dependencies, programmer-visible program states, ...
+\fakepar{1.\ Coupling and cohesion} According to Stevens et
+al.~\cite{Stevens79}, seven types of coupling between software components
+exist, as summarized in Figure~\ref{tab:couptypes}. It is generally
+known that the tightest is coupling, the more difficult is debugging,
+maintaining, and extending the implementations.
+
+Our analysis reveals that the \conesc implementation is significantly
+more decoupled than its nesC counterpart, as qualitatively indicated
+in Figure~\ref{fig:coupres}. Based on current practice, the adaptation
+functionality would be implemented as a monolithic nesC component,
+using global state variables to dispatch function calls to different
+components depending on the situation. With our approach, most
+types of coupling among components are removed, as context transitions
+implicitly cater for the appropriate dispatching of function
+calls. Consequently, programmers are relieved from explicitly managing
+global state transitions, which facilitates maintenance and testing.
+
 
 \begin{figure}[!tb]
 \renewcommand{\arraystretch}{1.1}
@@ -54,32 +77,10 @@ ConesC-based &
 \label{fig:coupres}
 \end{figure}
 
-% \hrule
-% \noindent Three key aspects:
-% \begin{itemize}
-% \item qualitatively compare ConesC and nesC implementations along
-%   coupling, dependencies, programmer-visible program states, ...
-\fakepar{1.\ Coupling and cohesion} According to Stevens et
-al.~\cite{}, seven types of coupling between software components
-exist, as summarized in Figure~\ref{tab:couptypes}. It is generally
-known that the tightest is coupling, the more difficult is debugging,
-maintaining, and extending the implementations.
-
-Our analysis reveals that the \conesc implementation is significantly
-more decoupled than its nesC counterpart, as qualitatively indicated
-in Figure~\ref{fig:coupres}. Based on current practice, the adaptation
-functionality would be implemented as a monolithic nesC component,
-using global state variables to dispatch function calls depending on
-the current situation. With our approach, most types of coupling among
-components are removed, as context transitions implicitly cater for
-the appropriate dispatching of function calls. Consequently,
-programmers are relieved from explicitly managing global state
-transitions, which facilitates maintenance and testing.
-
 The individual \conesc components also appear more
 cohesive and simpler: on average, using our approach, a component is
 almost half the lines of code than using plain nesC and defines half
-the number of global variables as in nesC. We further observe a 75\%
+the number of global variables compared to nesC. We further observe a 75\%
 reduction in the number of commands/events declared in \conesc
 components compared to a plain nesC implementation.
 
@@ -96,8 +97,9 @@ components compared to a plain nesC implementation.
 
 \fakepar{2.\ Evolving the software} Besides dealing with the run-time
 adaptation required to cope with environmental dynamics, CPS software
-also needs to evolve in response to changing requirements. Generally,
-the better an implementation is modularized, the easier are the
+also needs to evolve in response to changing
+requirements~\cite{Picco:2010:SEW:1882362.1882421}. Generally, the
+better an implementation is modularized, the easier are the
 modifications, since the changes are limited to isolated portions of
 the system.
 
@@ -108,8 +110,8 @@ conditions'' group to mark an animal who was in contact with a
 diseased one, but shows no increase in body temperature yet.
 
 Using our approach, this is as simple as changing 5~lines of code in
-the \conesc implementation, besides the functionality needed in the
-new \code{Carrier} context.  Based on current practice, the same
+the \conesc implementation, besides the functionality needed in a
+new ``Carrier'' context.  Based on current practice, the same
 modification would crucially require adding at least two global
 states.  This adds the burden of explicitly managing their transitions
 and is further detrimental to ease of testing and maintainability.
@@ -128,12 +130,13 @@ Aboard the TMote Sky, calls to layered functions in our example
 application add only 3 CPU cycles over standard function calls,
 whereas context transitions involve at most 20 CPU cycles. To put
 these figures in prospective, turning an LED on takes 8 CPU cycles on
-a TMote Sky. The energy consumed by the additional CPU cycles is hence
-immaterial. As for memory consumption, we measure a mere 3\% increase
-in both RAM and program memory. These figures demonstrate that the
-price to pay for obtaining significant advantages in the quality of
-the implementations is modest, and hence our approach promises to be 
-feasible even on extremely resource-constrained platforms.
+a TMote Sky. The increased latency and consumed energy due to the
+additional CPU cycles are hence immaterial. As for memory consumption,
+we measure a mere 3\% increase in both RAM and program memory. These
+figures demonstrate that the price to pay for obtaining significant
+advantages in the quality of the implementations is modest, and hence
+our approach promises to be feasible even on extremely
+resource-constrained platforms.
 
 % \item shows a few figures on run-time overhead to demonstrate the
 %   approach is feasible.

@@ -3,11 +3,11 @@
 Cyberphysical systems (CPSs) place a computing and communication core
 in the environment to gather data from, and possibly take actions on
 the real world. Because of the intimate interactions between the
-``world'' and the ``machine''~\cite{Jackson:1995:WM:225014.225041},
-CPS software is eminently required to self-adapt against the many and
-unpredictable environment dynamics. This is difficult to achieve in
-general~\cite{cheng:adaptive}, and even more so whenever developers are to
-battle against the resource limitations of many existing CPS
+system and the physical world it is immersed in, CPS software is
+eminently required to self-adapt against the many and unpredictable
+environment dynamics. This is difficult to achieve in
+general~\cite{cheng:adaptive}, and even more so whenever developers
+are to battle against the resource limitations of many existing CPS
 platforms.
 
 \fakepar{Example} Consider a wireless sensor network application for
@@ -17,7 +17,7 @@ social interactions. The nodes are equipped with sensors to track an
 animal's movement, e.g., using GPS and accelerometers, and to detect
 its health conditions, e.g., based on body temperature.  A low-power
 short-range radio allows the nodes to discover each other through
-periodic radio beaconing.  A node logs these radio contacts to track
+periodic radio beaconing.  A node logs the radio contacts to track
 an animal's encounters with other animals. The radio is also used to
 off-load the contact traces when in reach of a fixed base-station.
 
@@ -36,16 +36,16 @@ encounter with a base-station, not to lose the collected contact
 traces.
 
 \fakepar{Contribution and road-map} Taking into explicit account every
-possible situation in the design of CPS software is a
+possible enviroment situation in the design of CPS software is a
 challenge. Crucially, \emph{multiple combined aspects} concurrently
 determine how the software should adapt its operation, e.g., battery
 levels and physical locations in our example application. Although the
 existing literature already investigates similar
 problems~\cite{cheng:adaptive}, a principled approach at tackling
 these issues in the design and implementation of CPS software for
-extremely constrained platforms is largely missing. Severe resource
-limitations, for example, in the form of a few Kb of data memory and low-power
-MCUs running at a few MhZ, make this a challenge.
+extremely resource-constrained platforms is largely missing. The
+platforms' characteristics, such as battery-powered operation and
+limited memory budgets, make this a challenge.
 
 Existing component-based frameworks for sensor
 networks~\cite{mottola10:survey}, for example, employ component-based
@@ -53,14 +53,14 @@ programming during development, but sacrifice this notion at run-time
 to mitigate resource limitations. In the nesC
 language~\cite{gay03nesc}, components are in-lined during compilation
 to enable whole-program analysis, meant to aggressively reduce the
-size of the program binary to fit the limited memory of target
-platforms. This prevents runtime creation of component instances and
-dynamic component binding, which may help implement self-adaptation
-functionality by employing different components according to the
-situation at stake. Programmers often circumvent these limitations by
-``emulating'' adaptation functionality with hand-written ad-hoc
-code~\cite{mottola10:survey}. As a result, existing implementations
-are very entangled, and thus difficult to test, maintain, and
+size of the program binary to fit the limited memory. This prevents
+runtime creation of component instances and dynamic component binding,
+which may help implement self-adaptation functionality by employing
+different components according to the situation at stake. Programmers
+often circumvent these limitations by ``emulating'' these
+functionality with hand-written specialized
+code~\cite{mottola10:survey}. As a result, implementations become
+entangled, and are thus difficult to maintain and
 evolve~\cite{Picco:2010:SEW:1882362.1882421}.
 
 We address this issue by presenting context-oriented design concepts
@@ -72,21 +72,20 @@ situations the system may find itself in, and their combinations. This
 provides support during the design phases. We reflect these notions in
 a custom \emph{programming model}, described in
 Section~\ref{sec:conesc}, which brings concepts of context-oriented
-programming~\cite{Hirschfeld08} in traditional low-level CPS
-programming languages~\cite{gay03nesc}. % Notably, these are
+programming~\cite{Hirschfeld08} in existing component-based frameworks
+for resource-constrained CPSs~\cite{gay03nesc}. % Notably, these are
 % characterized by severe restrictions, e.g., the inability to create
 % run-time instances of components because of the few KBytes of data and
 % program memory typically available.
 
 Section~\ref{sec:eval} illustrates early results indicating that our
 approach results in better structured implementations, where
-components are more decoupled and thus simpler to test and to
-maintain. We further demonstrate that accounting for changing
-requirements is likely easier in our approach. These results come at a
-negligible increase in resource consumption, which does not impact the
-feasibility of our approach on the target platforms. For example, we
-observe a mere 3\% increase in program memory, whereas the energy
-overhead is negligible. 
+components are more decoupled. We further demonstrate that accounting
+for changing requirements is likely easier in our approach. These
+results come at a negligible increase in resource consumption, which
+does not impact the feasibility of our approach on the target
+platforms. For example, we observe a mere 3\% increase in program
+memory, whereas the energy overhead is negligible.
 
 We conclude the paper by discussing in Section~\ref{sec:patterns}
 recurring design and programming patterns that we already observe

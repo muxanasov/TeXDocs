@@ -23,10 +23,9 @@ Villegas~\cite{VilegasPhD11} designed dedicated software support for
 situation-aware software systems. Despite sharing some high-level
 challenges with our work, Villegas relies on the end-user as a
 controller of context management, whereas we focus on autonomous
-systems possibly deployed in remote or inaccessible areas. Moreover,
-we directly deal with physical sensors to acquire context information,
-whereas these are abstracted in software-based sensor devices in
-Villega's work.
+systems. Moreover, we directly deal with physical sensors to acquire
+context information, whereas these are abstracted in software-based
+sensor devices in Villega's work.
 
 % e.g. adaptivity and context representation and management -- are
 % addressed in the work, the motivating example and consequent reasoning
@@ -50,11 +49,12 @@ based on predicates defined over the application state. When such
 predicates are found true, the system accordingly adapt the state
 machine transitions. Code is automatically generated from these
 specifications. Compared to this effort, we do not target completely
-automatic code generation, which provides greater freedom in encoding
-the conditions to trigger context changes and enables fine-grained
-optimizations in the code. Moreover, we seek to integrate our approach
-in existing component-based CPS frameworks, leveraging the existing
-code base.
+automatic code generation, but provide dedicated programming
+constructs. This offers greater freedom in encoding the conditions to
+trigger context changes and enables finer-grained optimizations, which
+may be mandatory given the resource limitations. Moreover, we seek to
+integrate our approach in existing component-based CPS frameworks,
+leveraging the existing code base.
 
 The COP model~\cite{Hirschfeld08} is implemented in several high-level
 languages~\cite{Bardram05,Ghezzi10,Kamina11,Salvaneschi12,Sehic11}. These
@@ -62,21 +62,22 @@ are, however, generally unfeasible on the platforms we target. We
 borrow a few of these concepts---for example, our layered functions in
 context groups are akin to the concept of
 layer-in-class~\cite{Salvaneschi12}---and adapt them to the
-limitations of low-level component-based frameworks. In this area, CPS
-devices are rather seen as application-agnostic providers of raw
-sensor data~\cite{Sehic11}. Differently, we bring COP down to the
+limitations of component-based frameworks for resource-constrained
+CPSs. In this area, the embedded devices are rather seen as
+application-agnostic providers of raw sensor
+data~\cite{Sehic11}. Differently, we bring COP down to the
 component-based CPS software, enabling self-adaptive functionality
 right on the devices that directly interact with the environment.
 
 Aside from COP, Meta- and Aspect-oriented Programming (AOP) offer
 programming support to implement adaptive
 functionality~\cite{SalvaneschiTBP}. The former requires
-self-modification of the binary and hence needs dynamic
-memory allocation, which is often unfeasible in resource-constrained
-CPSs. Similar requirements hold for AOP~\cite{Kiczales:AOP:97}, which
-is originally intended to cope with large complex software
-projects. Arguably, applying AOP to the relative simple processing
-running aboard the CPS devices, even if possible, would be overkill.
+self-modification of the binary, which is often unfeasible in
+resource-constrained CPSs. Similar requirements hold for
+AOP~\cite{Kiczales:AOP:97}, which is often applied to large complex
+software projects. Arguably, applying AOP to the relative simple
+processing running aboard the CPS devices, even if possible, would be
+quite overkill.
 
 % was introduced to handle the
 % crosscutting in concerns of software. Each software has a number of
