@@ -7,13 +7,13 @@ context-oriented programming, and system-level adaptiveness in
 CPSs. We briefly survey paradigmatic examples.
 
 Works in self-adaptive embedded system software
-cover contributions from requirement engineering to
+spans phases from requirement engineering to
 verification~\cite{cheng:adaptive}. Co-design approaches also exist
 where the hardware/software boundaries blur for greater
 flexibility~\cite{diguet11:closed}. Unlike in our work, several of
 these solutions focus on a few environmental dimensions, each
 requiring ad-hoc self-adaptive functionality. In our target
-applications, complexity arises especially from the several
+applications, complexity arises especially from the 
 combinations that multiple environmental dimensions concurrently
 generate. Nevertheless, most of these solutions would be hardly
 applicable in resource-constrained CPSs, due to
@@ -74,10 +74,13 @@ programming support to implement adaptive
 functionality~\cite{SalvaneschiTBP}. The former requires
 self-modification of the binary, which is often unfeasible in
 resource-constrained CPSs. Similar requirements hold for
-AOP~\cite{Kiczales:AOP:97}, which is often applied to large complex
-software projects. Arguably, applying AOP to the relative simple
-processing running aboard the CPS devices, even if possible, would be
-quite overkill.
+AOP~\cite{Kiczales:AOP:97}, which is often applied to large and
+complex software projects. Arguably, applying AOP to the relative
+simple processing running aboard the CPS devices, even if possible,
+would be quite overkill. Moreover, general agreement is that COP
+offers the best support for modularization~\cite{SalvaneschiTBP}. This
+feature is fundamental to embed programming support for
+self-adaptation within existing component-based frameworks.
 
 % was introduced to handle the
 % crosscutting in concerns of software. Each software has a number of
