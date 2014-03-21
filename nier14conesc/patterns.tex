@@ -3,7 +3,11 @@
 
 Despite the limited experience we hitherto gathered using \conesc, we
 already observe quite distinctive design and programming patterns,
-representing solutions to commonly occurring problems. % In general,
+representing solutions to commonly occurring problems. As discussed
+next, our approach allows developers to deal with diverse requirements
+using only a handful of concepts.
+
+% In general,
 % however, they cannot be directly transformed into executable code
 % without proper application-specific implementations.
 
@@ -17,7 +21,7 @@ functionality. One such example is the ``Base-station'' group in
 Figure~\ref{fig:design}, which includes two different behaviors for
 the functionality to report contact logs to the users. The
 functionality itself is exported by one or more layered functions
-defined in the group. The chosen behavior is then determined by
+defined on the group. The chosen behavior is then determined by
 activating a single context within the group.
 
 We found similar designs in other applications as well. In the
@@ -26,7 +30,7 @@ also matches a similar design. Depending on a node's mobility, the
 chosen behavior is picked out of a pool of available protocols, whose
 functionality are encapsulated in single contexts. These are in turn
 included in a single context group, which exports a layered function
-where the application layers transparently accesses whatever protocol
+used by the application to transparently accesses whatever protocol
 is in operation at a given time.
 
 % Whenever the application should perform some specific
@@ -37,16 +41,16 @@ is in operation at a given time.
 Figure~\ref{fig:control} shows an abstract view of such commonly
 recurring pattern. In addition to the context group exporting the
 adaptive functionality and the single contexts therein, programmers
-also define an additional ``controller'' component, which activates
-the single contexts within the group depending on the
-situation. Figure~\ref{fig:bscm} shows one such example for the
+also define an additional ``context controller'' component, which
+activates the single contexts within the group depending on the
+situation. Figure~\ref{fig:bscm} shows a \conesc example for the
 wildlife monitoring application. Similar designs apply to the
 smart-home controller and the adaptive protocol stack as well.
 
-\begin{figure}
+\begin{figure}[tb]
 \begin{center}
 \includegraphics[scale=.5]{imgs/beh_var}
-\vspace{-1mm}
+\vspace{-4mm}
 \caption{Behavioral control pattern.}
   \label{fig:control}
 \vspace{-8mm}
@@ -79,19 +83,19 @@ context-dependent data.
 In this case as well, we notice the same pattern in other
 applications. In the smart-home controller, for example, a context
 group is defined to manage the user preferences depending on day vs.\
-night. These data are simply retrieved differently from a common data
+night. These data are simply retrieved differently from a data
 storage by two different contexts modeling day or night
 situations. Whatever user preference is to be considered at a given
 point is then handed over to the control loop in charge of setting the
 functioning of the climate systems.
 
-\begin{figure}
+\begin{figure}[tb]
 \begin{center}
 \includegraphics[scale=.5]{imgs/content_provider}
-\vspace{-1mm}
+\vspace{-6mm}
 \caption{Content provider pattern.}
   \label{fig:provider}
-\vspace{-8mm}
+\vspace{-6mm}
 \end{center}
 \end{figure}
 
@@ -106,14 +110,13 @@ control can be considered stand-alone, the context provider needs to
 be tailored to the data consumer.
 
 \fakepar{Trigger} We also recognize designs where single contexts are
-used only to trigger specific operations when entering/exiting a
-context, but no significant context-dependent functionality or data is
-offered as the context remains active. One example in the wildlife
-monitoring application is the ``Battery'' group in
-Figure~\ref{fig:design}. The included contexts are used to
-enable/disable the GPS sensor depending on battery levels, but no
-other functionality is provided to other components. In this
-case, layered functions are often not defined, in
+used only to trigger specific operations when entering/exiting, but no
+significant context-dependent functionality or data is offered as the
+context remains active. One example in the wildlife monitoring
+application is the ``Battery'' group in Figure~\ref{fig:design}. The
+included contexts are used to enable/disable the GPS sensor depending
+on battery levels, but no other functionality is provided to other
+components. In this case, layered functions are often not defined, in
 that the predefined \code{activated} and \code{deactivated} events
 within the single contexts suffice.
 
@@ -124,21 +127,23 @@ perceived light levels in a room, either context ``Too bright'' or
 entering either context. This processing is entirely implemented
 within the corresponding \code{activated} event handlers. 
 
-In more general terms, a ``controller'' component is present in this
-case as well to drive the context transitions in the group, as shown
-in Figure~\ref{fig:trigger}. However, unlike the other patterns, there
-is no other component that either uses context-dependent functionality
-or consumes context-dependent data.
+In more general terms, a ``context controller'' component is present
+in this case as well to drive the context transitions in the group, as
+shown in Figure~\ref{fig:trigger}. However, unlike the other patterns,
+there is no other significant component that either uses
+context-dependent functionality or consumes context-dependent
+data. The functionality is mostly self-contained.
 
-\begin{figure}
+\begin{figure}[tb]
 \begin{center}
 \includegraphics[scale=.5]{imgs/con_act}
-\vspace{-1mm}
+\vspace{-2mm}
 \caption{Trigger pattern.}
   \label{fig:trigger}
 \vspace{-8mm}
 \end{center}
 \end{figure}
+
 
 %%% Local Variables: 
 %%% mode: latex
