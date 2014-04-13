@@ -253,27 +253,27 @@ failure is discovered, the controller should change its behavior. To
 this end, programmers add an entire context group \emph{Status} with
 two contexts \emph{Normal} and \emph{Failure}.
 
-\fakepar{Results} Our analysis shows that removing a context in the
-\conesc implementation of the adaptive protocol stack only requires
-modifying 3 lines of code, besides deleting the context itself. To
-remove unnecessary functionality in nesC, developers must modify
-several lines of code scattered throughout the main module. To add a
-context in the wildlife tracking application, using \conesc it is
-necessary to modify 5 lines of code, besides providing the
-implementation for the new context. Implementing the same extension in
-nesC requires, among other code modifications, adding two new global
-states, further complicating the control flow. Adding a new context
-group in the smart-home controller requires modifications in about 40
-lines of code using \conesc, besides providing the implementation for
-the new contexts. Using nesC, about the same amount of code changes
-are required, yet these include adding two global states, again
-rendering the implementation necessarily more entangled.
+\fakepar{Results} Our analysis shows that removing a context in the \conesc
+implementation of the adaptive protocol stack only requires modifying 3 lines of
+code, besides deleting the context itself. To remove unnecessary functionality
+in nesC, developers must modify several lines of code scattered throughout the
+main module. To add a context in the wildlife tracking application, using
+\conesc it is necessary to modify 5 lines of code, besides providing the
+implementation for the new context. Implementing the same extension in nesC
+requires, among other code modifications, adding two new global states, further
+complicating the control flow. Adding a new context group in the smart-home
+controller requires modifications in about 40 lines of code using \conesc,
+besides providing the implementation for the new contexts. Using nesC, about the
+same amount of code changes are required, yet these include adding two global
+states, again rendering the implementation necessarily more entangled.
+Context-unrelated changes in \conesc implementations are the same as in nesC and
+does not affect the difference between the efforts.
 
 % as shown on Table~\ref{tab:compres}, we notice that the
 % program written in context-oriented style using plane nesC is more
 % than 3 times bigger than its ConesC counterpart. Our approach makes
 % context-oriented programming as simple as plain nesC programming.
-
+\vspace{-1px}
 \subsection{MCU and memory overhead}\label{sec:overhead}
 
 The advantages brought to programmers come at the cost of additional
@@ -282,7 +282,7 @@ context transitions and calls to layered functions, as well as memory
 overhead when using \conesc as compared to nesC. To measure the MCU
 overhead we use the MSPSim MSP430 emulator~\cite{eriksson09}, while we
 estimate the memory overhead using the tools in the nesC and GNU-C
-toolchains.
+toolchains. Although we made several iterations, the simulator and the toolchains shown exactly the same results.
 
 % Since there are neither contexts nor layered functions in nesC-based
 % implementation, we measured a number of CPU-cycles of parts with different
@@ -297,7 +297,10 @@ the simplest operation in TinyOS, that is, turning on/off an LED, already
 consumes 8 MCU cycles. The overhead of context transitions is slightly larger,
 but in the same order of magnitude. Most importantly, the memory overhead is
 also negligible, measuring a worst-case 2.5\% penalty for the size of the
-program binary and a worst-case 4.5\% penalty for RAM usage.
+program binary and a worst-case 4.5\% penalty for RAM usage. The difference in
+memory overhead is explained by the qualities of the applications. For example,
+in "Wildlife tracking" we need to allocate a large amount of memory to store the
+readings, while in "Adaptive stack" we don't need to save any information.
 
 \putfigure{caption=MCU and memory overhead: \emph{the resource usage penalty for using \conesc is almost negligible.},label=fig:cmo}{
 \centering
