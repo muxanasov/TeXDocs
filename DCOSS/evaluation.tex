@@ -273,7 +273,7 @@ does not affect the difference between the efforts.
 % program written in context-oriented style using plane nesC is more
 % than 3 times bigger than its ConesC counterpart. Our approach makes
 % context-oriented programming as simple as plain nesC programming.
-\vspace{-1px}
+
 \subsection{MCU and memory overhead}\label{sec:overhead}
 
 The advantages brought to programmers come at the cost of additional
@@ -301,6 +301,13 @@ program binary and a worst-case 4.5\% penalty for RAM usage. The difference in
 memory overhead is explained by the qualities of the applications. For example,
 in "Wildlife tracking" we need to allocate a large amount of memory to store the
 readings, while in "Adaptive stack" we don't need to save any information.
+
+The context transition overhead arises from the activation rules (Fig.~\ref{fig:ad}).
+First the system checks if the transitions is possible (several MCU cycles), then
+it checks the dependencies (several additional MCU cycles), and finally, it
+performs the instructions in \code{check()}. Additionally, the context transition
+overhead may vary depending on the instructions in \code{activated()}/\code{deactivated()}.
+
 
 \putfigure{caption=MCU and memory overhead: \emph{the resource usage penalty for using \conesc is almost negligible.},label=fig:cmo}{
 \centering
