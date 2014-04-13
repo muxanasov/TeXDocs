@@ -265,9 +265,8 @@ complicating the control flow. Adding a new context group in the smart-home
 controller requires modifications in about 40 lines of code using \conesc,
 besides providing the implementation for the new contexts. Using nesC, about the
 same amount of code changes are required, yet these include adding two global
-states, again rendering the implementation necessarily more entangled.
-Context-unrelated changes in \conesc implementations are the same as in nesC and
-does not affect the difference between the efforts.
+states, again rendering the implementation necessarily more entangled. The
+efforts to make context-unrelated changes in \conesc are the same as in nesC.
 
 % as shown on Table~\ref{tab:compres}, we notice that the
 % program written in context-oriented style using plane nesC is more
@@ -302,11 +301,11 @@ memory overhead is explained by the qualities of the applications. For example,
 in "Wildlife tracking" we need to allocate a large amount of memory to store the
 readings, while in "Adaptive stack" we don't need to save any information.
 
-The context transition overhead arises from the activation rules (Fig.~\ref{fig:ad}).
-First the system checks if the transitions is possible (several MCU cycles), then
-it checks the dependencies (several additional MCU cycles), and finally, it
-performs the instructions in \code{check()}. Additionally, the context transition
-overhead may vary depending on the instructions in \code{activated()}/\code{deactivated()}.
+The context transition overhead arises from the activation rules
+(Fig.~\ref{fig:ad}). Several MCU cycles are needed to check is the transition
+possible, then system checks the dependencies, and finally, it performs the
+instructions in \code{check()}. Additionally, the overhead may vary depending on
+the instructions in \code{activated()}/\code{deactivated()}.
 
 
 \putfigure{caption=MCU and memory overhead: \emph{the resource usage penalty for using \conesc is almost negligible.},label=fig:cmo}{
