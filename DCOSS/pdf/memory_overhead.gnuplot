@@ -9,7 +9,7 @@ set style histogram cluster gap 1
 #set xlabel "Number of drones"
 set ylabel "%"
 # set xrange [0:8]
-set yrange [-5:5.5]
+set yrange [0:3]
 
 #set bmargin 7
 #set tmargin 7
