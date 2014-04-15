@@ -308,13 +308,13 @@ possible, then to check the dependencies, and finally to execute the
 body of \code{check()}. % Additionally, the overhead may grow further depending on
 % the implementation of \code{activated()}/\code{deactivated()}.
 
-Most importantly, the memory overhead is also
-negligible, measuring a worst-case 2.5\% penalty for the size of the
-program binary and a worst-case 4.5\% penalty for RAM usage. The
-characteristics of the applications largely dictate the different
-memory overheads. For example, unlike in other cases, in
-the wildlife tracking application we need to reserve fairly large
-memory buffers to locally store the contact logs.
+Most importantly, the memory overhead is also negligible, measuring a
+worst-case 2.5\% penalty for the size of the program binary and a
+worst-case 4.5\% penalty for RAM usage. The complexity of the
+application largely dictates the corresponding memory overhead when
+using \conesc. For example, the wildlife monitoring application,
+being the most complex in terms of contexts, context changes, and data
+processing, shows the highest overhead.
 
 
 
@@ -323,7 +323,7 @@ memory buffers to locally store the contact logs.
 \subfloat[MCU overhead.]{
   \includegraphics[width =\columnwidth]{pdf/cpu_overhead}
   \label{fig:cpuo}
-}\\
+}\\\vspace{-4mm}
 \subfloat[Memory overhead.]{
   \includegraphics[width=\columnwidth]{pdf/memory_overhead}
   \label{fig:memo}
