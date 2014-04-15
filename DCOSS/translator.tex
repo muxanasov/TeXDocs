@@ -1,15 +1,13 @@
  \section{Translator}\label{sec:translator}
 
- We develop a dedicated translator\footnote{https://code.google.com/p/conesc} to convert \conesc code to plain
- nesC. To do so, our translator performs two passes through the input
- code. First, it reads the main \code{Makefile} to determine the main
- configuration component and to recursively scan the component
+ We develop a translator to convert \conesc code to plain nesC. Our
+ translator performs two passes through the input code. First, it
+ reads the main \code{Makefile} to recursively scan the component
  tree. Based on the information gained during the first pass,
  including the list of every context and context groups defined in the
- code, it parses every input file to convert the \conesc code to plain
+ code, the translator parses every input file to convert the \conesc code to plain
  nesC and to generate a set of support functionality. The resulting
- sources are then compiled using the standard nesC toolchain to
- produce a deployment-ready binary.
+ sources are then compiled using the standard nesC toolchain.
 
 \putfigure{caption=\conesc translation to nesC code for a generic \code{FooGroup} context group and an individual context \code{FooCon}.,label=fig:ctd}{
  \centering
@@ -77,7 +75,7 @@ plain nesC code that can be given as input to the nesC toolchain.
 % to build a binary by using all the generated and transformed components.
 
 Our translator is implemented using JavaCC~\cite{javacc}. Three aspects
-are worth noticing. First, the generated code is absolutely readable, and a programer can easily modify it. Second, the resulting code is completely
+are worth noticing. First, the generated code is still human-readable, and a programer can modify it to implement fine-grained optimizations. Second, the code is completely
 hardware-independent. Therefore, hardware compatibility is the same as
 the original nesC toolchain, allowing us to support a wide range of
 WSN platforms and not to modify our translator due to hardware

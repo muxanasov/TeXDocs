@@ -89,9 +89,9 @@ affairs by enabling a notion of Context-Oriented Programming
 (COP)~\cite{Hirschfeld08} in WSN software. COP fosters a strict
 separation of concerns in implementing adaptive software. This is
 achieved through two key notions: \emph{i)} the different situations
-the software needs to operate in are mapped to different
+where the software needs to operate are mapped to different
 \emph{contexts}, and \emph{ii)} the different context-dependent
-behaviors are encapsulated in so called \emph{layered functions}, that
+behaviors are encapsulated in \emph{layered functions}, that
 is, functions whose behavior changes---transparently to the
 caller---depending on context.
 
@@ -115,8 +115,8 @@ extension to nesC. We choose nesC as the target language in that,
 besides its widespread adoption and stable toolchain, it fosters a
 node-centric view~\cite{mottola10:survey}. We argue that in most WSN
 applications, adaptation decisions are most often local to individual
-nodes. In illustrating \conesc, Section~\ref{sec:conesc} will
-demonstrate how we render the processing in Fig.~\ref{fig:nesc} nicely
+nodes. In illustrating \conesc, Section~\ref{sec:conesc} 
+demonstrates how we render the processing in Fig.~\ref{fig:nesc} nicely
 decoupled in different modules, and hence easier to debug and to
 evolve.
 
