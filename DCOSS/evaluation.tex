@@ -311,12 +311,13 @@ body of \code{check()}. % Additionally, the overhead may grow further depending 
 Most importantly, the memory overhead is also negligible, measuring a
 worst-case 2.5\% penalty for the size of the program binary and a
 worst-case 4.5\% penalty for RAM usage. The complexity of the
-application largely dictates the corresponding memory overhead when
-using \conesc. For example, the wildlife monitoring application,
-being the most complex in terms of contexts, context changes, and data
-processing, shows the highest overhead.
-
-
+application largely dictates the corresponding memory overhead. For
+example, the wildlife monitoring application, being the most complex
+in terms of contexts, context changes, and data processing, shows the
+highest overhead. The overhead for the adaptive stack, on the other
+hand, is negligible in that a nesC programmer would essentially
+leverage a similar set of variables compared to those that our \conesc
+translator automatically generates.
 
 \putfigure{caption=MCU and memory overhead: \emph{the resource usage penalty for using \conesc is almost negligible.},label=fig:cmo}{
 \centering
