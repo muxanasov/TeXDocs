@@ -3,18 +3,18 @@
  We implement three representative applications, as described in
  Section~\ref{sec:scenarios}, using either \conesc or nesC. The
  implementations are functionally equivalent. Based on these, we
- evaluate our approach along four key
+ evaluate our approach along four
  dimensions. Section~\ref{sec:evalcomp} analyzes the severity of
  different \emph{coupling types} in our implementations. Tighter forms
  of coupling are generally detrimental to code maintenance and
  evolution~\cite{koopman10:better}. Section~\ref{sec:complexity}
- reports code metrics assessing the \emph{complexity} of the resulting
+ reports code metrics assessing the \emph{complexity} of the
  implementations, which often impacts a system's reliability and ease
  of debugging~\cite{koopman10:better}. The efforts required for
  evolving the software are measured in Sec.~\ref{sec:evolve} based on
- representative case studies.  Finally, Section~\ref{sec:overhead}
- quantifies the performance overhead, in terms of MCU and memory
- penalty, incurred when using \conesc.
+ illustrative case studies.  Finally, Section~\ref{sec:overhead}
+ quantifies the performance overhead when using \conesc in terms of
+ MCU and memory penalty.
 
 % Overall, our evaluation reveals that:\lm{Whenever space allows, it's
 %   useful to summarize the major outcomes of an evaluation
@@ -66,7 +66,7 @@ room, depending on the situation.
 }
 
 The adaptive protocol stack, whose detailed context diagram we omit
-for brevity, implements a dynamic protocol switching functionality in
+for brevity, implements dynamic protocol switching in
 situations where a node may alternative periods of significant
 mobility to periods of static operation. The node roams within a
 network of static nodes running CTP~\cite{gnawali09}. As long as the
@@ -126,7 +126,7 @@ be hand-coded in nesC.
 \vspace{-2mm}
 \label{tab:couptypes}
 \input{tab_couptypes}
-\vspace{-2mm}
+\vspace{-4mm}
 \end{table}
 
 \begin{table}[!tb]
@@ -184,7 +184,7 @@ hardware drivers.
 \vspace{-2mm}
 \label{tab:compres}
 \input{tab_compres}
-\vspace{-2mm}
+\vspace{-4mm}
 \end{table}
 
 \fakepar{Results} Table~\ref{tab:compres} illustrates our results. On
@@ -314,7 +314,7 @@ worst-case 4.5\% penalty for RAM usage. The complexity of the
 application largely dictates the corresponding memory overhead. For
 example, the wildlife monitoring application, being the most complex
 in terms of contexts, context changes, and data processing, shows the
-highest overhead. The overhead for the adaptive stack, on the other
+highest overhead. The overhead for the adaptive protocol stack, on the other
 hand, is negligible in that a nesC programmer would essentially
 leverage a similar set of variables compared to those that our \conesc
 translator automatically generates.
@@ -328,7 +328,7 @@ translator automatically generates.
 \subfloat[Memory overhead.]{
   \includegraphics[width=\columnwidth]{pdf/memory_overhead}
   \label{fig:memo}
-}
+}\vspace{2mm}
 }
 
 
